@@ -6,12 +6,8 @@ php:
   - 7.4
 
 before_script:
-  - cp .env.testing .env
   - travis_retry composer self-update
   - travis_retry composer install --prefer-source --no-interaction
 
-script: phpunit
+script: ./vendor/bin/phpunit
 
-branches:
-  only:
-    - master
