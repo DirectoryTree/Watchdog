@@ -38,16 +38,16 @@ class Setup extends Command
             tap(new $model, function (Model $model) {
                 $name = $model->getConnectionName() ?? $model::getConnectionContainer()->getDefaultConnectionName();
 
-                $domain = LdapConnection::firstOrNew([
+                $connection = LdapConnection::firstOrNew([
                     'name' => $name
                 ])->fill([
                     'slug' => Str::slug($name),
                     'model' => get_class($model),
                 ]);
 
-                $domain->save();
+                $connection->save();
 
-                if ($domain->wasRecentlyCreated) {
+                if ($connection->wasRecentlyCreated) {
                     $this->info("Successfully setup connection [$name].");
                 } else {
                     $this->info("Connection [$name] is already imported.");

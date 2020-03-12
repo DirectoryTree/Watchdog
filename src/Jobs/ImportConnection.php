@@ -45,7 +45,7 @@ class ImportConnection implements ShouldQueue
     }
 
     /**
-     * Import all of the domains objects.
+     * Import all of the scanned LDAP objects.
      *
      * @return void
      *

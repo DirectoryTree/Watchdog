@@ -4,26 +4,28 @@ namespace DirectoryTree\Watchdog;
 
 class ConnectionRepository
 {
+    /**
+     * Get all the LDAP connections being monitored.
+     *
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
     public static function all()
     {
-        return LdapConnection::all();
+        return static::query()->get();
     }
 
     /**
-     * Returns the domains that should be synchronized.
+     * Get the LDAP connections that are ready to be monitored.
      *
-     * @return |\Illuminate\Database\Eloquent\Collection
+     * @return \Illuminate\Database\Eloquent\Collection
      */
-    public static function toSynchronize()
+    public static function toMonitor()
     {
-        return static::query()->get()->filter(function (LdapConnection $domain)  {
+        return static::query()->get()->filter(function (LdapConnection $connection)  {
             $frequencyInMinutes = config("watchdog.frequency", 15);
 
-            // Get the last scan that was performed on the domain.
-            $lastScan = $domain->scans()->latest()->first();
+            $lastScan = $connection->scans()->latest()->first();
 
-            // If no scan has taken place yet, we will
-            // include this domain to be synchronized.
             if (! $lastScan) {
                 return true;
             }
@@ -39,7 +41,7 @@ class ConnectionRepository
     }
 
     /**
-     * Create a new domain query.
+     * Create a new LDAP connection query.
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */

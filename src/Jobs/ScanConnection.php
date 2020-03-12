@@ -11,7 +11,7 @@ class ScanConnection
     use Dispatchable;
 
     /**
-     * The LDAP domain.
+     * The LDAP connection.
      *
      * @var LdapConnection
      */
@@ -20,13 +20,13 @@ class ScanConnection
     /**
      * Create a new job instance.
      *
-     * @param LdapConnection $domain
+     * @param LdapConnection $connection
      *
      * @return void
      */
-    public function __construct(LdapConnection $domain)
+    public function __construct(LdapConnection $connection)
     {
-        $this->connection = $domain;
+        $this->connection = $connection;
     }
 
     /**

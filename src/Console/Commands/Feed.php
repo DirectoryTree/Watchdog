@@ -33,7 +33,7 @@ class Feed extends Command
         $this->info("---- Watchdog ----");
         $this->info("Starting to queue LDAP connection synchronization...");
 
-        $connections = ConnectionRepository::toSynchronize();
+        $connections = ConnectionRepository::toMonitor();
 
         if ($connections->isEmpty()) {
             return $this->info('No LDAP connections are scheduled to be synchronized.');
@@ -43,8 +43,8 @@ class Feed extends Command
 
         $bar->start();
 
-        $connections->each(function (LdapConnection $domain) use ($bar) {
-            ScanConnection::dispatch($domain);
+        $connections->each(function (LdapConnection $connection) use ($bar) {
+            ScanConnection::dispatch($connection);
 
             $bar->advance();
         });
