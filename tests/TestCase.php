@@ -3,7 +3,7 @@
 namespace DirectoryTree\Watchdog\Tests;
 
 use LdapRecord\Laravel\LdapServiceProvider;
-use DirectoryTree\Watchdog\ScoutServiceProvider;
+use DirectoryTree\Watchdog\WatchdogServiceProvider;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Orchestra\Testbench\TestCase as BaseTestCase;
 
@@ -14,7 +14,7 @@ abstract class TestCase extends BaseTestCase
     protected function getPackageProviders($app)
     {
         return [
-            ScoutServiceProvider::class,
+            WatchdogServiceProvider::class,
             LdapServiceProvider::class,
         ];
     }

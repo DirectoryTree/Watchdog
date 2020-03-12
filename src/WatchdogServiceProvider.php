@@ -7,7 +7,7 @@ use DirectoryTree\Watchdog\Console\Commands\PingDomains;
 use DirectoryTree\Watchdog\Console\Commands\Feed;
 use DirectoryTree\Watchdog\Console\Commands\Setup;
 
-class ScoutServiceProvider extends ServiceProvider
+class WatchdogServiceProvider extends ServiceProvider
 {
     /**
      * Register services.

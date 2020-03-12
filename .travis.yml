@@ -1,0 +1,17 @@
+language: php
+
+php:
+  - 7.2
+  - 7.3
+  - 7.4
+
+before_script:
+  - cp .env.testing .env
+  - travis_retry composer self-update
+  - travis_retry composer install --prefer-source --no-interaction
+
+script: phpunit
+
+branches:
+  only:
+    - master
