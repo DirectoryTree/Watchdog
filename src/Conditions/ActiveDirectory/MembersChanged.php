@@ -1,6 +1,8 @@
 <?php
 
-namespace DirectoryTree\Watchdog\Notifiers\Conditions;
+namespace DirectoryTree\Watchdog\Conditions\ActiveDirectory;
+
+use DirectoryTree\Watchdog\Conditions\Changed;
 
 class MembersChanged extends Changed
 {

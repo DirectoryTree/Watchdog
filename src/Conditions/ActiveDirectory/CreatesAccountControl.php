@@ -1,6 +1,6 @@
 <?php
 
-namespace DirectoryTree\Watchdog\Notifiers\Conditions;
+namespace DirectoryTree\Watchdog\Conditions\ActiveDirectory;
 
 use Illuminate\Support\Arr;
 use LdapRecord\Models\Attributes\AccountControl;

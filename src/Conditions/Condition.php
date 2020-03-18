@@ -1,6 +1,6 @@
 <?php
 
-namespace DirectoryTree\Watchdog\Notifiers\Conditions;
+namespace DirectoryTree\Watchdog\Conditions;
 
 interface Condition
 {

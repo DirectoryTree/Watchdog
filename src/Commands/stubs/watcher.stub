@@ -1,0 +1,25 @@
+<?php
+
+namespace DummyNamespace;
+
+use DirectoryTree\Watchdog\Watchers\Watcher;
+
+class DummyClass extends Watcher
+{
+    /**
+     * The conditions of the watcher.
+     *
+     * @var array
+     */
+    protected $conditions = [];
+
+    /**
+     * Send the notification.
+     *
+     * @return void
+     */
+    public function notify()
+    {
+        //
+    }
+}

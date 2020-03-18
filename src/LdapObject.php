@@ -5,7 +5,6 @@ namespace DirectoryTree\Watchdog;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use DirectoryTree\Watchdog\Ldap\TypeGuesser;
-use DirectoryTree\Watchdog\Notifiers\Generator;
 
 class LdapObject extends Model
 {
@@ -40,11 +39,11 @@ class LdapObject extends Model
         parent::boot();
 
         static::updated(function (LdapObject $object) {
-            $notifiers = config("watchdog.notifiers", []);
+            $watchers = config("watchdog.watchers", []);
 
-            app(Generator::class)
-                ->setNotifiers($notifiers)
-                ->generate($object);
+            app(Kennel::class)
+                ->setWatchers($watchers)
+                ->inspect($object);
         });
 
         // We don't need to worry about eloquent events firing

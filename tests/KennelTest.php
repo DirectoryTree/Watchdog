@@ -2,32 +2,32 @@
 
 namespace DirectoryTree\Watchdog\Tests;
 
-use DirectoryTree\Watchdog\Notifiers\Conditions\AccountIsDisabled;
-use DirectoryTree\Watchdog\Notifiers\Conditions\MembersChanged;
-use DirectoryTree\Watchdog\Notifiers\Conditions\PasswordChanged;
-use DirectoryTree\Watchdog\Notifiers\Notifier;
-use DirectoryTree\Watchdog\Notifiers\Conditions\Condition;
-use DirectoryTree\Watchdog\Notifiers\Conditions\GroupsChanged;
+use DirectoryTree\Watchdog\Watchdog;
+use DirectoryTree\Watchdog\Conditions\Condition;
+use DirectoryTree\Watchdog\Conditions\ActiveDirectory\GroupsChanged;
+use DirectoryTree\Watchdog\Conditions\ActiveDirectory\MembersChanged;
+use DirectoryTree\Watchdog\Conditions\ActiveDirectory\PasswordChanged;
+use DirectoryTree\Watchdog\Conditions\ActiveDirectory\AccountIsDisabled;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use LdapRecord\Models\Attributes\AccountControl;
 
-class NotifierTest extends TestCase
+class KennelTest extends TestCase
 {
     use DatabaseMigrations;
 
     public function test_notifier_is_enabled_by_default()
     {
-        $this->assertTrue((new Notifier)->isEnabled());
+        $this->assertTrue((new Watchdog)->isEnabled());
     }
 
     public function test_notifier_should_notify_by_default()
     {
-        $this->assertTrue((new Notifier)->shouldNotify());
+        $this->assertTrue((new Watchdog)->shouldNotify());
     }
 
     public function test_notifier_should_check_conditions()
     {
-        $notifier = (new Notifier)->setConditions([
+        $notifier = (new Watchdog)->setConditions([
             FailingConditionStub::class
         ]);
         $this->assertFalse($notifier->shouldNotify());

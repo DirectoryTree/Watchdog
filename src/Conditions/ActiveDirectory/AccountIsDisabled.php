@@ -1,8 +1,9 @@
 <?php
 
-namespace DirectoryTree\Watchdog\Notifiers\Conditions;
+namespace DirectoryTree\Watchdog\Conditions\ActiveDirectory;
 
 use LdapRecord\Models\Attributes\AccountControl;
+use DirectoryTree\Watchdog\Conditions\Condition;
 
 class AccountIsDisabled implements Condition
 {

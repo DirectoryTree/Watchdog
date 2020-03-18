@@ -1,61 +1,60 @@
 <?php
 
-namespace DirectoryTree\Watchdog\Notifiers;
+namespace DirectoryTree\Watchdog;
 
-use DirectoryTree\Watchdog\LdapObject;
 use DirectoryTree\Watchdog\Ldap\Transformers\AttributeTransformer;
 
-class Generator
+class Kennel
 {
     /**
      * The notifiers to execute.
      *
      * @var string[]
      */
-    protected $notifiers = [];
+    protected $watchers = [];
 
     /**
      * Constructor.
      *
-     * @param array $notifiers
+     * @param string|array $notifiers
      */
     public function __construct($notifiers = [])
     {
-        $this->notifiers = (array) $notifiers;
+        $this->watchers = (array) $notifiers;
     }
 
     /**
      * Set the generator notifiers.
      *
-     * @param array $notifiers
+     * @param string|array $watchers
      *
      * @return $this
      */
-    public function setNotifiers($notifiers = [])
+    public function setWatchers($watchers = [])
     {
-        $this->notifiers = $notifiers;
+        $this->watchers = (array) $watchers;
 
         return $this;
     }
 
     /**
-     * Generate notifications for configured notifiers.
+     * Inspect the object for changes.
      *
      * @param LdapObject $object
      */
-    public function generate(LdapObject $object)
+    public function inspect(LdapObject $object)
     {
         $before = $this->transform($object->getOriginalValues());
         $after = $this->transform($object->getUpdatedValues());
 
-        collect($this->notifiers)->transform(function ($notifier) use ($object, $before, $after) {
+        collect($this->watchers)->transform(function ($notifier) use ($object, $before, $after) {
             return app($notifier)
                 ->setObject($object)
                 ->setBeforeAttributes($before)
                 ->setAfterAttributes($after);
-        })->filter(function(Notifier $notifier) use ($object) {
+        })->filter(function(Watchdog $notifier) use ($object) {
             return $notifier->isEnabled() && $notifier->shouldNotify();
-        })->each(function (Notifier $notifier) {
+        })->each(function (Watchdog $notifier) {
             $notifier->notify();
         });
     }

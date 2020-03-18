@@ -1,10 +1,8 @@
 <?php
 
-namespace DirectoryTree\Watchdog\Notifiers;
+namespace DirectoryTree\Watchdog;
 
-use DirectoryTree\Watchdog\LdapObject;
-
-class Notifier
+class Watchdog
 {
     /**
      * The LDAP object.
@@ -28,7 +26,7 @@ class Notifier
     protected $after;
 
     /**
-     * The conditions of the notifier.
+     * The conditions of the watcher.
      *
      * @var array
      */

@@ -8,8 +8,8 @@ use DirectoryTree\Watchdog\LdapObject;
 use DirectoryTree\Watchdog\LdapScanEntry;
 use DirectoryTree\Watchdog\LdapConnection;
 use DirectoryTree\Watchdog\Jobs\ProcessImported;
-use DirectoryTree\Watchdog\Notifiers\Conditions\PasswordChanged;
-use DirectoryTree\Watchdog\Notifiers\Notifier;
+use DirectoryTree\Watchdog\Conditions\ActiveDirectory\PasswordChanged;
+use DirectoryTree\Watchdog\Watchdog;
 
 class ProcessImportedTest extends TestCase
 {
@@ -88,7 +88,7 @@ class ProcessImportedTest extends TestCase
 
     public function test_notifiers_are_executed_when_ldap_objects_are_updated()
     {
-        config(['watchdog.notifiers' => [TestPasswordHasChangedStubNotifier::class]]);
+        config(['watchdog.watchers' => [TestPasswordHasChangedStubWatchdog::class]]);
 
         $ldap = factory(LdapConnection::class)->create();
 
@@ -120,7 +120,7 @@ class ProcessImportedTest extends TestCase
     }
 }
 
-class TestPasswordHasChangedStubNotifier extends Notifier
+class TestPasswordHasChangedStubWatchdog extends Watchdog
 {
     protected $conditions = [PasswordChanged::class];
 
