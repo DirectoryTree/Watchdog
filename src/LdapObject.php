@@ -2,11 +2,10 @@
 
 namespace DirectoryTree\Watchdog;
 
-use DirectoryTree\Watchdog\Notifiers\Generator;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use DirectoryTree\Watchdog\Ldap\TypeGuesser;
-use DirectoryTree\Watchdog\Jobs\GenerateLdapNotifications;
+use DirectoryTree\Watchdog\Notifiers\Generator;
 
 class LdapObject extends Model
 {

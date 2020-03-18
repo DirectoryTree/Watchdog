@@ -1,6 +1,6 @@
 <?php
 
-namespace DirectoryTree\Watchdog\Console\Commands;
+namespace DirectoryTree\Watchdog\Commands;
 
 use Illuminate\Console\Command;
 use DirectoryTree\Watchdog\LdapConnection;

@@ -3,9 +3,8 @@
 namespace DirectoryTree\Watchdog;
 
 use Illuminate\Support\ServiceProvider;
-use DirectoryTree\Watchdog\Console\Commands\PingDomains;
-use DirectoryTree\Watchdog\Console\Commands\Feed;
-use DirectoryTree\Watchdog\Console\Commands\Setup;
+use DirectoryTree\Watchdog\Commands\Feed;
+use DirectoryTree\Watchdog\Commands\Setup;
 
 class WatchdogServiceProvider extends ServiceProvider
 {

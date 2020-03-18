@@ -45,11 +45,12 @@ class Generator
      */
     public function generate(LdapObject $object)
     {
-        $before = (new AttributeTransformer($object->getOriginalValues()));
-        $after = (new AttributeTransformer($object->getUpdatedValues()));
+        $before = $this->transform($object->getOriginalValues());
+        $after = $this->transform($object->getUpdatedValues());
 
-        collect($this->notifiers)->transform(function ($notifier) use ($before, $after) {
+        collect($this->notifiers)->transform(function ($notifier) use ($object, $before, $after) {
             return app($notifier)
+                ->setObject($object)
                 ->setBeforeAttributes($before)
                 ->setAfterAttributes($after);
         })->filter(function(Notifier $notifier) use ($object) {
@@ -57,5 +58,17 @@ class Generator
         })->each(function (Notifier $notifier) {
             $notifier->notify();
         });
+    }
+
+    /**
+     * Transform the given attributes.
+     *
+     * @param array $attributes
+     *
+     * @return array
+     */
+    protected function transform(array $attributes)
+    {
+        return (new AttributeTransformer($attributes))->transform();
     }
 }

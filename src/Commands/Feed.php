@@ -1,6 +1,6 @@
 <?php
 
-namespace DirectoryTree\Watchdog\Console\Commands;
+namespace DirectoryTree\Watchdog\Commands;
 
 use DirectoryTree\Watchdog\ConnectionRepository;
 use DirectoryTree\Watchdog\LdapConnection;

@@ -2,8 +2,17 @@
 
 namespace DirectoryTree\Watchdog\Notifiers;
 
+use DirectoryTree\Watchdog\LdapObject;
+
 class Notifier
 {
+    /**
+     * The LDAP object.
+     *
+     * @var LdapObject
+     */
+    protected $object;
+
     /**
      * The objects values before the change took place.
      *
@@ -24,6 +33,20 @@ class Notifier
      * @var array
      */
     protected $conditions = [];
+
+    /**
+     * Set the LDAP object.
+     *
+     * @param LdapObject $object
+     *
+     * @return $this
+     */
+    public function setObject(LdapObject $object)
+    {
+        $this->object = $object;
+
+        return $this;
+    }
 
     /**
      * Set the objects 'before' attributes.
