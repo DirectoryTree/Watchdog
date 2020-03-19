@@ -12,7 +12,7 @@ trait CreatesAccountControl
      *
      * @var string
      */
-    protected $attribute = 'userAccountControl';
+    protected $attribute = 'useraccountcontrol';
 
     /**
      * Creates a new AccountControl object from the given attributes.

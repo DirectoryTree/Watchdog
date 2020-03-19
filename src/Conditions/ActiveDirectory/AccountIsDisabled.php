@@ -5,30 +5,27 @@ namespace DirectoryTree\Watchdog\Conditions\ActiveDirectory;
 use LdapRecord\Models\Attributes\AccountControl;
 use DirectoryTree\Watchdog\Conditions\Condition;
 
-class AccountIsDisabled implements Condition
+class AccountIsDisabled extends Condition
 {
     use CreatesAccountControl;
 
     /**
      * Determine if the account is disabled.
      *
-     * @param array|null $before
-     * @param array|null $after
-     *
      * @return bool
      */
-    public function passes($before, $after)
+    public function passes()
     {
-        $currentUac = $this->newUacFromAttributes($after);
+        $currentUac = $this->newUacFromAttributes($this->after);
 
         if (
             $currentUac->has(AccountControl::ACCOUNTDISABLE) &&
-            empty($before['userAccountControl'])
+            empty($before[$this->attribute])
         ) {
             return true;
         }
 
-        $previousUac = $this->newUacFromAttributes($before);
+        $previousUac = $this->newUacFromAttributes($this->before);
 
         return
             !$previousUac->has(AccountControl::ACCOUNTDISABLE) &&

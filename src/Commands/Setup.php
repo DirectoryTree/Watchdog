@@ -5,7 +5,6 @@ namespace DirectoryTree\Watchdog\Commands;
 use Illuminate\Console\Command;
 use DirectoryTree\Watchdog\LdapConnection;
 use Illuminate\Support\Str;
-use LdapRecord\Container;
 use LdapRecord\Models\Model;
 
 class Setup extends Command

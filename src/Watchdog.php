@@ -75,7 +75,7 @@ class Watchdog
     }
 
     /**
-     * Set the notifier conditions.
+     * Set the watchdog conditions.
      *
      * @param array $conditions
      *
@@ -89,7 +89,7 @@ class Watchdog
     }
 
     /**
-     * The name of the notifier.
+     * The name of the watchdog.
      *
      * @return string
      */
@@ -99,7 +99,7 @@ class Watchdog
     }
 
     /**
-     * Determine whether the notifier is enabled.
+     * Determine whether the watchdog is enabled.
      *
      * @return bool
      */
@@ -119,14 +119,14 @@ class Watchdog
     }
 
     /**
-     * Determine whether the notifier should fire if all the conditions pass.
+     * Determine whether the watchdog should fire a notification.
      *
      * @return bool
      */
     public function shouldNotify()
     {
         return collect($this->conditions)->filter(function ($condition) {
-            return app($condition)->passes($this->before, $this->after);
+            return (new $condition($this->before, $this->after))->passes();
         })->count() === count($this->conditions);
     }
 }

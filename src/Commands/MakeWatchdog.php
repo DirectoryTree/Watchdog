@@ -33,7 +33,7 @@ class MakeWatchdog extends GeneratorCommand
      */
     protected function getStub()
     {
-        return __DIR__.'/stubs/watcher.stub';
+        return __DIR__.'/stubs/watchdog.stub';
     }
 
     /**

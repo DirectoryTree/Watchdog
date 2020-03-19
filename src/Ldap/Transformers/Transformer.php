@@ -20,7 +20,7 @@ abstract class Transformer
      */
     public function __construct(array $value)
     {
-        $this->value = $value;
+        $this->value = array_change_key_case($value, CASE_LOWER);
     }
 
     /**
@@ -28,7 +28,7 @@ abstract class Transformer
      *
      * @return array
      */
-    abstract public function transform(): array;
+    abstract public function transform();
 
     /**
      * Get the first value from the value.

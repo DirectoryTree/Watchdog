@@ -27,7 +27,7 @@ class AttributeTransformer extends Transformer
      *
      * @return array
      */
-    public function transform(): array
+    public function transform()
     {
         foreach ($this->getAttributesToTransform() as $attribute) {
             if (array_key_exists($attribute, $this->map)) {

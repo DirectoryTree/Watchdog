@@ -2,7 +2,7 @@
 
 namespace DirectoryTree\Watchdog\Conditions;
 
-class Changed
+class Changed extends Condition
 {
     /**
      * The attributes to check.
@@ -14,17 +14,14 @@ class Changed
     /**
      * Determine if any of the attributes have changed values.
      *
-     * @param array|null $before
-     * @param array|null $after
-     *
      * @return bool
      */
-    public function passes($before, $after)
+    public function passes()
     {
         foreach ($this->attributes as $attribute) {
             if (
-                $this->getAttributeValues($attribute, $before) !=
-                $this->getAttributeValues($attribute, $after)
+                $this->getAttributeValues($attribute, $this->before) !=
+                $this->getAttributeValues($attribute, $this->after)
             ) {
                 return true;
             }

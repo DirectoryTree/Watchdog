@@ -4,12 +4,7 @@ namespace DirectoryTree\Watchdog\Tests;
 
 use DirectoryTree\Watchdog\Watchdog;
 use DirectoryTree\Watchdog\Conditions\Condition;
-use DirectoryTree\Watchdog\Conditions\ActiveDirectory\GroupsChanged;
-use DirectoryTree\Watchdog\Conditions\ActiveDirectory\MembersChanged;
-use DirectoryTree\Watchdog\Conditions\ActiveDirectory\PasswordChanged;
-use DirectoryTree\Watchdog\Conditions\ActiveDirectory\AccountIsDisabled;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use LdapRecord\Models\Attributes\AccountControl;
 
 class KennelTest extends TestCase
 {
@@ -44,74 +39,19 @@ class KennelTest extends TestCase
         ]);
         $this->assertTrue($notifier->shouldNotify());
     }
-
-    public function test_groups_changed_condition()
-    {
-        $condition = new GroupsChanged();
-
-        $this->assertFalse($condition->passes(null, null));
-        $this->assertFalse($condition->passes([], []));
-        $this->assertFalse($condition->passes(['foo'], ['bar']));
-        $this->assertFalse($condition->passes(['memberof' => []], ['memberof' => []]));
-        $this->assertFalse($condition->passes(['memberof' => ['foo']], ['memberof' => ['foo']]));
-        $this->assertFalse($condition->passes(['memberof' => ['bar', 'foo']], ['memberof' => ['foo', 'bar']]));
-
-        $this->assertTrue($condition->passes(['memberof' => ['foo']], ['memberof' => ['bar']]));
-        $this->assertTrue($condition->passes(['memberof' => ['foo', 'bar']], ['memberof' => ['bar']]));
-        $this->assertTrue($condition->passes(['memberof' => ['foo']], ['memberof' => [null]]));
-    }
-
-    public function test_members_changed_condition()
-    {
-        $condition = new MembersChanged();
-
-        $this->assertFalse($condition->passes(null, null));
-        $this->assertFalse($condition->passes([], []));
-        $this->assertFalse($condition->passes(['foo'], ['bar']));
-        $this->assertFalse($condition->passes(['member' => []], ['member' => []]));
-        $this->assertFalse($condition->passes(['member' => ['foo']], ['member' => ['foo']]));
-        $this->assertFalse($condition->passes(['member' => ['bar', 'foo']], ['member' => ['foo', 'bar']]));
-
-        $this->assertTrue($condition->passes(['member' => ['foo']], ['member' => ['bar']]));
-        $this->assertTrue($condition->passes(['member' => ['foo', 'bar']], ['member' => ['bar']]));
-        $this->assertTrue($condition->passes(['member' => ['foo']], ['member' => [null]]));
-    }
-
-    public function test_account_is_disabled_condition()
-    {
-        $condition = new AccountIsDisabled();
-
-        $this->assertFalse($condition->passes(null, null));
-        $this->assertFalse($condition->passes([], []));
-        $this->assertFalse($condition->passes([0], [0]));
-
-        $this->assertTrue($condition->passes(
-            ['userAccountControl' => [0]], ['userAccountControl' => [AccountControl::ACCOUNTDISABLE]]
-        ));
-    }
-
-    public function test_password_changed()
-    {
-        $condition = new PasswordChanged();
-
-        $this->assertFalse($condition->passes([], []));
-        $this->assertFalse($condition->passes(['pwdlastset' => []], ['pwdlastset' => []]));
-
-        $this->assertTrue($condition->passes(['pwdlastset' => ['0']], ['pwdlastset' => ['10000']]));
-    }
 }
 
-class PassingConditionStub implements Condition
+class PassingConditionStub extends Condition
 {
-    public function passes($before, $after)
+    public function passes()
     {
         return true;
     }
 }
 
-class FailingConditionStub implements Condition
+class FailingConditionStub extends Condition
 {
-    public function passes($before, $after)
+    public function passes()
     {
         return false;
     }
