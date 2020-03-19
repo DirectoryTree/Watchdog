@@ -47,15 +47,15 @@ class Kennel
         $before = $this->transform($object->getOriginalValues());
         $after = $this->transform($object->getUpdatedValues());
 
-        collect($this->watchers)->transform(function ($notifier) use ($object, $before, $after) {
-            return app($notifier)
+        collect($this->watchers)->transform(function ($watchdog) use ($object, $before, $after) {
+            return app($watchdog)
                 ->setObject($object)
                 ->setBeforeAttributes($before)
                 ->setAfterAttributes($after);
-        })->filter(function(Watchdog $notifier) use ($object) {
-            return $notifier->isEnabled() && $notifier->shouldNotify();
-        })->each(function (Watchdog $notifier) {
-            $notifier->notify();
+        })->filter(function(Watchdog $watchdog) {
+            return $watchdog->isEnabled() && $watchdog->shouldNotify();
+        })->each(function (Watchdog $notifier) use ($object) {
+            $notifier->notify($object);
         });
     }
 

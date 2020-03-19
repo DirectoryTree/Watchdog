@@ -39,10 +39,10 @@ class LdapObject extends Model
         parent::boot();
 
         static::updated(function (LdapObject $object) {
-            $watchers = config("watchdog.watchers", []);
+            $watchdogs = config('watchdog.watchdogs', []);
 
             app(Kennel::class)
-                ->setWatchers($watchers)
+                ->setWatchers($watchdogs)
                 ->inspect($object);
         });
 

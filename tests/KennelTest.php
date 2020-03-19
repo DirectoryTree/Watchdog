@@ -4,12 +4,9 @@ namespace DirectoryTree\Watchdog\Tests;
 
 use DirectoryTree\Watchdog\Watchdog;
 use DirectoryTree\Watchdog\Conditions\Condition;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class KennelTest extends TestCase
 {
-    use DatabaseMigrations;
-
     public function test_notifier_is_enabled_by_default()
     {
         $this->assertTrue((new Watchdog)->isEnabled());

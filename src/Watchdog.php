@@ -2,6 +2,9 @@
 
 namespace DirectoryTree\Watchdog;
 
+use DirectoryTree\Watchdog\Notifications\Notifiable;
+use DirectoryTree\Watchdog\Notifications\ObjectHasChanged;
+
 class Watchdog
 {
     /**
@@ -109,13 +112,29 @@ class Watchdog
     }
 
     /**
-     * Send the notification.
+     * Send a notification.
+     *
+     * @param LdapObject $object
      *
      * @return void
      */
-    public function notify()
+    public function notify(LdapObject $object)
     {
-        //
+        $this->notifiable()->notify(
+            $this->notification($object)
+        );
+    }
+
+    /**
+     * Create a new notification for the watchdog.
+     *
+     * @param LdapObject $object
+     *
+     * @return \DirectoryTree\Watchdog\Notifications\BaseNotification
+     */
+    public function notification(LdapObject $object)
+    {
+        return new ObjectHasChanged($object);
     }
 
     /**
@@ -128,5 +147,17 @@ class Watchdog
         return collect($this->conditions)->filter(function ($condition) {
             return (new $condition($this->before, $this->after))->passes();
         })->count() === count($this->conditions);
+    }
+
+    /**
+     * Create a new notifiable instance.
+     *
+     * @return Notifiable
+     */
+    public function notifiable()
+    {
+        return app(
+            config('watchdog.notifications.notifiable', Notifiable::class)
+        );
     }
 }

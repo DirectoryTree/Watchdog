@@ -88,7 +88,7 @@ class ProcessImportedTest extends TestCase
 
     public function test_notifiers_are_executed_when_ldap_objects_are_updated()
     {
-        config(['watchdog.watchers' => [TestPasswordHasChangedStubWatchdog::class]]);
+        config(['watchdog.watchdogs' => [TestPasswordHasChangedStubWatchdog::class]]);
 
         $ldap = factory(LdapConnection::class)->create();
 
@@ -124,7 +124,7 @@ class TestPasswordHasChangedStubWatchdog extends Watchdog
 {
     protected $conditions = [PasswordChanged::class];
 
-    public function notify()
+    public function notify(LdapObject $object)
     {
         $_SERVER['notified'] = true;
     }
