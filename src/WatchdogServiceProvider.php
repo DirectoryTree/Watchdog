@@ -3,7 +3,7 @@
 namespace DirectoryTree\Watchdog;
 
 use Illuminate\Support\ServiceProvider;
-use DirectoryTree\Watchdog\Commands\Feed;
+use DirectoryTree\Watchdog\Commands\Monitor;
 use DirectoryTree\Watchdog\Commands\Setup;
 use DirectoryTree\Watchdog\Commands\MakeWatchdog;
 
@@ -17,7 +17,7 @@ class WatchdogServiceProvider extends ServiceProvider
     public function register()
     {
        $this->commands([
-           Feed::class,
+           Monitor::class,
            Setup::class,
            MakeWatchdog::class,
        ]);

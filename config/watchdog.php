@@ -35,7 +35,7 @@ return [
     |--------------------------------------------------------------------------
     |
     | This option controls how frequently each model is scanned using
-    | the watchdog:feed command in minutes.
+    | the watchdog:monitor command in minutes.
     |
     */
 

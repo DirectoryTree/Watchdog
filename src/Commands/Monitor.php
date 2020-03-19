@@ -7,21 +7,21 @@ use DirectoryTree\Watchdog\LdapConnection;
 use DirectoryTree\Watchdog\Jobs\ScanConnection;
 use Illuminate\Console\Command;
 
-class Feed extends Command
+class Monitor extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'watchdog:feed';
+    protected $signature = 'watchdog:monitor';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Imports the configured LDAP domain objects.';
+    protected $description = 'Monitors the configured LDAP models for changes.';
 
     /**
      * Execute the console command.
@@ -31,7 +31,7 @@ class Feed extends Command
     public function handle()
     {
         $this->info("---- Watchdog ----");
-        $this->info("Starting to queue LDAP connection synchronization...");
+        $this->info("Starting to queue monitor...");
 
         $connections = ConnectionRepository::toMonitor();
 

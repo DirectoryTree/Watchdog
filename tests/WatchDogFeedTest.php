@@ -2,6 +2,7 @@
 
 namespace DirectoryTree\Watchdog\Tests;
 
+use DirectoryTree\Watchdog\LdapChange;
 use DirectoryTree\Watchdog\LdapScan;
 use DirectoryTree\Watchdog\LdapObject;
 use DirectoryTree\Watchdog\LdapConnection;
@@ -31,19 +32,19 @@ class WatchDogFeedTest extends TestCase
         parent::setUp();
 
         $this->artisan('watchdog:setup');
+
+        DirectoryEmulator::setup();
     }
 
     public function test_watch_dogs_can_be_fed()
     {
-        DirectoryEmulator::setup();
-
         $object = Entry::create([
             'cn' => 'John Doe',
             'objectclass' => ['foo'],
             'objectguid' => $this->faker->uuid,
         ]);
 
-        $this->artisan('watchdog:feed');
+        $this->artisan('watchdog:monitor');
 
         $scan = LdapScan::first();
         $this->assertTrue($scan->success);
@@ -54,5 +55,22 @@ class WatchDogFeedTest extends TestCase
         $this->assertEquals($object->cn[0], $imported->values['cn'][0]);
         $this->assertEquals($object->objectclass, $imported->values['objectclass']);
         $this->assertEquals($object->getConvertedGuid(), $imported->values['objectguid'][0]);
+    }
+
+    public function test_watch_dogs_detect_changes()
+    {
+        $object = Entry::create([
+            'cn' => 'John Doe',
+            'objectclass' => ['foo'],
+            'objectguid' => $this->faker->uuid,
+        ]);
+
+        $this->artisan('watchdog:monitor');
+
+        $this->assertEquals(0, LdapChange::count());
+
+        $object->cn = 'Jane Doe';
+
+        $this->artisan('watchdog:monitor');
     }
 }
