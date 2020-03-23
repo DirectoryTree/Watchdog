@@ -96,7 +96,13 @@ class LdapObject extends Model
      */
     public function getOriginalValues()
     {
-        return json_decode($this->getOriginal('values'), true) ?? [];
+        $values = $this->getOriginal('values');
+
+        if (is_string($values)) {
+            return json_decode($this->getOriginal('values'), true) ?? [];
+        }
+
+        return is_array($values) ? $values : [];
     }
 
     /**
