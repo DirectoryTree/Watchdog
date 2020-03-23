@@ -25,8 +25,6 @@ class WatchDogSetupTest extends TestCase
         $this->assertEquals('default', $connection->name);
         $this->assertEquals('default', $connection->slug);
         $this->assertEquals(Entry::class, $connection->model);
-        $this->assertEquals(LdapConnection::STATUS_OFFLINE, $connection->status);
-        $this->assertEquals(LdapConnection::TYPE_ACTIVE_DIRECTORY, $connection->type);
     }
 
     public function test_model_connections_are_not_duplicated()

@@ -17,8 +17,8 @@ class WatchdogServiceProvider extends ServiceProvider
     public function register()
     {
        $this->commands([
-           Monitor::class,
            Setup::class,
+           Monitor::class,
            MakeWatchdog::class,
        ]);
     }

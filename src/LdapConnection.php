@@ -6,17 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class LdapConnection extends Model
 {
-    // The LDAP connection types.
-    const TYPE_UNKNOWN = 1;
-    const TYPE_ACTIVE_DIRECTORY = 2;
-    const TYPE_OPEN_LDAP = 3;
-    const TYPE_ACTIVE_DIRECTORY_LDS = 4;
-
-    // The LDAP connection statuses.
-    const STATUS_ONLINE = 1;
-    const STATUS_OFFLINE = 2;
-    const STATUS_INVALID_CREDENTIALS = 3;
-
     /**
      * The attributes that aren't mass assignable.
      *
@@ -55,16 +44,6 @@ class LdapConnection extends Model
                 }
             });
         });
-    }
-
-    /**
-     * The hasMany LDAP pings relationship.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function pings()
-    {
-        return $this->hasMany(LdapDomainPing::class, 'connection_id');
     }
 
     /**

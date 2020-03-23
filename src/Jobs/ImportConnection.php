@@ -55,7 +55,7 @@ class ImportConnection implements ShouldQueue
     {
         $this->scan->update(['started_at' => now()]);
 
-        info(sprintf("Starting to scan domain '%s'", $this->scan->ldap->name));
+        info("Starting to scan domain [{$this->scan->ldap->name}]");
 
         // We'll initialize a database transaction so all of our
         // inserts and updates are pushed at once. Otherwise
@@ -75,7 +75,7 @@ class ImportConnection implements ShouldQueue
             'completed_at' => now(),
         ])->save();
 
-        info(sprintf('Successfully completed scan. Imported %s record(s).', $imported));
+        info("Successfully completed scan. Imported [$imported] record(s).");
     }
 
     /**
