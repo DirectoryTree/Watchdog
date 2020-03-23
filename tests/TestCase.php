@@ -23,6 +23,14 @@ abstract class TestCase extends BaseTestCase
     {
         parent::getEnvironmentSetUp($app);
 
-        $app['config']->set('ldap.logging', false);
+        $config = $app['config'];
+
+        $config->set('database.default', 'testbench');
+        $config->set('database.connections.testbench', [
+            'driver'   => 'sqlite',
+            'database' => ':memory:',
+        ]);
+
+        $config->set('ldap.logging', false);
     }
 }
