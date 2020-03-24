@@ -16,8 +16,10 @@ class ObjectHasChanged extends BaseNotification
      */
     public function toMail(Watchdog $watchdog)
     {
-        return (new MailMessage)->markdown('watchdog::changed', [
-            'watchdog' => $watchdog,
-        ]);
+        return (new MailMessage)
+            ->subject("{$watchdog->getObject()->name} has been changed")
+            ->markdown('watchdog::changed', [
+                'watchdog' => $watchdog,
+            ]);
     }
 }

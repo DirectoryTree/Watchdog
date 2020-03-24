@@ -4,6 +4,7 @@ namespace DirectoryTree\Watchdog;
 
 use Illuminate\Notifications\Notifiable;
 use DirectoryTree\Watchdog\Notifications\ObjectHasChanged;
+use Illuminate\Support\Arr;
 
 class Watchdog
 {
@@ -86,6 +87,18 @@ class Watchdog
     }
 
     /**
+     * Get the value for the 'before' attribute.
+     *
+     * @param string $attribute
+     *
+     * @return array
+     */
+    public function getBeforeAttribute($attribute)
+    {
+        return Arr::wrap($this->before[$attribute]);
+    }
+
+    /**
      * Set the objects 'after' attributes.
      *
      * @param array|null $after
@@ -107,6 +120,18 @@ class Watchdog
     public function getAfterAttributes()
     {
         return $this->after;
+    }
+
+    /**
+     * Get the value for the 'after' attribute.
+     *
+     * @param string $attribute
+     *
+     * @return array
+     */
+    public function getAfterAttribute($attribute)
+    {
+        return Arr::wrap($this->after[$attribute]);
     }
 
     /**
@@ -201,6 +226,8 @@ class Watchdog
     }
 
     /**
+     * Get the email to send for mail notifications.
+     *
      * @return string|null
      */
     public function routeNotificationForMail()
@@ -209,6 +236,8 @@ class Watchdog
     }
 
     /**
+     * Get the webhook URL for slack notifications.
+     *
      * @return string|null
      */
     public function routeNotificationForSlack()

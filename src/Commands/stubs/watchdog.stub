@@ -2,24 +2,25 @@
 
 namespace DummyNamespace;
 
-use DirectoryTree\Watchdog\Watchers\Watcher;
+use DirectoryTree\Watchdog\Watchdog;
+use DirectoryTree\Watchdog\Notifications\ObjectHasChanged;
 
-class DummyClass extends Watcher
+class DummyClass extends Watchdog
 {
     /**
-     * The conditions of the watcher.
+     * The conditions of the watchdog.
      *
      * @var array
      */
     protected $conditions = [];
 
     /**
-     * Send the notification.
+     * Get the notification for the watchdog.
      *
-     * @return void
+     * @return string
      */
-    public function notify()
+    public function notification()
     {
-        //
+        return ObjectHasChanged::class;
     }
 }
