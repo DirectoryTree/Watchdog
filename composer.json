@@ -12,6 +12,7 @@
         "php": "^7.2",
         "ext-ldap": "*",
         "directorytree/ldaprecord-laravel": "^1.0",
+        "laravel/slack-notification-channel": "^2.0",
         "laravel/framework": "^6.0|^7.0"
     },
     "require-dev": {
