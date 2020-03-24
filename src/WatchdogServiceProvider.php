@@ -38,6 +38,8 @@ class WatchdogServiceProvider extends ServiceProvider
             ], 'config');
         }
 
+        $this->loadViewsFrom(__DIR__.'/../resources/views', 'watchdog');
+
         $this->loadFactoriesFrom(__DIR__.'/../database/factories');
     }
 }

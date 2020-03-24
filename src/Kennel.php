@@ -54,8 +54,10 @@ class Kennel
                 ->setAfterAttributes($after);
         })->filter(function(Watchdog $watchdog) {
             return $watchdog->isEnabled() && $watchdog->shouldNotify();
-        })->each(function (Watchdog $notifier) use ($object) {
-            $notifier->notify($object);
+        })->each(function (Watchdog $watchdog) {
+            $watchdog->notify(
+                app($watchdog->notification())
+            );
         });
     }
 

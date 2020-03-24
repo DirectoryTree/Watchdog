@@ -2,6 +2,7 @@
 
 namespace DirectoryTree\Watchdog\Notifications;
 
+use DirectoryTree\Watchdog\Watchdog;
 use Illuminate\Notifications\Messages\MailMessage;
 
 class ObjectHasChanged extends BaseNotification
@@ -9,12 +10,14 @@ class ObjectHasChanged extends BaseNotification
     /**
      * Get the mail representation of the notification.
      *
-     * @param mixed $notifiable
+     * @param Watchdog $watchdog
      *
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
-    public function toMail($notifiable)
+    public function toMail(Watchdog $watchdog)
     {
-        //
+        return (new MailMessage)->markdown('watchdog::changed', [
+            'watchdog' => $watchdog,
+        ]);
     }
 }

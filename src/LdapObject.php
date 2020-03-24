@@ -4,23 +4,17 @@ namespace DirectoryTree\Watchdog;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use DirectoryTree\Watchdog\Ldap\TypeGuesser;
 
 class LdapObject extends Model
 {
     use SoftDeletes, IsSelfReferencing;
 
     /**
-     * The attributes that are mass assignable.
+     * The attributes that aren't mass assignable.
      *
      * @var array
      */
-    protected $fillable = [
-        'dn',
-        'guid',
-        'domain',
-        'values',
-    ];
+    protected $guarded = [];
 
     /**
      * The attributes that should be cast to native types.
@@ -77,19 +71,6 @@ class LdapObject extends Model
     }
 
     /**
-     * Determine if the object can have groups.
-     *
-     * @return bool
-     */
-    public function canHaveGroups()
-    {
-        return in_array($this->type, [
-            TypeGuesser::TYPE_GROUP,
-            TypeGuesser::TYPE_USER
-        ]);
-    }
-
-    /**
      * Get the LDAP objects original values.
      *
      * @return array
@@ -98,8 +79,11 @@ class LdapObject extends Model
     {
         $values = $this->getOriginal('values');
 
+        // Laravel 7 will cast original values to their native
+        // types, but Laravel 6 does not. Here we will cast
+        // the original value manually to an array.
         if (is_string($values)) {
-            return json_decode($this->getOriginal('values'), true) ?? [];
+            return $this->castAttribute('values', $this->getOriginal('values')) ?? [];
         }
 
         return is_array($values) ? $values : [];

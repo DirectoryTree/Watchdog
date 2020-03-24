@@ -7,16 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 class LdapChange extends Model
 {
     /**
-     * The attributes that are mass assignable.
+     * The attributes that aren't mass assignable.
      *
      * @var array
      */
-    protected $fillable = [
-        'attribute',
-        'before',
-        'after',
-        'ldap_updated_at',
-    ];
+    protected $guarded = [];
 
     /**
      * The attributes that should be mutated to dates.

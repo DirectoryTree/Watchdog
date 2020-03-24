@@ -2,11 +2,13 @@
 
 namespace DirectoryTree\Watchdog;
 
-use DirectoryTree\Watchdog\Notifications\Notifiable;
+use Illuminate\Notifications\Notifiable;
 use DirectoryTree\Watchdog\Notifications\ObjectHasChanged;
 
 class Watchdog
 {
+    use Notifiable;
+
     /**
      * The LDAP object.
      *
@@ -50,6 +52,16 @@ class Watchdog
     }
 
     /**
+     * Get the LDAP object.
+     *
+     * @return LdapObject
+     */
+    public function getObject()
+    {
+        return $this->object;
+    }
+
+    /**
      * Set the objects 'before' attributes.
      *
      * @param array|null $before
@@ -61,6 +73,16 @@ class Watchdog
         $this->before = $before;
 
         return $this;
+    }
+
+    /**
+     * Get the objects 'before' attributes.
+     *
+     * @return array|null
+     */
+    public function getBeforeAttributes()
+    {
+        return $this->before;
     }
 
     /**
@@ -78,6 +100,31 @@ class Watchdog
     }
 
     /**
+     * Get the objects 'after' attributes.
+     *
+     * @return array|null
+     */
+    public function getAfterAttributes()
+    {
+        return $this->after;
+    }
+
+    /**
+     * Get the attribute names that were modified on the LDAP object.
+     *
+     * @return array
+     */
+    public function getModifiedAttributes()
+    {
+        return array_keys(
+            array_diff(
+                array_map('serialize', $this->getAfterAttributes()),
+                array_map('serialize', $this->getBeforeAttributes())
+            )
+        );
+    }
+
+    /**
      * Set the watchdog conditions.
      *
      * @param array $conditions
@@ -92,7 +139,17 @@ class Watchdog
     }
 
     /**
-     * The name of the watchdog.
+     * Get the conditions for the watchdog.
+     *
+     * @return array
+     */
+    public function getConditions()
+    {
+        return $this->conditions;
+    }
+
+    /**
+     * Get the name of the watchdog.
      *
      * @return string
      */
@@ -102,39 +159,13 @@ class Watchdog
     }
 
     /**
-     * Determine whether the watchdog is enabled.
+     * Get the notification key for the watchdog.
      *
-     * @return bool
+     * @return string
      */
-    public function isEnabled()
+    public function getKey()
     {
-        return true;
-    }
-
-    /**
-     * Send a notification.
-     *
-     * @param LdapObject $object
-     *
-     * @return void
-     */
-    public function notify(LdapObject $object)
-    {
-        $this->notifiable()->notify(
-            $this->notification($object)
-        );
-    }
-
-    /**
-     * Create a new notification for the watchdog.
-     *
-     * @param LdapObject $object
-     *
-     * @return \DirectoryTree\Watchdog\Notifications\BaseNotification
-     */
-    public function notification(LdapObject $object)
-    {
-        return new ObjectHasChanged($object);
+        return $this->getName();
     }
 
     /**
@@ -150,14 +181,38 @@ class Watchdog
     }
 
     /**
-     * Create a new notifiable instance.
+     * Determine whether the watchdog is enabled.
      *
-     * @return Notifiable
+     * @return bool
      */
-    public function notifiable()
+    public function isEnabled()
     {
-        return app(
-            config('watchdog.notifications.notifiable', Notifiable::class)
-        );
+        return true;
+    }
+
+    /**
+     * Get the notification for the watchdog.
+     *
+     * @return string
+     */
+    public function notification()
+    {
+        return ObjectHasChanged::class;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function routeNotificationForMail()
+    {
+        return config('watchdog.notifications.mail.to');
+    }
+
+    /**
+     * @return string|null
+     */
+    public function routeNotificationForSlack()
+    {
+        return config('watchdog.notifications.slack.webhook_url');
     }
 }

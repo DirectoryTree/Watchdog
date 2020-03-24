@@ -7,17 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 class LdapScan extends Model
 {
     /**
-     * The attributes that are mass assignable.
+     * The attributes that aren't mass assignable.
      *
      * @var array
      */
-    protected $fillable = [
-        'started_at',
-        'completed_at',
-        'success',
-        'message',
-        'synchronized',
-    ];
+    protected $guarded = [];
 
     /**
      * The attributes that should be mutated to dates.

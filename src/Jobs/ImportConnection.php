@@ -122,34 +122,37 @@ class ImportConnection implements ShouldQueue
      */
     protected function import(Model $model, LdapScanEntry $parent = null)
     {
-        $this->query($model)->each(function (Model $object) use ($model, $parent) {
-            $values = $object->jsonSerialize();
-            ksort($values);
+        $this->query($model)
+            ->reject(function (Model $object) {
+                return empty($object->getConvertedGuid());
+            })->each(function (Model $object) use ($model, $parent) {
+                $values = $object->jsonSerialize();
+                ksort($values);
 
-            $type = $this->getObjectType($object);
-            $updated = $this->getObjectUpdatedAt($object);
+                $type = $this->getObjectType($object);
+                $updated = $this->getObjectUpdatedAt($object);
 
-            /** @var LdapScanEntry $entry */
-            $entry = $this->scan->entries()->make();
+                /** @var LdapScanEntry $entry */
+                $entry = $this->scan->entries()->make();
 
-            $entry->parent()->associate(optional($parent)->id);
-            $entry->dn = $object->getDn();
-            $entry->name = $object->getName();
-            $entry->guid = $object->getConvertedGuid();
-            $entry->type = $type;
-            $entry->values = $values;
-            $entry->ldap_updated_at = $updated;
+                $entry->parent()->associate(optional($parent)->id);
+                $entry->dn = $object->getDn();
+                $entry->name = $object->getName();
+                $entry->guid = $object->getConvertedGuid();
+                $entry->type = $type;
+                $entry->values = $values;
+                $entry->ldap_updated_at = $updated;
 
-            $entry->save();
+                $entry->save();
 
-            $this->guids[] = $object->getConvertedGuid();
+                $this->guids[] = $object->getConvertedGuid();
 
-            // If the object is a container, we will
-            // recursively import its descendants.
-            if ($type == TypeGuesser::TYPE_CONTAINER) {
-                $this->import($object, $entry);
-            }
-        });
+                // If the object is a container, we will
+                // recursively import its descendants.
+                if ($type == TypeGuesser::TYPE_CONTAINER) {
+                    $this->import($object, $entry);
+                }
+            });
     }
 
     /**
@@ -167,7 +170,7 @@ class ImportConnection implements ShouldQueue
             $query->in($model->getDn());
         }
 
-        return $query->listing()->paginate();
+        return $query->select('*')->listing()->paginate();
     }
 
     /**

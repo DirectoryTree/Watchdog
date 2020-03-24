@@ -3,6 +3,7 @@
 namespace DirectoryTree\Watchdog\Jobs\Pipes;
 
 use Closure;
+use Illuminate\Support\Collection;
 use DirectoryTree\Watchdog\LdapObject;
 use DirectoryTree\Watchdog\Jobs\GenerateObjectChanges;
 
@@ -27,12 +28,13 @@ class DetectChanges extends Pipe
             array_map('serialize', $oldAttributes)
         );
 
-        // We don't want to create changes for newly imported objects.
-        if ($object->exists && count($modifications) > 0) {
+        collect($modifications)->reject(function ($value, $attribute) {
+            return in_array($attribute, config('watchdog.ignore', []));
+        })->when($object->exists, function (Collection $modifications) use ($object, $oldAttributes) {
             $when = $this->entry->ldap_updated_at;
 
-            GenerateObjectChanges::dispatch($object, $when, $modifications, $oldAttributes);
-        }
+            GenerateObjectChanges::dispatch($object, $when, $modifications->toArray(), $oldAttributes);
+        });
 
         return $next($object);
     }

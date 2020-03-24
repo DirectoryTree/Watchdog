@@ -23,4 +23,9 @@ class BaseNotification extends Notification
     {
         $this->object = $object;
     }
+
+    public function via($notifiable)
+    {
+        return ['mail'];
+    }
 }

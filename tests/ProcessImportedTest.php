@@ -124,7 +124,7 @@ class TestPasswordHasChangedStubWatchdog extends Watchdog
 {
     protected $conditions = [PasswordChanged::class];
 
-    public function notify(LdapObject $object)
+    public function notify($instance)
     {
         $_SERVER['notified'] = true;
     }
