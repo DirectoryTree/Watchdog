@@ -34,8 +34,9 @@ return [
     | Frequency
     |--------------------------------------------------------------------------
     |
-    | This option controls how frequently each model is scanned using
-    | the watchdog:monitor command in minutes.
+    | This option controls how frequently each model can be scanned using
+    | the watchdog:monitor command in minutes. Set this to zero to allow
+    | scans to be run every time on demand without any limitation.
     |
     */
 
@@ -60,7 +61,7 @@ return [
             'webhook_url' => env('WATCHDOG_SLACK_WEBHOOK_URL'),
         ],
 
-        'notifiable' => \DirectoryTree\WatchDog\Notifications\Notifiable::class,
+        'notifiable' => \DirectoryTree\Watchdog\Notifications\Notifiable::class,
 
         /*
          * The date format used in notifications.
