@@ -47,7 +47,7 @@ return [
     | Notifications
     |--------------------------------------------------------------------------
     |
-    |
+    | The global defaults for all notifications that are sent by watchdogs.
     |
     */
 
@@ -61,12 +61,7 @@ return [
             'webhook_url' => env('WATCHDOG_SLACK_WEBHOOK_URL'),
         ],
 
-        'notifiable' => \DirectoryTree\Watchdog\Notifications\Notifiable::class,
-
-        /*
-         * The date format used in notifications.
-         */
-        'date_format' => 'Y-m-d h:i:s A',
+        'date_format' => 'F j @ g:i A',
 
     ],
 
@@ -77,10 +72,12 @@ return [
     |
     | The LDAP attributes that should be ignored when detecting object changes.
     |
+    | Sensible Active Directory defaults are set here.
+    |
     */
 
     'ignore' => [
-        //
+        'dscorepropagationdata',
     ],
 
 ];
