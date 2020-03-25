@@ -1,16 +1,11 @@
-@component('mail::message')
+@component('watchdog::layout', [
+    'title' => "{$watchdog->object()->name} has been changed",
+    'subtitle' => $watchdog->object()->dn,
+])
 
-<style>
-    .text-center {
-        text-align: center;
-    }
-</style>
+<h5 class="text-center">Detected on {{ $watchdog->object()->updated_at->format(config('watchdog.notifications.date_format')) }}</h5>
 
-<h1 class="text-center" style="margin-bottom: 0;">{{ $watchdog->getObject()->name }} has been changed</h1>
-<h5 class="text-center" style="margin-top:2px;color:grey;">{{ $watchdog->getObject()->dn }}</h5>
-<h5 class="text-center">Detected on {{ $watchdog->getObject()->updated_at->format(config('watchdog.notifications.date_format')) }}</h5>
-
-@foreach($watchdog->getModifiedAttributes() as $attribute)
+@foreach($watchdog->modified() as $attribute)
 <div class="table">
     <table>
         <thead>
@@ -22,7 +17,7 @@
             <tr>
                 <td class="text-center">Before</td>
                 <td class="text-center">
-                    @foreach($watchdog->getBeforeAttribute($attribute) as $values)
+                    @foreach($watchdog->before()->attribute($attribute) as $values)
                         <span>{{ $values }}</span> <br/>
                     @endforeach
                 </td>
@@ -30,7 +25,7 @@
             <tr>
                 <td class="text-center">After</td>
                 <td class="text-center">
-                    @foreach($watchdog->getAfterAttribute($attribute) as $values)
+                    @foreach($watchdog->after()->attribute($attribute) as $values)
                         <span>{{ $values }}</span> <br/>
                     @endforeach
                 </td>
