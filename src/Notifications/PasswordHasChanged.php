@@ -2,50 +2,34 @@
 
 namespace DirectoryTree\Watchdog\Notifications;
 
+use DirectoryTree\Watchdog\Watchdog;
 use Illuminate\Notifications\Messages\MailMessage;
-use Illuminate\Notifications\Messages\SlackAttachment;
-use Illuminate\Notifications\Messages\SlackMessage;
 
-class PasswordHasChanged extends BaseNotification
+class PasswordHasChanged extends Notification
 {
     /**
      * Get the mail representation of the notification.
      *
+     * @param Watchdog $watchdog
+     *
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
-    public function toMail()
+    public function toMail($watchdog)
     {
         return (new MailMessage)
-            ->subject($this->getMessageText())
-            ->line($this->getMessageText());
+            ->subject($this->getSubject($watchdog))
+            ->line($this->getSubject($watchdog));
     }
 
     /**
-     * Get the Slack representation of the notification.
+     * Get the subject for the watchdog.
      *
-     * @return SlackMessage
-     */
-    public function toSlack()
-    {
-//        return (new SlackMessage)
-//            ->content('')
-//            ->attachment(function (SlackAttachment $attachment) {
-//                $attachment
-//                    ->title($this->getMessageText())
-//                    ->content($this->getMonitor()->uptime_check_failure_reason)
-//                    ->fallback($this->getMessageText())
-//                    ->footer($this->getLocationDescription())
-//                    ->timestamp(Carbon::now());
-//            });
-    }
-
-    /**
-     * Get the notification message text.
+     * @param Watchdog $watchdog
      *
      * @return string
      */
-    protected function getMessageText()
+    protected function getSubject(Watchdog $watchdog)
     {
-        return "Password Changed: {$this->object->name}";
+        return "Password Changed on {$watchdog->object()->name}";
     }
 }

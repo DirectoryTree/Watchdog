@@ -6,6 +6,7 @@ use Illuminate\Support\ServiceProvider;
 use DirectoryTree\Watchdog\Commands\Monitor;
 use DirectoryTree\Watchdog\Commands\Setup;
 use DirectoryTree\Watchdog\Commands\MakeWatchdog;
+use DirectoryTree\Watchdog\Commands\MakeWatchdogNotification;
 
 class WatchdogServiceProvider extends ServiceProvider
 {
@@ -20,6 +21,7 @@ class WatchdogServiceProvider extends ServiceProvider
            Setup::class,
            Monitor::class,
            MakeWatchdog::class,
+           MakeWatchdogNotification::class,
        ]);
     }
 
@@ -38,7 +40,7 @@ class WatchdogServiceProvider extends ServiceProvider
             ], 'config');
         }
 
-        $this->loadViewsFrom(__DIR__.'/../resources/views', 'watchdog');
+        $this->loadViewsFrom(__DIR__.'/../resources/notifications', 'watchdog');
 
         $this->loadFactoriesFrom(__DIR__.'/../database/factories');
     }

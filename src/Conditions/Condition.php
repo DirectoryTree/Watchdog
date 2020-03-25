@@ -2,32 +2,34 @@
 
 namespace DirectoryTree\Watchdog\Conditions;
 
+use DirectoryTree\Watchdog\State;
+
 abstract class Condition
 {
     /**
-     * The attribute value before the change.
+     * The object value state before the change.
      *
-     * @var array
+     * @var State
      */
     protected $before;
 
     /**
-     * The attribute value after the change.
+     * The object value state after the change.
      *
-     * @var array
+     * @var State
      */
     protected $after;
 
     /**
      * Constructor.
      *
-     * @param null|string|array $before
-     * @param null|string|array $after
+     * @param State $before
+     * @param State $after
      */
-    public function __construct($before = [], $after = [])
+    public function __construct(State $before, State $after)
     {
-        $this->before = array_change_key_case((array) $before ?? [], CASE_LOWER);
-        $this->after = array_change_key_case((array) $after ?? [], CASE_LOWER);
+        $this->before = $before;
+        $this->after = $after;
     }
 
     /**

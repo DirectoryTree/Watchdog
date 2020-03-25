@@ -2,7 +2,7 @@
 
 namespace DirectoryTree\Watchdog\Tests\Dogs;
 
-use DirectoryTree\Watchdog\Dogs\PasswordChanges;
+use DirectoryTree\Watchdog\Dogs\WatchPasswordChanges;
 use DirectoryTree\Watchdog\Notifications\PasswordHasChanged;
 use LdapRecord\Laravel\Testing\DirectoryEmulator;
 use LdapRecord\Models\ActiveDirectory\Entry;
@@ -13,7 +13,7 @@ class PasswordChangedTest extends DogTestCase
     {
         parent::setUp();
 
-        config(['watchdog.watchdogs' => [PasswordChanges::class]]);
+        config(['watchdog.watchdogs' => [WatchPasswordChanges::class]]);
 
         DirectoryEmulator::setup();
     }
@@ -29,7 +29,7 @@ class PasswordChangedTest extends DogTestCase
 
         $this->artisan('watchdog:monitor');
 
-        $notifiable = app(PasswordChanges::class);
+        $notifiable = app(WatchPasswordChanges::class);
 
         $this->expectsNotification($notifiable, PasswordHasChanged::class);
 

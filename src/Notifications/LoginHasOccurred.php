@@ -5,7 +5,7 @@ namespace DirectoryTree\Watchdog\Notifications;
 use DirectoryTree\Watchdog\Watchdog;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class ObjectHasChanged extends Notification
+class LoginHasOccurred extends Notification
 {
     /**
      * Get the mail representation of the notification.
@@ -17,9 +17,21 @@ class ObjectHasChanged extends Notification
     public function toMail(Watchdog $watchdog)
     {
         return (new MailMessage)
-            ->subject("{$watchdog->object()->name} has been changed")
-            ->markdown('watchdog::changed', [
+            ->subject($this->getSubject($watchdog))
+            ->markdown('watchdog::new-login', [
                 'watchdog' => $watchdog,
             ]);
+    }
+
+    /**
+     * Get the subject for the watchdog.
+     *
+     * @param Watchdog $watchdog
+     *
+     * @return string
+     */
+    protected function getSubject(Watchdog $watchdog)
+    {
+        return "{$watchdog->object()->name} has been logged into";
     }
 }

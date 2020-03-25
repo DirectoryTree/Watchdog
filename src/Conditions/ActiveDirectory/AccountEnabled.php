@@ -26,7 +26,7 @@ class AccountEnabled extends Condition
      */
     protected function accountWasPreviouslyDisabled()
     {
-        return $this->newUacFromAttributes($this->before)->has(AccountControl::ACCOUNTDISABLE);
+        return $this->newAccountControlFromState($this->before)->has(AccountControl::ACCOUNTDISABLE);
     }
 
     /**
@@ -36,6 +36,6 @@ class AccountEnabled extends Condition
      */
     protected function accountIsNowEnabled()
     {
-        return ! $this->newUacFromAttributes($this->after)->has(AccountControl::ACCOUNTDISABLE);
+        return ! $this->newAccountControlFromState($this->after)->has(AccountControl::ACCOUNTDISABLE);
     }
 }

@@ -30,7 +30,7 @@ class AccountDisabled extends Condition
      */
     protected function accountIsCurrentlyDisabled()
     {
-        return $this->newUacFromAttributes($this->after)->has(AccountControl::ACCOUNTDISABLE);
+        return $this->newAccountControlFromState($this->after)->has(AccountControl::ACCOUNTDISABLE);
     }
 
     /**
@@ -40,7 +40,7 @@ class AccountDisabled extends Condition
      */
     protected function accountWasNotPreviouslyDisabled()
     {
-        return ! $this->newUacFromAttributes($this->before)->has(AccountControl::ACCOUNTDISABLE);
+        return ! $this->newAccountControlFromState($this->before)->has(AccountControl::ACCOUNTDISABLE);
     }
 
     /**
@@ -50,6 +50,6 @@ class AccountDisabled extends Condition
      */
     protected function accountDidNotHaveAccountControl()
     {
-        return empty($this->before[$this->attribute]);
+        return empty($this->before->attribute($this->attribute));
     }
 }

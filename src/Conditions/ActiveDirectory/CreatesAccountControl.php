@@ -3,6 +3,7 @@
 namespace DirectoryTree\Watchdog\Conditions\ActiveDirectory;
 
 use Illuminate\Support\Arr;
+use DirectoryTree\Watchdog\State;
 use LdapRecord\Models\Attributes\AccountControl;
 
 trait CreatesAccountControl
@@ -17,14 +18,14 @@ trait CreatesAccountControl
     /**
      * Creates a new AccountControl object from the given attributes.
      *
-     * @param array|null $attributes
+     * @param State $state
      *
      * @return AccountControl
      */
-    protected function newUacFromAttributes($attributes)
+    protected function newAccountControlFromState(State $state)
     {
         return new AccountControl(
-            Arr::first($attributes[$this->attribute] ?? [])
+            Arr::first($state->attribute($this->attribute))
         );
     }
 }

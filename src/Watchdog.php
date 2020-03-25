@@ -4,7 +4,6 @@ namespace DirectoryTree\Watchdog;
 
 use Illuminate\Notifications\Notifiable;
 use DirectoryTree\Watchdog\Notifications\ObjectHasChanged;
-use Illuminate\Support\Arr;
 
 class Watchdog
 {
@@ -18,16 +17,16 @@ class Watchdog
     protected $object;
 
     /**
-     * The objects values before the change took place.
+     * The objects state before the change took place.
      *
-     * @var array|null
+     * @var State
      */
     protected $before;
 
     /**
-     * The objects values after the change took place.
+     * The objects state after the change took place.
      *
-     * @var array|null
+     * @var State
      */
     protected $after;
 
@@ -39,99 +38,57 @@ class Watchdog
     protected $conditions = [];
 
     /**
-     * Set the LDAP object.
+     * Set or get the LdapObject.
      *
-     * @param LdapObject $object
+     * @param LdapObject|null $object
      *
-     * @return $this
+     * @return $this|LdapObject
      */
-    public function setObject(LdapObject $object)
+    public function object(LdapObject $object = null)
     {
+        if (is_null($object)) {
+            return $this->object;
+        }
+
         $this->object = $object;
 
         return $this;
     }
 
     /**
-     * Get the LDAP object.
+     * Set or get the 'before' state.
      *
-     * @return LdapObject
+     * @param State|null $before
+     *
+     * @return $this|State
      */
-    public function getObject()
+    public function before(State $before = null)
     {
-        return $this->object;
-    }
+        if (is_null($before)) {
+            return $this->before;
+        }
 
-    /**
-     * Set the objects 'before' attributes.
-     *
-     * @param array|null $before
-     *
-     * @return $this
-     */
-    public function setBeforeAttributes($before)
-    {
         $this->before = $before;
 
         return $this;
     }
 
     /**
-     * Get the objects 'before' attributes.
+     * Set or get the 'after' state.
      *
-     * @return array|null
+     * @param State|null $after
+     *
+     * @return $this|State
      */
-    public function getBeforeAttributes()
+    public function after(State $after = null)
     {
-        return $this->before;
-    }
+        if (is_null($after)) {
+            return $this->after;
+        }
 
-    /**
-     * Get the value for the 'before' attribute.
-     *
-     * @param string $attribute
-     *
-     * @return array
-     */
-    public function getBeforeAttribute($attribute)
-    {
-        return Arr::wrap($this->before[$attribute]);
-    }
-
-    /**
-     * Set the objects 'after' attributes.
-     *
-     * @param array|null $after
-     *
-     * @return $this
-     */
-    public function setAfterAttributes($after)
-    {
         $this->after = $after;
 
         return $this;
-    }
-
-    /**
-     * Get the objects 'after' attributes.
-     *
-     * @return array|null
-     */
-    public function getAfterAttributes()
-    {
-        return $this->after;
-    }
-
-    /**
-     * Get the value for the 'after' attribute.
-     *
-     * @param string $attribute
-     *
-     * @return array
-     */
-    public function getAfterAttribute($attribute)
-    {
-        return Arr::wrap($this->after[$attribute]);
     }
 
     /**
@@ -139,12 +96,12 @@ class Watchdog
      *
      * @return array
      */
-    public function getModifiedAttributes()
+    public function modified()
     {
         return array_keys(
             array_diff(
-                array_map('serialize', $this->getAfterAttributes()),
-                array_map('serialize', $this->getBeforeAttributes())
+                array_map('serialize', $this->after->attributes()),
+                array_map('serialize', $this->before->attributes())
             )
         );
     }
@@ -198,11 +155,26 @@ class Watchdog
      *
      * @return bool
      */
-    public function shouldNotify()
+    public function shouldSendNotification()
     {
         return collect($this->conditions)->filter(function ($condition) {
-            return (new $condition($this->before, $this->after))->passes();
+            return $this->makeCondition($condition)->passes();
         })->count() === count($this->conditions);
+    }
+
+    /**
+     * Create a new instance of the condition.
+     *
+     * @param string $condition
+     *
+     * @return \DirectoryTree\Watchdog\Conditions\Condition
+     */
+    protected function makeCondition($condition)
+    {
+        return new $condition(
+            $this->before ?? new State(),
+            $this->after ?? new State()
+        );
     }
 
     /**
@@ -210,7 +182,7 @@ class Watchdog
      *
      * @return bool
      */
-    public function isEnabled()
+    public function enabled()
     {
         return true;
     }
@@ -226,6 +198,16 @@ class Watchdog
     }
 
     /**
+     * Get the notification channels for the watchdog.
+     *
+     * @return array
+     */
+    public function channels()
+    {
+        return ['mail'];
+    }
+
+    /**
      * Get the email to send for mail notifications.
      *
      * @return string|null
@@ -233,15 +215,5 @@ class Watchdog
     public function routeNotificationForMail()
     {
         return config('watchdog.notifications.mail.to');
-    }
-
-    /**
-     * Get the webhook URL for slack notifications.
-     *
-     * @return string|null
-     */
-    public function routeNotificationForSlack()
-    {
-        return config('watchdog.notifications.slack.webhook_url');
     }
 }

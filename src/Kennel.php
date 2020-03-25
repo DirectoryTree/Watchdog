@@ -7,32 +7,32 @@ use DirectoryTree\Watchdog\Ldap\Transformers\AttributeTransformer;
 class Kennel
 {
     /**
-     * The notifiers to execute.
+     * The watchdogs to execute.
      *
      * @var string[]
      */
-    protected $watchers = [];
+    protected $watchdogs = [];
 
     /**
      * Constructor.
      *
-     * @param string|array $notifiers
+     * @param string|array $watchdogs
      */
-    public function __construct($notifiers = [])
+    public function __construct($watchdogs = [])
     {
-        $this->watchers = (array) $notifiers;
+        $this->watchdogs = (array) $watchdogs;
     }
 
     /**
-     * Set the generator notifiers.
+     * Set the watchdogs that should be executed.
      *
-     * @param string|array $watchers
+     * @param string|array $watchdogs
      *
      * @return $this
      */
-    public function setWatchers($watchers = [])
+    public function setWatchdogs($watchdogs = [])
     {
-        $this->watchers = (array) $watchers;
+        $this->watchdogs = (array) $watchdogs;
 
         return $this;
     }
@@ -47,13 +47,13 @@ class Kennel
         $before = $this->transform($object->getOriginalValues());
         $after = $this->transform($object->getUpdatedValues());
 
-        collect($this->watchers)->transform(function ($watchdog) use ($object, $before, $after) {
+        collect($this->watchdogs)->transform(function ($watchdog) use ($object, $before, $after) {
             return app($watchdog)
-                ->setObject($object)
-                ->setBeforeAttributes($before)
-                ->setAfterAttributes($after);
+                ->object($object)
+                ->before(new State($before))
+                ->after(new State($after));
         })->filter(function(Watchdog $watchdog) {
-            return $watchdog->isEnabled() && $watchdog->shouldNotify();
+            return $watchdog->enabled() && $watchdog->shouldSendNotification();
         })->each(function (Watchdog $watchdog) {
             $watchdog->notify(
                 app($watchdog->notification())
@@ -70,6 +70,8 @@ class Kennel
      */
     protected function transform(array $attributes)
     {
-        return (new AttributeTransformer($attributes))->transform();
+        return (new AttributeTransformer(
+            array_change_key_case($attributes, CASE_LOWER)
+        ))->transform();
     }
 }

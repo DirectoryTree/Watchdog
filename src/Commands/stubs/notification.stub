@@ -1,11 +1,12 @@
 <?php
 
-namespace DirectoryTree\Watchdog\Notifications;
+namespace DummyNamespace;
 
 use DirectoryTree\Watchdog\Watchdog;
 use Illuminate\Notifications\Messages\MailMessage;
+use DirectoryTree\Watchdog\Notifications\Notification;
 
-class ObjectHasChanged extends Notification
+class DummyClass extends Notification
 {
     /**
      * Get the mail representation of the notification.
@@ -16,10 +17,6 @@ class ObjectHasChanged extends Notification
      */
     public function toMail(Watchdog $watchdog)
     {
-        return (new MailMessage)
-            ->subject("{$watchdog->object()->name} has been changed")
-            ->markdown('watchdog::changed', [
-                'watchdog' => $watchdog,
-            ]);
+        return new MailMessage;
     }
 }

@@ -19,30 +19,11 @@ class Changed extends Condition
     public function passes()
     {
         foreach ($this->attributes as $attribute) {
-            if (
-                $this->getAttributeValues($attribute, $this->before) !=
-                $this->getAttributeValues($attribute, $this->after)
-            ) {
+            if ($this->before->attribute($attribute) != $this->after->attribute($attribute)) {
                 return true;
             }
         }
 
         return false;
-    }
-
-    /**
-     * Get the values of the given attribute.
-     *
-     * @param string     $attribute
-     * @param array|null $attributes
-     *
-     * @return array
-     */
-    protected function getAttributeValues($attribute, $attributes)
-    {
-        $values = $attributes[$attribute] ?? [];
-        sort($values);
-
-        return $values;
     }
 }

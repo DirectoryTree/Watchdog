@@ -3,7 +3,7 @@
 namespace DummyNamespace;
 
 use DirectoryTree\Watchdog\Watchdog;
-use DirectoryTree\Watchdog\Notifications\ObjectHasChanged;
+use DummyNamespace\Notifications\DummyNotification;
 
 class DummyClass extends Watchdog
 {
@@ -12,7 +12,9 @@ class DummyClass extends Watchdog
      *
      * @var array
      */
-    protected $conditions = [];
+    protected $conditions = [
+        //
+    ];
 
     /**
      * Get the notification for the watchdog.
@@ -21,6 +23,6 @@ class DummyClass extends Watchdog
      */
     public function notification()
     {
-        return ObjectHasChanged::class;
+        return DummyNotification::class;
     }
 }

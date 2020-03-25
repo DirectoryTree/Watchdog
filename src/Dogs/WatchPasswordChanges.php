@@ -6,7 +6,7 @@ use DirectoryTree\Watchdog\Watchdog;
 use DirectoryTree\Watchdog\Notifications\PasswordHasChanged;
 use DirectoryTree\Watchdog\Conditions\ActiveDirectory\PasswordChanged;
 
-class PasswordChanges extends Watchdog
+class WatchPasswordChanges extends Watchdog
 {
     protected $conditions = [PasswordChanged::class];
 

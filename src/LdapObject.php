@@ -36,7 +36,7 @@ class LdapObject extends Model
             $watchdogs = config('watchdog.watchdogs', []);
 
             app(Kennel::class)
-                ->setWatchers($watchdogs)
+                ->setWatchdogs($watchdogs)
                 ->inspect($object);
         });
 
