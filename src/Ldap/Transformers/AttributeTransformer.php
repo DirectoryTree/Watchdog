@@ -25,9 +25,7 @@ class AttributeTransformer extends Transformer
      */
     public function transform()
     {
-        $transform = config('watchdog.attributes.transform', [
-            'pwdlastset' => 'windows-int',
-        ]);
+        $transform = config('watchdog.attributes.transform', []);
 
         $attributesToTransform = array_intersect(
             array_keys($this->value),
