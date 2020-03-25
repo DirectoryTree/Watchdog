@@ -60,7 +60,7 @@ class AttributeTransformer extends Transformer
         $transformer = config("watchdog.attributes.transformers.$name", $default);
 
         if (!class_exists($transformer)) {
-            throw new \UnexpectedValueException("Transformer [$name] does not exist.");
+            throw new UnexpectedValueException("Transformer [$name] does not exist.");
         }
 
         return (new $transformer($value));
