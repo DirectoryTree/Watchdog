@@ -7,7 +7,7 @@ use DirectoryTree\Watchdog\Notifications\PasswordHasChanged;
 use LdapRecord\Laravel\Testing\DirectoryEmulator;
 use LdapRecord\Models\ActiveDirectory\Entry;
 
-class PasswordChangedTest extends DogTestCase
+class PasswordChangesTest extends DogTestCase
 {
     protected function setUp(): void
     {

@@ -3,23 +3,19 @@
 namespace DirectoryTree\Watchdog\Ldap\Transformers;
 
 use Illuminate\Support\Arr;
+use UnexpectedValueException;
 
 class AttributeTransformer extends Transformer
 {
     /**
-     * The attribute transformer map.
+     * The default attribute transformers.
      *
      * @var array
      */
-    protected $map = [
-        'objectsid' => ObjectSid::class,
-        'accountexpires' => WindowsIntTimestamp::class,
-        'pwdlastset' => WindowsIntTimestamp::class,
-        'lockouttime' => WindowsIntTimestamp::class,
-        'badpasswordtime' => WindowsIntTimestamp::class,
-        'whenchanged' => WindowsTimestamp::class,
-        'whencreated' => WindowsTimestamp::class,
-        'dscorepropagationdata' => WindowsTimestamp::class,
+    protected $default = [
+        'objectsid'     => ObjectSid::class,
+        'windows'       => WindowsTimestamp::class,
+        'windows-int'   => WindowsIntTimestamp::class,
     ];
 
     /**
@@ -29,13 +25,20 @@ class AttributeTransformer extends Transformer
      */
     public function transform()
     {
-        foreach ($this->getAttributesToTransform() as $attribute) {
-            if (array_key_exists($attribute, $this->map)) {
-                $transformer = $this->map[$attribute];
-                $value = $this->value[$attribute];
+        $transform = config('watchdog.attributes.transform', [
+            'pwdlastset' => 'windows-int',
+        ]);
 
-                // Transform and replace the value with the transformed value.
-                $this->value[$attribute] = (new $transformer(Arr::wrap($value)))->transform();
+        $attributesToTransform = array_intersect(
+            array_keys($this->value),
+            array_keys($transform)
+        );
+
+        foreach ($attributesToTransform as $attribute) {
+            if (array_key_exists($attribute, $this->value)) {
+                $transformer = $this->transformer($transform[$attribute], Arr::wrap($this->value[$attribute]));
+
+                $this->value[$attribute] = $transformer->transform();
             }
         }
 
@@ -43,15 +46,25 @@ class AttributeTransformer extends Transformer
     }
 
     /**
-     * Get the attributes to transform.
+     * Get the class name of the transformer.
      *
-     * @return array
+     * @param string $name
+     * @param array  $value
+     *
+     * @return Transformer
+     *
+     * @throws UnexpectedValueException
      */
-    protected function getAttributesToTransform()
+    protected function transformer($name, $value)
     {
-        return array_intersect(
-            array_keys($this->value),
-            array_keys($this->map)
-        );
+        $default = $this->default[$name] ?? null;
+
+        $transformer = config("watchdog.attributes.transformers.$name", $default);
+
+        if (!class_exists($transformer)) {
+            throw new \UnexpectedValueException("Transformer [$name] does not exist.");
+        }
+
+        return (new $transformer($value));
     }
 }

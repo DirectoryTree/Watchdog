@@ -29,7 +29,7 @@ class DetectChanges extends Pipe
         );
 
         collect($modifications)->reject(function ($value, $attribute) {
-            return in_array($attribute, config('watchdog.ignore', []));
+            return in_array($attribute, config('watchdog.attributes.ignore', []));
         })->when($object->exists, function (Collection $modifications) use ($object, $oldAttributes) {
             $when = $this->entry->ldap_updated_at;
 
