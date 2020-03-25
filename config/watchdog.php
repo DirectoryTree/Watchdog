@@ -26,7 +26,8 @@ return [
     */
 
     'watchdogs' => [
-        //
+        \DirectoryTree\Watchdog\Dogs\WatchLogins::class,
+        \DirectoryTree\Watchdog\Dogs\WatchPasswordChanges::class,
     ],
 
     /*
@@ -55,10 +56,6 @@ return [
 
         'mail' => [
             'to' => ['your@email.com'],
-        ],
-
-        'slack' => [
-            'webhook_url' => env('WATCHDOG_SLACK_WEBHOOK_URL'),
         ],
 
         'date_format' => 'F j @ g:i A',
