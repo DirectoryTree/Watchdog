@@ -40,7 +40,7 @@ class MembershipsTest extends DogTestCase
 
         $notification = LdapNotification::where([
             'notification' => MembersHaveChanged::class,
-            'channels' => json_encode(['mail']),
+            'channels'     => json_encode(['mail']),
         ])->first();
 
         $this->assertEquals(1, $notification->object_id);
