@@ -162,7 +162,7 @@ class Watchdog
         );
 
         $this->object->notifications()->create([
-            'channels' => $this->channels(),
+            'channels'     => $this->channels(),
             'notification' => $this->notification(),
         ]);
     }
@@ -184,7 +184,7 @@ class Watchdog
      */
     public function notificationHasBeenSent()
     {
-        return ! is_null($this->lastNotification());
+        return !is_null($this->lastNotification());
     }
 
     /**
@@ -195,7 +195,7 @@ class Watchdog
     public function lastNotification()
     {
         return $this->object->notifications()->where([
-            'channels' => json_encode($this->channels()),
+            'channels'     => json_encode($this->channels()),
             'notification' => $this->notification(),
         ])->latest()->first();
     }
