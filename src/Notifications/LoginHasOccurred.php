@@ -32,6 +32,6 @@ class LoginHasOccurred extends Notification
      */
     protected function getSubject(Watchdog $watchdog)
     {
-        return "{$watchdog->object()->name} has been logged into";
+        return "Login Occurred on {$watchdog->object()->name}";
     }
 }

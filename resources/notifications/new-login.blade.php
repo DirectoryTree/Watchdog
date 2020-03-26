@@ -4,7 +4,11 @@
 ])
 
 <p class="text-center">
-    This is a notification that a new login has occurred on <strong></strong>
+    A new login has occurred on the above user on:
+</p>
+
+<p class="text-center">
+    <strong>{{ $watchdog->before()->attribute('lastlogon')->first()->format(config('watchdog.notifications.date_format')) }}</strong>
 </p>
 
 @endcomponent

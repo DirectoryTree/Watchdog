@@ -31,7 +31,7 @@ class Watchdog
     protected $after;
 
     /**
-     * The conditions of the watcher.
+     * The conditions of the watchdog.
      *
      * @var array
      */
@@ -100,8 +100,8 @@ class Watchdog
     {
         return array_keys(
             array_diff(
-                array_map('serialize', $this->after->attributes()),
-                array_map('serialize', $this->before->attributes())
+                array_map('serialize', $this->after->attributes()->toArray()),
+                array_map('serialize', $this->before->attributes()->toArray())
             )
         );
     }

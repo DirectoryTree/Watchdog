@@ -60,6 +60,7 @@ return [
             'to' => ['your@email.com'],
         ],
 
+        // ex. January 1st @ 00:00 AM
         'date_format' => 'F j @ g:i A',
 
     ],
@@ -81,6 +82,8 @@ return [
             'whenchanged'           => 'windows',
             'whencreated'           => 'windows',
             'dscorepropagationdata' => 'windows',
+            'lastlogon'             => 'windows-int',
+            'lastlogontimestamp'    => 'windows-int',
             'pwdlastset'            => 'windows-int',
             'lockouttime'           => 'windows-int',
             'accountexpires'        => 'windows-int',

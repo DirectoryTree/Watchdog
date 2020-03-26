@@ -9,7 +9,7 @@ class State
     /**
      * The attributes for the current state.
      *
-     * @var array
+     * @var \Illuminate\Support\Collection
      */
     protected $attributes;
 
@@ -24,13 +24,15 @@ class State
             $attributes = $attributes->attributes();
         }
 
-        $this->attributes = array_change_key_case(Arr::wrap($attributes), CASE_LOWER);
+        $this->attributes = collect(
+            array_change_key_case(Arr::wrap($attributes), CASE_LOWER)
+        );
     }
 
     /**
-     * Get all attributes from the state.
+     * Get all of attributes from the state in a collection.
      *
-     * @return array
+     * @return \Illuminate\Support\Collection
      */
     public function attributes()
     {
@@ -38,11 +40,11 @@ class State
     }
 
     /**
-     * Get a single attribute value from the state.
+     * Get a single attribute value collection from the state.
      *
      * @param string $name
      *
-     * @return array
+     * @return \Illuminate\Support\Collection
      */
     public function attribute($name)
     {
@@ -50,6 +52,6 @@ class State
 
         sort($values);
 
-        return $values;
+        return collect($values);
     }
 }

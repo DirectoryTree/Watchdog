@@ -34,8 +34,9 @@ class CasingConditionStub extends Condition
 {
     public function passes()
     {
-        return array_key_exists('foo', $this->before->attributes()) &&
-            array_key_exists('bar', $this->after->attributes());
+        return
+            $this->before->attributes()->has('foo') &&
+            $this->after->attributes()->has('bar');
     }
 }
 
@@ -43,7 +44,7 @@ class NullConditionStub extends Condition
 {
     public function passes()
     {
-        return is_array($this->before->attributes()) && is_array($this->after->attributes());
+        return $this->before->attributes()->isEmpty() && $this->after->attributes()->isEmpty();
     }
 }
 

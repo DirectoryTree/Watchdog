@@ -2,23 +2,23 @@
 
 namespace DirectoryTree\Watchdog\Notifications;
 
-use DirectoryTree\Watchdog\Watchdog;
+use DirectoryTree\Watchdog\Dogs\WatchMembers;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class PasswordHasChanged extends Notification
+class MembersHaveChanged extends Notification
 {
     /**
      * Get the mail representation of the notification.
      *
-     * @param Watchdog $watchdog
+     * @param WatchMembers $watchdog
      *
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
-    public function toMail($watchdog)
+    public function toMail(WatchMembers $watchdog)
     {
         return (new MailMessage)
             ->subject($this->getSubject($watchdog))
-            ->markdown('watchdog::password-changed', [
+            ->markdown('watchdog::members-changed', [
                 'watchdog' => $watchdog,
             ]);
     }
@@ -26,12 +26,12 @@ class PasswordHasChanged extends Notification
     /**
      * Get the subject for the watchdog notification.
      *
-     * @param Watchdog $watchdog
+     * @param WatchMembers $watchdog
      *
      * @return string
      */
-    protected function getSubject(Watchdog $watchdog)
+    protected function getSubject(WatchMembers $watchdog)
     {
-        return "Password Changed on {$watchdog->object()->name}";
+        return "{$watchdog->object()->name} has had members changed";
     }
 }

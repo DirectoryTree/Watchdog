@@ -19,11 +19,23 @@ class Changed extends Condition
     public function passes()
     {
         foreach ($this->attributes as $attribute) {
-            if ($this->before->attribute($attribute) != $this->after->attribute($attribute)) {
+            if ($this->attributeHasChanged($attribute)) {
                 return true;
             }
         }
 
         return false;
+    }
+
+    /**
+     * Detect if the attribute has changed.
+     *
+     * @param string $attribute
+     *
+     * @return bool
+     */
+    protected function attributeHasChanged($attribute)
+    {
+        return $this->before->attribute($attribute)->toArray() != $this->after->attribute($attribute)->toArray();
     }
 }
