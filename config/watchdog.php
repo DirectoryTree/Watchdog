@@ -64,8 +64,8 @@ return [
             'to' => ['your@email.com'],
         ],
 
-        // ex. January 1st @ 00:00 AM
-        'date_format' => 'F j @ g:i A',
+        // ex. January 1st, 2020 @ 00:00 AM
+        'date_format' => 'F jS, Y @ g:i A',
 
     ],
 
