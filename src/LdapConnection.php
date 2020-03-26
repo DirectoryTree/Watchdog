@@ -29,7 +29,7 @@ class LdapConnection extends Model
     {
         parent::boot();
 
-        static::deleting(function(LdapConnection $connection) {
+        static::deleting(function (self $connection) {
             $connection->scans()->each(function (LdapScan $scan) {
                 $scan->delete();
             });
@@ -40,7 +40,7 @@ class LdapConnection extends Model
             $connection->objects()->chunk(500, function ($objects) {
                 /** @var LdapObject $object */
                 foreach ($objects as $object) {
-                     $object->forceDelete();
+                    $object->forceDelete();
                 }
             });
         });

@@ -21,7 +21,7 @@ class LdapScanEntry extends Model
      * @var array
      */
     protected $casts = [
-        'values' => 'array',
+        'values'    => 'array',
         'processed' => 'boolean',
     ];
 

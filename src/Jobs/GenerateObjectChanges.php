@@ -3,9 +3,9 @@
 namespace DirectoryTree\Watchdog\Jobs;
 
 use Carbon\Carbon;
+use Illuminate\Bus\Queueable;
 use DirectoryTree\Watchdog\LdapChange;
 use DirectoryTree\Watchdog\LdapObject;
-use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -13,7 +13,10 @@ use Illuminate\Foundation\Bus\Dispatchable;
 
 class GenerateObjectChanges implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
 
     /**
      * The LDAP object that has been modified.
@@ -84,9 +87,9 @@ class GenerateObjectChanges implements ShouldQueue
 
             $change->fill([
                 'ldap_updated_at' => $this->when,
-                'attribute' => $attribute,
-                'before' => $before,
-                'after' => $after,
+                'attribute'       => $attribute,
+                'before'          => $before,
+                'after'           => $after,
             ])->save();
         }
     }

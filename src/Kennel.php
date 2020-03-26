@@ -52,7 +52,7 @@ class Kennel
                 ->object($object)
                 ->before(new State($before))
                 ->after(new State($after));
-        })->filter(function(Watchdog $watchdog) {
+        })->filter(function (Watchdog $watchdog) {
             return $watchdog->enabled() && $watchdog->shouldSendNotification();
         })->each(function (Watchdog $watchdog) {
             $watchdog->notify(

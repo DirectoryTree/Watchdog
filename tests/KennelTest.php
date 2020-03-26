@@ -9,18 +9,18 @@ class KennelTest extends TestCase
 {
     public function test_notifier_is_enabled_by_default()
     {
-        $this->assertTrue((new Watchdog)->enabled());
+        $this->assertTrue((new Watchdog())->enabled());
     }
 
     public function test_notifier_should_notify_by_default()
     {
-        $this->assertTrue((new Watchdog)->shouldSendNotification());
+        $this->assertTrue((new Watchdog())->shouldSendNotification());
     }
 
     public function test_notifier_should_check_conditions()
     {
-        $notifier = (new Watchdog)->setConditions([
-            FailingConditionStub::class
+        $notifier = (new Watchdog())->setConditions([
+            FailingConditionStub::class,
         ]);
         $this->assertFalse($notifier->shouldSendNotification());
 

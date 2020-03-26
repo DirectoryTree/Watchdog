@@ -2,10 +2,10 @@
 
 namespace DirectoryTree\Watchdog\Tests\Jobs;
 
-use DirectoryTree\Watchdog\Jobs\GenerateObjectChanges;
 use DirectoryTree\Watchdog\LdapChange;
 use DirectoryTree\Watchdog\LdapObject;
 use DirectoryTree\Watchdog\Tests\TestCase;
+use DirectoryTree\Watchdog\Jobs\GenerateObjectChanges;
 
 class GeneratedObjectChangesTest extends TestCase
 {

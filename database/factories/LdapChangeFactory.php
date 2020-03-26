@@ -2,9 +2,9 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
+use Faker\Generator as Faker;
 use DirectoryTree\Watchdog\LdapChange;
 use DirectoryTree\Watchdog\LdapObject;
-use Faker\Generator as Faker;
 
 $factory->define(LdapChange::class, function (Faker $faker) {
     return [
@@ -12,8 +12,8 @@ $factory->define(LdapChange::class, function (Faker $faker) {
             return factory(LdapObject::class)->create()->id;
         },
         'ldap_updated_at' => now(),
-        'attribute' => $faker->word,
-        'before' => [$faker->word],
-        'after' => [$faker->word],
+        'attribute'       => $faker->word,
+        'before'          => [$faker->word],
+        'after'           => [$faker->word],
     ];
 });

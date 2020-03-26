@@ -2,10 +2,10 @@
 
 namespace DirectoryTree\Watchdog\Commands;
 
-use DirectoryTree\Watchdog\ConnectionRepository;
+use Illuminate\Console\Command;
 use DirectoryTree\Watchdog\LdapConnection;
 use DirectoryTree\Watchdog\Jobs\ScanConnection;
-use Illuminate\Console\Command;
+use DirectoryTree\Watchdog\ConnectionRepository;
 
 class Monitor extends Command
 {
@@ -30,8 +30,8 @@ class Monitor extends Command
      */
     public function handle()
     {
-        $this->info("---- Watchdog ----");
-        $this->info("Starting to queue monitor...");
+        $this->info('---- Watchdog ----');
+        $this->info('Starting to queue monitor...');
 
         $connections = ConnectionRepository::toMonitor();
 

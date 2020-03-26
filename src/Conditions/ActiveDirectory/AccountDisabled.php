@@ -2,8 +2,8 @@
 
 namespace DirectoryTree\Watchdog\Conditions\ActiveDirectory;
 
-use LdapRecord\Models\Attributes\AccountControl;
 use DirectoryTree\Watchdog\Conditions\Condition;
+use LdapRecord\Models\Attributes\AccountControl;
 
 class AccountDisabled extends Condition
 {
@@ -40,7 +40,7 @@ class AccountDisabled extends Condition
      */
     protected function accountWasNotPreviouslyDisabled()
     {
-        return ! $this->newAccountControlFromState($this->before)->has(AccountControl::ACCOUNTDISABLE);
+        return !$this->newAccountControlFromState($this->before)->has(AccountControl::ACCOUNTDISABLE);
     }
 
     /**

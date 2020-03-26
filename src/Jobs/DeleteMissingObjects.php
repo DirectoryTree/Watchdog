@@ -2,8 +2,8 @@
 
 namespace DirectoryTree\Watchdog\Jobs;
 
-use DirectoryTree\Watchdog\LdapScan;
 use Illuminate\Bus\Queueable;
+use DirectoryTree\Watchdog\LdapScan;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -11,7 +11,10 @@ use Illuminate\Foundation\Bus\Dispatchable;
 
 class DeleteMissingObjects implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
 
     /**
      * The LDAP scan to process.

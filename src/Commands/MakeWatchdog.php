@@ -31,14 +31,14 @@ class MakeWatchdog extends GeneratorCommand
     protected $type = 'Watchdog';
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function handle()
     {
         if (parent::handle() !== false) {
             $this->call('make:watchdog-notification', [
                 '--no-interaction',
-                'name' => $this->getNotificationName()
+                'name' => $this->getNotificationName(),
             ]);
         }
     }
@@ -54,7 +54,7 @@ class MakeWatchdog extends GeneratorCommand
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     protected function replaceNamespace(&$stub, $name)
     {
@@ -76,7 +76,7 @@ class MakeWatchdog extends GeneratorCommand
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     protected function getDefaultNamespace($rootNamespace)
     {
@@ -84,7 +84,7 @@ class MakeWatchdog extends GeneratorCommand
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     protected function getArguments()
     {
@@ -94,7 +94,7 @@ class MakeWatchdog extends GeneratorCommand
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     protected function getOptions()
     {

@@ -2,10 +2,10 @@
 
 namespace DirectoryTree\Watchdog\Tests\Dogs;
 
+use LdapRecord\Models\ActiveDirectory\Entry;
+use LdapRecord\Laravel\Testing\DirectoryEmulator;
 use DirectoryTree\Watchdog\Dogs\WatchAccountEnable;
 use DirectoryTree\Watchdog\Notifications\AccountHasBeenEnabled;
-use LdapRecord\Laravel\Testing\DirectoryEmulator;
-use LdapRecord\Models\ActiveDirectory\Entry;
 
 class AccountEnableTest extends DogTestCase
 {
@@ -21,10 +21,10 @@ class AccountEnableTest extends DogTestCase
     public function test()
     {
         $object = Entry::create([
-            'cn' => 'John Doe',
-            'objectclass' => ['foo'],
-            'objectguid' => $this->faker->uuid,
-            'userAccountControl' => [514]
+            'cn'                 => 'John Doe',
+            'objectclass'        => ['foo'],
+            'objectguid'         => $this->faker->uuid,
+            'userAccountControl' => [514],
         ]);
 
         $this->artisan('watchdog:monitor');

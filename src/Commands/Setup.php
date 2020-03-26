@@ -2,10 +2,10 @@
 
 namespace DirectoryTree\Watchdog\Commands;
 
-use Illuminate\Console\Command;
-use DirectoryTree\Watchdog\LdapConnection;
 use Illuminate\Support\Str;
 use LdapRecord\Models\Model;
+use Illuminate\Console\Command;
+use DirectoryTree\Watchdog\LdapConnection;
 
 class Setup extends Command
 {
@@ -30,17 +30,17 @@ class Setup extends Command
      */
     public function handle()
     {
-        $this->info("---- Watchdog ----");
-        $this->info("Starting to setup configured models...");
+        $this->info('---- Watchdog ----');
+        $this->info('Starting to setup configured models...');
 
         collect(config('watchdog.models', []))->each(function ($model) {
-            tap(new $model, function (Model $model) {
+            tap(new $model(), function (Model $model) {
                 $name = $model->getConnectionName() ?? $model::getConnectionContainer()->getDefaultConnectionName();
 
                 $connection = LdapConnection::firstOrNew([
-                    'name' => $name
+                    'name' => $name,
                 ])->fill([
-                    'slug' => Str::slug($name),
+                    'slug'  => Str::slug($name),
                     'model' => get_class($model),
                 ]);
 

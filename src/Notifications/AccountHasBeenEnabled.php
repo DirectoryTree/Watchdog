@@ -16,7 +16,7 @@ class AccountHasBeenEnabled extends Notification
      */
     public function toMail(Watchdog $watchdog)
     {
-        return (new MailMessage)
+        return (new MailMessage())
             ->subject($this->getSubject($watchdog))
             ->markdown('watchdog::account-enabled', [
                 'watchdog' => $watchdog,

@@ -4,21 +4,24 @@ namespace DirectoryTree\Watchdog\Jobs;
 
 use Exception;
 use Carbon\Carbon;
-use DirectoryTree\Watchdog\LdapScan;
-use DirectoryTree\Watchdog\LdapScanEntry;
-use DirectoryTree\Watchdog\Ldap\TypeGuesser;
 use LdapRecord\Models\Model;
-use LdapRecord\Models\Types\ActiveDirectory;
 use Illuminate\Bus\Queueable;
 use Illuminate\Support\Facades\DB;
+use DirectoryTree\Watchdog\LdapScan;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
+use DirectoryTree\Watchdog\LdapScanEntry;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use DirectoryTree\Watchdog\Ldap\TypeGuesser;
+use LdapRecord\Models\Types\ActiveDirectory;
 
 class ImportModels implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
 
     /**
      * The current scan.
@@ -47,9 +50,9 @@ class ImportModels implements ShouldQueue
     /**
      * Import all of the scanned LDAP objects.
      *
-     * @return void
-     *
      * @throws Exception
+     *
+     * @return void
      */
     public function handle()
     {
@@ -70,7 +73,7 @@ class ImportModels implements ShouldQueue
         // Upon successful completion, we'll update our scan
         // stats to ensure it is not processed again.
         $this->scan->fill([
-            'success' => true,
+            'success'      => true,
             'synchronized' => $imported,
             'completed_at' => now(),
         ])->save();
@@ -93,7 +96,7 @@ class ImportModels implements ShouldQueue
 
         $class = '\\'.ltrim($model, '\\');
 
-        return new $class;
+        return new $class();
     }
 
     /**
@@ -106,8 +109,8 @@ class ImportModels implements ShouldQueue
     public function failed(Exception $ex)
     {
         $this->scan->fill([
-            'success' => false,
-            'message' => $ex->getMessage(),
+            'success'      => false,
+            'message'      => $ex->getMessage(),
             'completed_at' => now(),
         ])->save();
     }

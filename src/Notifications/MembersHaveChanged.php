@@ -16,7 +16,7 @@ class MembersHaveChanged extends Notification
      */
     public function toMail(WatchMemberships $watchdog)
     {
-        return (new MailMessage)
+        return (new MailMessage())
             ->subject($this->getSubject($watchdog))
             ->markdown('watchdog::members-changed', [
                 'watchdog' => $watchdog,

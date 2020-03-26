@@ -26,7 +26,7 @@ abstract class Pipe
     /**
      * Constructor.
      *
-     * @param LdapScan $scan
+     * @param LdapScan      $scan
      * @param LdapScanEntry $entry
      */
     public function __construct(LdapScan $scan, LdapScanEntry $entry)

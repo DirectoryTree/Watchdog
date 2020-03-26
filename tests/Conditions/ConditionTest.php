@@ -2,9 +2,9 @@
 
 namespace DirectoryTree\Watchdog\Tests\Conditions;
 
-use DirectoryTree\Watchdog\Conditions\Condition;
-use DirectoryTree\Watchdog\Tests\TestCase;
 use DirectoryTree\Watchdog\State;
+use DirectoryTree\Watchdog\Tests\TestCase;
+use DirectoryTree\Watchdog\Conditions\Condition;
 
 class ConditionTest extends TestCase
 {

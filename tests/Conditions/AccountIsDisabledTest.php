@@ -2,10 +2,10 @@
 
 namespace DirectoryTree\Watchdog\Tests\Conditions;
 
-use DirectoryTree\Watchdog\Conditions\ActiveDirectory\AccountDisabled;
 use DirectoryTree\Watchdog\State;
 use DirectoryTree\Watchdog\Tests\TestCase;
 use LdapRecord\Models\Attributes\AccountControl;
+use DirectoryTree\Watchdog\Conditions\ActiveDirectory\AccountDisabled;
 
 class AccountIsDisabledTest extends TestCase
 {

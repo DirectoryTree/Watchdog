@@ -2,19 +2,22 @@
 
 namespace DirectoryTree\Watchdog\Jobs;
 
-use DirectoryTree\Watchdog\LdapScan;
-use DirectoryTree\Watchdog\LdapObject;
-use DirectoryTree\Watchdog\LdapScanEntry;
 use Illuminate\Bus\Queueable;
 use Illuminate\Pipeline\Pipeline;
+use DirectoryTree\Watchdog\LdapScan;
+use DirectoryTree\Watchdog\LdapObject;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
+use DirectoryTree\Watchdog\LdapScanEntry;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 
 class ProcessImported implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
 
     /**
      * The LDAP scan being processed.

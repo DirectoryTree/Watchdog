@@ -2,8 +2,8 @@
 
 namespace DirectoryTree\Watchdog\Tests;
 
-use DirectoryTree\Watchdog\LdapChange;
 use DirectoryTree\Watchdog\LdapScan;
+use DirectoryTree\Watchdog\LdapChange;
 use DirectoryTree\Watchdog\LdapObject;
 use DirectoryTree\Watchdog\LdapConnection;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -21,7 +21,7 @@ class WatchDogFeedTest extends TestCase
         $app['config']->set('ldap.connections', [
             'default' => [
                 'base_dn' => 'dc=local,dc=com',
-            ]
+            ],
         ]);
 
         $app['config']->set('watchdog.models', [Entry::class]);
@@ -39,9 +39,9 @@ class WatchDogFeedTest extends TestCase
     public function test_watch_dogs_can_be_fed()
     {
         $object = Entry::create([
-            'cn' => 'John Doe',
+            'cn'          => 'John Doe',
             'objectclass' => ['foo'],
-            'objectguid' => $this->faker->uuid,
+            'objectguid'  => $this->faker->uuid,
         ]);
 
         $this->artisan('watchdog:monitor');
@@ -60,9 +60,9 @@ class WatchDogFeedTest extends TestCase
     public function test_watch_dogs_detect_changes()
     {
         $object = Entry::create([
-            'cn' => 'John Doe',
+            'cn'          => 'John Doe',
             'objectclass' => ['foo'],
-            'objectguid' => $this->faker->uuid,
+            'objectguid'  => $this->faker->uuid,
         ]);
 
         $this->artisan('watchdog:monitor');

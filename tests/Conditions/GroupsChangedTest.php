@@ -3,8 +3,8 @@
 namespace DirectoryTree\Watchdog\Tests\Conditions;
 
 use DirectoryTree\Watchdog\State;
-use DirectoryTree\Watchdog\Conditions\ActiveDirectory\GroupsChanged;
 use DirectoryTree\Watchdog\Tests\TestCase;
+use DirectoryTree\Watchdog\Conditions\ActiveDirectory\GroupsChanged;
 
 class GroupsChangedTest extends TestCase
 {

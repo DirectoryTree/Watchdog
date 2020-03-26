@@ -21,18 +21,18 @@ class ConnectionRepository
      */
     public static function toMonitor()
     {
-        return static::query()->get()->filter(function (LdapConnection $connection)  {
-            $frequencyInMinutes = config("watchdog.frequency", 15);
+        return static::query()->get()->filter(function (LdapConnection $connection) {
+            $frequencyInMinutes = config('watchdog.frequency', 15);
 
             $lastScan = $connection->scans()->latest()->first();
 
-            if (! $lastScan) {
+            if (!$lastScan) {
                 return true;
             }
 
             // If the last scan has not yet been started, we
             // will avoid stacking scans until it has begun.
-            if (! $lastScan->started_at) {
+            if (!$lastScan->started_at) {
                 return false;
             }
 

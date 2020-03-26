@@ -16,7 +16,7 @@ class AccountHasBeenDisabled extends Notification
      */
     public function toMail(Watchdog $watchdog)
     {
-        return (new MailMessage)
+        return (new MailMessage())
             ->subject($this->getSubject($watchdog))
             ->markdown('watchdog::account-disabled', [
                 'watchdog' => $watchdog,

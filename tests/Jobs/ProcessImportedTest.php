@@ -2,15 +2,15 @@
 
 namespace DirectoryTree\Watchdog\Tests\Jobs;
 
-use DirectoryTree\Watchdog\LdapChange;
 use DirectoryTree\Watchdog\LdapScan;
+use DirectoryTree\Watchdog\Watchdog;
+use DirectoryTree\Watchdog\LdapChange;
 use DirectoryTree\Watchdog\LdapObject;
 use DirectoryTree\Watchdog\LdapScanEntry;
 use DirectoryTree\Watchdog\LdapConnection;
+use DirectoryTree\Watchdog\Tests\TestCase;
 use DirectoryTree\Watchdog\Jobs\ProcessImported;
 use DirectoryTree\Watchdog\Conditions\ActiveDirectory\PasswordChanged;
-use DirectoryTree\Watchdog\Tests\TestCase;
-use DirectoryTree\Watchdog\Watchdog;
 
 class ProcessImportedTest extends TestCase
 {
@@ -37,12 +37,12 @@ class ProcessImportedTest extends TestCase
 
         $object = factory(LdapObject::class)->create([
             'connection_id' => $ldap->id,
-            'deleted_at' => now(),
+            'deleted_at'    => now(),
         ]);
 
         factory(LdapScanEntry::class)->create([
             'scan_id' => $scan->id,
-            'guid' => $object->guid,
+            'guid'    => $object->guid,
         ]);
 
         $this->assertTrue($object->trashed());
@@ -63,7 +63,7 @@ class ProcessImportedTest extends TestCase
 
         $object = factory(LdapObject::class)->create([
             'connection_id' => $ldap->id,
-            'values' => [
+            'values'        => [
                 'foo' => 'bar',
                 'baz' => 'sas',
             ],
@@ -71,8 +71,8 @@ class ProcessImportedTest extends TestCase
 
         factory(LdapScanEntry::class)->create([
             'scan_id' => $scan->id,
-            'guid' => $object->guid,
-            'values' => [
+            'guid'    => $object->guid,
+            'values'  => [
                 'foo' => 'baz',
                 'baz' => 'sas',
             ],
@@ -99,13 +99,13 @@ class ProcessImportedTest extends TestCase
 
         $object = factory(LdapObject::class)->create([
             'connection_id' => $ldap->id,
-            'values' => ['pwdlastset' => ['0']],
+            'values'        => ['pwdlastset' => ['0']],
         ]);
 
         factory(LdapScanEntry::class)->create([
             'scan_id' => $scan->id,
-            'guid' => $object->guid,
-            'values' => ['pwdlastset' => ['10000']],
+            'guid'    => $object->guid,
+            'values'  => ['pwdlastset' => ['10000']],
         ]);
 
         $_SERVER['notified'] = false;

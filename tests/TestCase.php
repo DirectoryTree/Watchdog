@@ -3,9 +3,9 @@
 namespace DirectoryTree\Watchdog\Tests;
 
 use LdapRecord\Laravel\LdapServiceProvider;
+use Orchestra\Testbench\TestCase as BaseTestCase;
 use DirectoryTree\Watchdog\WatchdogServiceProvider;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Orchestra\Testbench\TestCase as BaseTestCase;
 
 abstract class TestCase extends BaseTestCase
 {

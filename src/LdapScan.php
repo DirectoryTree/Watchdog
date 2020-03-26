@@ -39,7 +39,7 @@ class LdapScan extends Model
     {
         parent::boot();
 
-        static::deleting(function(LdapScan $scan) {
+        static::deleting(function (self $scan) {
             $scan->entries()->delete();
         });
     }

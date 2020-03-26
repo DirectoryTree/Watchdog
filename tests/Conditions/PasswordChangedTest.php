@@ -1,11 +1,10 @@
 <?php
 
-
 namespace DirectoryTree\Watchdog\Tests\Conditions;
 
-use DirectoryTree\Watchdog\Conditions\ActiveDirectory\PasswordChanged;
-use DirectoryTree\Watchdog\Tests\TestCase;
 use DirectoryTree\Watchdog\State;
+use DirectoryTree\Watchdog\Tests\TestCase;
+use DirectoryTree\Watchdog\Conditions\ActiveDirectory\PasswordChanged;
 
 class PasswordChangedTest extends TestCase
 {

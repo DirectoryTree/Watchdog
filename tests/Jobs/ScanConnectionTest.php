@@ -4,9 +4,9 @@ namespace DirectoryTree\Watchdog\Tests\Jobs;
 
 use LdapRecord\Models\Entry;
 use DirectoryTree\Watchdog\LdapConnection;
+use DirectoryTree\Watchdog\Tests\TestCase;
 use DirectoryTree\Watchdog\Jobs\ScanConnection;
 use LdapRecord\Laravel\Testing\DirectoryEmulator;
-use DirectoryTree\Watchdog\Tests\TestCase;
 
 class ScanConnectionTest extends TestCase
 {

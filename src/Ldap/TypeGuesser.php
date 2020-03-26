@@ -22,18 +22,18 @@ class TypeGuesser
      * @var array
      */
     protected $map = [
-        'user'                  => TypeGuesser::TYPE_USER,
-        'inetorgperson'         => TypeGuesser::TYPE_USER,
-        'group'                 => TypeGuesser::TYPE_GROUP,
-        'groupofnames'          => TypeGuesser::TYPE_GROUP,
-        'groupofentries'        => TypeGuesser::TYPE_GROUP,
-        'groupofuniquenames'    => TypeGuesser::TYPE_GROUP,
-        'domain'                => TypeGuesser::TYPE_DOMAIN,
-        'locality'              => TypeGuesser::TYPE_CONTAINER,
-        'container'             => TypeGuesser::TYPE_CONTAINER,
-        'lostandfound'          => TypeGuesser::TYPE_CONTAINER,
-        'organizationalunit'    => TypeGuesser::TYPE_CONTAINER,
-        'msds-quotacontainer'   => TypeGuesser::TYPE_CONTAINER,
+        'user'                  => self::TYPE_USER,
+        'inetorgperson'         => self::TYPE_USER,
+        'group'                 => self::TYPE_GROUP,
+        'groupofnames'          => self::TYPE_GROUP,
+        'groupofentries'        => self::TYPE_GROUP,
+        'groupofuniquenames'    => self::TYPE_GROUP,
+        'domain'                => self::TYPE_DOMAIN,
+        'locality'              => self::TYPE_CONTAINER,
+        'container'             => self::TYPE_CONTAINER,
+        'lostandfound'          => self::TYPE_CONTAINER,
+        'organizationalunit'    => self::TYPE_CONTAINER,
+        'msds-quotacontainer'   => self::TYPE_CONTAINER,
     ];
 
     /**

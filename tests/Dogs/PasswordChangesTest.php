@@ -2,10 +2,10 @@
 
 namespace DirectoryTree\Watchdog\Tests\Dogs;
 
+use LdapRecord\Models\ActiveDirectory\Entry;
+use LdapRecord\Laravel\Testing\DirectoryEmulator;
 use DirectoryTree\Watchdog\Dogs\WatchPasswordChanges;
 use DirectoryTree\Watchdog\Notifications\PasswordHasChanged;
-use LdapRecord\Laravel\Testing\DirectoryEmulator;
-use LdapRecord\Models\ActiveDirectory\Entry;
 
 class PasswordChangesTest extends DogTestCase
 {
@@ -21,10 +21,10 @@ class PasswordChangesTest extends DogTestCase
     public function test()
     {
         $object = Entry::create([
-            'cn' => 'John Doe',
+            'cn'          => 'John Doe',
             'objectclass' => ['foo'],
-            'objectguid' => $this->faker->uuid,
-            'pwdlastset' => [0]
+            'objectguid'  => $this->faker->uuid,
+            'pwdlastset'  => [0],
         ]);
 
         $this->artisan('watchdog:monitor');

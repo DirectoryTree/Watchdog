@@ -3,9 +3,9 @@
 namespace DirectoryTree\Watchdog\Tests\Dogs;
 
 use DirectoryTree\Watchdog\Dogs\WatchLogins;
-use DirectoryTree\Watchdog\Notifications\LoginHasOccurred;
-use LdapRecord\Laravel\Testing\DirectoryEmulator;
 use LdapRecord\Models\ActiveDirectory\Entry;
+use LdapRecord\Laravel\Testing\DirectoryEmulator;
+use DirectoryTree\Watchdog\Notifications\LoginHasOccurred;
 
 class LoginsTest extends DogTestCase
 {
@@ -21,10 +21,10 @@ class LoginsTest extends DogTestCase
     public function test()
     {
         $object = Entry::create([
-            'cn' => 'John Doe',
+            'cn'          => 'John Doe',
             'objectclass' => ['foo'],
-            'objectguid' => $this->faker->uuid,
-            'lastlogon' => now()->subMinute(),
+            'objectguid'  => $this->faker->uuid,
+            'lastlogon'   => now()->subMinute(),
         ]);
 
         $this->artisan('watchdog:monitor');

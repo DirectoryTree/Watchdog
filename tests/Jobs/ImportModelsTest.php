@@ -3,13 +3,13 @@
 namespace DirectoryTree\Watchdog\Tests\Jobs;
 
 use Carbon\Carbon;
-use DirectoryTree\Watchdog\Jobs\ImportModels;
-use DirectoryTree\Watchdog\LdapConnection;
+use LdapRecord\Models\Entry;
 use DirectoryTree\Watchdog\LdapScanEntry;
+use DirectoryTree\Watchdog\LdapConnection;
 use DirectoryTree\Watchdog\Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
+use DirectoryTree\Watchdog\Jobs\ImportModels;
 use LdapRecord\Laravel\Testing\DirectoryEmulator;
-use LdapRecord\Models\Entry;
 
 class ImportModelsTest extends TestCase
 {
@@ -22,7 +22,7 @@ class ImportModelsTest extends TestCase
         $app['config']->set('ldap.connections', [
             'default' => [
                 'base_dn' => 'dc=local,dc=com',
-            ]
+            ],
         ]);
     }
 
@@ -56,8 +56,8 @@ class ImportModelsTest extends TestCase
         foreach (range(1, 10) as $iterator) {
             Entry::create([
                 'objectclass' => ['foo', 'bar'],
-                'objectguid' => $this->faker->uuid,
-                'cn' => [$this->faker->name]
+                'objectguid'  => $this->faker->uuid,
+                'cn'          => [$this->faker->name],
             ]);
         }
 
