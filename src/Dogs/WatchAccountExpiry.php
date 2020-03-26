@@ -12,7 +12,7 @@ class WatchAccountExpiry extends Watchdog
 
     public function bark()
     {
-        if (! $this->notificationHasBeenSent()) {
+        if (!$this->notificationHasBeenSent()) {
             parent::bark();
         }
 

@@ -2,12 +2,12 @@
 
 namespace DirectoryTree\Watchdog\Tests\Dogs;
 
+use LdapRecord\Models\Attributes\Timestamp;
 use DirectoryTree\Watchdog\Dogs\WatchLogins;
 use DirectoryTree\Watchdog\LdapNotification;
 use LdapRecord\Models\ActiveDirectory\Entry;
 use LdapRecord\Laravel\Testing\DirectoryEmulator;
 use DirectoryTree\Watchdog\Notifications\LoginHasOccurred;
-use LdapRecord\Models\Attributes\Timestamp;
 
 class LoginsTest extends DogTestCase
 {

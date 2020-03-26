@@ -2,12 +2,12 @@
 
 namespace DirectoryTree\Watchdog\Tests\Dogs;
 
-use DirectoryTree\Watchdog\Dogs\WatchAccountExpiry;
-use DirectoryTree\Watchdog\LdapNotification;
-use DirectoryTree\Watchdog\Notifications\AccountHasExpired;
-use LdapRecord\Laravel\Testing\DirectoryEmulator;
-use LdapRecord\Models\ActiveDirectory\Entry;
 use LdapRecord\Models\Attributes\Timestamp;
+use DirectoryTree\Watchdog\LdapNotification;
+use LdapRecord\Models\ActiveDirectory\Entry;
+use LdapRecord\Laravel\Testing\DirectoryEmulator;
+use DirectoryTree\Watchdog\Dogs\WatchAccountExpiry;
+use DirectoryTree\Watchdog\Notifications\AccountHasExpired;
 
 class AccountExpiryTest extends DogTestCase
 {
@@ -43,7 +43,7 @@ class AccountExpiryTest extends DogTestCase
 
         $notification = LdapNotification::where([
             'notification' => AccountHasExpired::class,
-            'channels' => json_encode(['mail']),
+            'channels'     => json_encode(['mail']),
         ])->first();
 
         $this->assertEquals(1, $notification->object_id);
