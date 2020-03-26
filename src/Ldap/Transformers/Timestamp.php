@@ -31,12 +31,20 @@ abstract class Timestamp extends Transformer
                 // error so it can be investigated by the user.
                 $converted = $timestamp->toDateTime($value);
 
-                $timezone = config('app.timezone', 'UTC');
-
-                return $converted ? [$converted->setTimezone($timezone)] : $this->value;
+                return $converted ? [$converted->setTimezone($this->timezone())] : $this->value;
             }, $this->value);
         }
 
         return $this->value;
+    }
+
+    /**
+     * Get the current application timezone.
+     *
+     * @return string
+     */
+    protected function timezone()
+    {
+        return config('app.timezone', 'UTC');
     }
 }

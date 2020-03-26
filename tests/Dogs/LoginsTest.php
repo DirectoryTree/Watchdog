@@ -7,6 +7,7 @@ use DirectoryTree\Watchdog\LdapNotification;
 use LdapRecord\Models\ActiveDirectory\Entry;
 use LdapRecord\Laravel\Testing\DirectoryEmulator;
 use DirectoryTree\Watchdog\Notifications\LoginHasOccurred;
+use LdapRecord\Models\Attributes\Timestamp;
 
 class LoginsTest extends DogTestCase
 {
@@ -21,11 +22,13 @@ class LoginsTest extends DogTestCase
 
     public function test()
     {
+        $timestamp = new Timestamp('windows-int');
+
         $object = Entry::create([
             'cn'          => 'John Doe',
             'objectclass' => ['foo'],
             'objectguid'  => $this->faker->uuid,
-            'lastlogon'   => now()->subMinute(),
+            'lastlogon'   => [$timestamp->fromDateTime(now()->subMinute())],
         ]);
 
         $this->artisan('watchdog:monitor');
@@ -34,7 +37,7 @@ class LoginsTest extends DogTestCase
 
         $this->expectsNotification($watchdog, LoginHasOccurred::class);
 
-        $object->update(['lastlogon' => now()]);
+        $object->update(['lastlogon' => [$timestamp->fromDateTime(now())]]);
 
         $this->artisan('watchdog:monitor');
 

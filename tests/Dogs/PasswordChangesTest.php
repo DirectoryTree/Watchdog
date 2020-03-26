@@ -7,6 +7,7 @@ use LdapRecord\Models\ActiveDirectory\Entry;
 use LdapRecord\Laravel\Testing\DirectoryEmulator;
 use DirectoryTree\Watchdog\Dogs\WatchPasswordChanges;
 use DirectoryTree\Watchdog\Notifications\PasswordHasChanged;
+use LdapRecord\Models\Attributes\Timestamp;
 
 class PasswordChangesTest extends DogTestCase
 {
@@ -34,7 +35,9 @@ class PasswordChangesTest extends DogTestCase
 
         $this->expectsNotification($watchdog, PasswordHasChanged::class);
 
-        $object->update(['pwdlastset' => [1000]]);
+        $timestamp = new Timestamp('windows-int');
+
+        $object->update(['pwdlastset' => [$timestamp->fromDateTime(now())]]);
 
         $this->artisan('watchdog:monitor');
 
