@@ -27,7 +27,7 @@ class LdapChange extends Model
      */
     protected $casts = [
         'before' => 'array',
-        'after' => 'array',
+        'after'  => 'array',
     ];
 
     /**

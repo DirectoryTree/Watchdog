@@ -34,7 +34,7 @@ class ConnectionRepositoryTest extends TestCase
         $this->assertCount(1, $toSync);
         $this->assertTrue($connection->is($toSync->first()));
 
-        config(["watchdog.frequency" => 20]);
+        config(['watchdog.frequency' => 20]);
         $this->assertCount(0, ConnectionRepository::toMonitor());
     }
 }

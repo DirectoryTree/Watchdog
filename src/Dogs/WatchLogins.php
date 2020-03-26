@@ -2,9 +2,9 @@
 
 namespace DirectoryTree\Watchdog\Dogs;
 
-use DirectoryTree\Watchdog\Conditions\ActiveDirectory\NewLogin;
-use DirectoryTree\Watchdog\Notifications\LoginHasOccurred;
 use DirectoryTree\Watchdog\Watchdog;
+use DirectoryTree\Watchdog\Notifications\LoginHasOccurred;
+use DirectoryTree\Watchdog\Conditions\ActiveDirectory\NewLogin;
 
 class WatchLogins extends Watchdog
 {

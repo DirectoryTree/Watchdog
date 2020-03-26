@@ -3,8 +3,8 @@
 namespace DirectoryTree\Watchdog\Tests\Jobs;
 
 use DirectoryTree\Watchdog\LdapScanEntry;
-use DirectoryTree\Watchdog\Jobs\PurgeImported;
 use DirectoryTree\Watchdog\Tests\TestCase;
+use DirectoryTree\Watchdog\Jobs\PurgeImported;
 
 class PurgeImportedTest extends TestCase
 {

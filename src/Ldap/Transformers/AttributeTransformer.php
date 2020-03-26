@@ -49,9 +49,9 @@ class AttributeTransformer extends Transformer
      * @param string $name
      * @param array  $value
      *
-     * @return Transformer
-     *
      * @throws UnexpectedValueException
+     *
+     * @return Transformer
      */
     protected function transformer($name, $value)
     {
@@ -63,6 +63,6 @@ class AttributeTransformer extends Transformer
             throw new UnexpectedValueException("Transformer [$name] does not exist.");
         }
 
-        return (new $transformer($value));
+        return new $transformer($value);
     }
 }

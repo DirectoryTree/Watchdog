@@ -8,6 +8,6 @@ use Faker\Generator as Faker;
 $factory->define(Entry::class, function (Faker $faker) {
     return [
         'objectguid' => [$faker->uuid],
-        'cn' => [$faker->name],
+        'cn'         => [$faker->name],
     ];
 });

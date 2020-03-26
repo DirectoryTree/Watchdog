@@ -42,7 +42,7 @@ class ScanConnection
         ImportModels::withChain([
             new ProcessImported($scan),
             new DeleteMissingObjects($scan),
-            new PurgeImported($scan)
+            new PurgeImported($scan),
         ])->dispatch($scan);
     }
 }

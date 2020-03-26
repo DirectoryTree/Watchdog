@@ -17,7 +17,7 @@ class DogTestCase extends TestCase
         $app['config']->set('ldap.connections', [
             'default' => [
                 'base_dn' => 'dc=local,dc=com',
-            ]
+            ],
         ]);
 
         $app['config']->set('watchdog.frequency', 0);

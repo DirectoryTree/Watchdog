@@ -2,9 +2,9 @@
 
 namespace DirectoryTree\Watchdog\Tests\Conditions;
 
-use DirectoryTree\Watchdog\Conditions\ActiveDirectory\MembersChanged;
-use DirectoryTree\Watchdog\Tests\TestCase;
 use DirectoryTree\Watchdog\State;
+use DirectoryTree\Watchdog\Tests\TestCase;
+use DirectoryTree\Watchdog\Conditions\ActiveDirectory\MembersChanged;
 
 class MembersChangedTest extends TestCase
 {

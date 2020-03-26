@@ -7,7 +7,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class LdapObject extends Model
 {
-    use SoftDeletes, IsSelfReferencing;
+    use SoftDeletes;
+    use IsSelfReferencing;
 
     /**
      * The attributes that aren't mass assignable.
@@ -32,7 +33,7 @@ class LdapObject extends Model
     {
         parent::boot();
 
-        static::updated(function (LdapObject $object) {
+        static::updated(function (self $object) {
             $watchdogs = config('watchdog.watchdogs', []);
 
             app(Kennel::class)
@@ -43,7 +44,7 @@ class LdapObject extends Model
         // We don't need to worry about eloquent events firing
         // for change records. We'll bulk delete the changes
         // if the LDAP object is being force deleted.
-        static::deleting(function(LdapObject $object) {
+        static::deleting(function (self $object) {
             if ($object->isForceDeleting()) {
                 $object->changes()->delete();
             }

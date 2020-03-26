@@ -2,11 +2,11 @@
 
 namespace DirectoryTree\Watchdog\Tests\Jobs;
 
-use DirectoryTree\Watchdog\LdapObject;
 use DirectoryTree\Watchdog\LdapScan;
+use DirectoryTree\Watchdog\LdapObject;
 use DirectoryTree\Watchdog\LdapScanEntry;
-use DirectoryTree\Watchdog\Jobs\DeleteMissingObjects;
 use DirectoryTree\Watchdog\Tests\TestCase;
+use DirectoryTree\Watchdog\Jobs\DeleteMissingObjects;
 
 class DeleteMissingObjectsTest extends TestCase
 {

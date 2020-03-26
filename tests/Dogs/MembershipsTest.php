@@ -2,10 +2,10 @@
 
 namespace DirectoryTree\Watchdog\Tests\Dogs;
 
-use DirectoryTree\Watchdog\Dogs\WatchMemberships;
-use DirectoryTree\Watchdog\Notifications\MembersHaveChanged;
-use LdapRecord\Laravel\Testing\DirectoryEmulator;
 use LdapRecord\Models\ActiveDirectory\Entry;
+use DirectoryTree\Watchdog\Dogs\WatchMemberships;
+use LdapRecord\Laravel\Testing\DirectoryEmulator;
+use DirectoryTree\Watchdog\Notifications\MembersHaveChanged;
 
 class MembershipsTest extends DogTestCase
 {
@@ -21,10 +21,10 @@ class MembershipsTest extends DogTestCase
     public function test()
     {
         $object = Entry::create([
-            'cn' => 'John Doe',
+            'cn'          => 'John Doe',
             'objectclass' => ['foo'],
-            'objectguid' => $this->faker->uuid,
-            'memberof' => ['foo', 'bar']
+            'objectguid'  => $this->faker->uuid,
+            'memberof'    => ['foo', 'bar'],
         ]);
 
         $this->artisan('watchdog:monitor');

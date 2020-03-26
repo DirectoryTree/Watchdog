@@ -3,8 +3,8 @@
 namespace DirectoryTree\Watchdog;
 
 use Illuminate\Support\ServiceProvider;
-use DirectoryTree\Watchdog\Commands\Monitor;
 use DirectoryTree\Watchdog\Commands\Setup;
+use DirectoryTree\Watchdog\Commands\Monitor;
 use DirectoryTree\Watchdog\Commands\MakeWatchdog;
 use DirectoryTree\Watchdog\Commands\MakeWatchdogNotification;
 
@@ -17,12 +17,12 @@ class WatchdogServiceProvider extends ServiceProvider
      */
     public function register()
     {
-       $this->commands([
-           Setup::class,
-           Monitor::class,
-           MakeWatchdog::class,
-           MakeWatchdogNotification::class,
-       ]);
+        $this->commands([
+            Setup::class,
+            Monitor::class,
+            MakeWatchdog::class,
+            MakeWatchdogNotification::class,
+        ]);
     }
 
     /**
@@ -33,7 +33,7 @@ class WatchdogServiceProvider extends ServiceProvider
     public function boot()
     {
         if ($this->app->runningInConsole()) {
-            $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
+            $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
 
             $this->publishes([
                 __DIR__.'/../config/watchdog.php' => config_path('watchdog.php'),

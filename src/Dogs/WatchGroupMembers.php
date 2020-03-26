@@ -2,9 +2,9 @@
 
 namespace DirectoryTree\Watchdog\Dogs;
 
-use DirectoryTree\Watchdog\Conditions\ActiveDirectory\MembersChanged;
-use DirectoryTree\Watchdog\Notifications\MembersHaveChanged;
 use DirectoryTree\Watchdog\Watchdog;
+use DirectoryTree\Watchdog\Notifications\MembersHaveChanged;
+use DirectoryTree\Watchdog\Conditions\ActiveDirectory\MembersChanged;
 
 class WatchGroupMembers extends Watchdog
 {

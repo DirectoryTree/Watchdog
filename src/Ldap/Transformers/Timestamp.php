@@ -16,9 +16,9 @@ abstract class Timestamp extends Transformer
     /**
      * Transforms an LDAP timestamp.
      *
-     * @return \Carbon\Carbon[]|null
-     *
      * @throws \LdapRecord\LdapRecordException
+     *
+     * @return \Carbon\Carbon[]|null
      */
     public function transform()
     {

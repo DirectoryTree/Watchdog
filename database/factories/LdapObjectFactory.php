@@ -2,14 +2,14 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
+use Faker\Generator as Faker;
 use DirectoryTree\Watchdog\LdapObject;
 use DirectoryTree\Watchdog\LdapConnection;
-use Faker\Generator as Faker;
 
 $factory->define(LdapObject::class, function (Faker $faker) {
     return [
-        'guid' => $faker->uuid,
-        'type' => 'user',
+        'guid'   => $faker->uuid,
+        'type'   => 'user',
         'values' => [],
     ];
 });

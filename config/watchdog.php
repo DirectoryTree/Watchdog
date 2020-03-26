@@ -95,8 +95,8 @@ return [
         ],
 
         'transformers' => [
-            'objectsid' => \DirectoryTree\Watchdog\Ldap\Transformers\ObjectSid::class,
-            'windows' => \DirectoryTree\Watchdog\Ldap\Transformers\WindowsTimestamp::class,
+            'objectsid'   => \DirectoryTree\Watchdog\Ldap\Transformers\ObjectSid::class,
+            'windows'     => \DirectoryTree\Watchdog\Ldap\Transformers\WindowsTimestamp::class,
             'windows-int' => \DirectoryTree\Watchdog\Ldap\Transformers\WindowsIntTimestamp::class,
         ],
 

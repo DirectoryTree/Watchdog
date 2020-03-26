@@ -36,6 +36,6 @@ class AccountEnabled extends Condition
      */
     protected function accountIsNowEnabled()
     {
-        return ! $this->newAccountControlFromState($this->after)->has(AccountControl::ACCOUNTDISABLE);
+        return !$this->newAccountControlFromState($this->after)->has(AccountControl::ACCOUNTDISABLE);
     }
 }

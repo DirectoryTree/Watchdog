@@ -2,9 +2,9 @@
 
 namespace DirectoryTree\Watchdog\Dogs;
 
-use DirectoryTree\Watchdog\Conditions\ActiveDirectory\AccountDisabled;
-use DirectoryTree\Watchdog\Notifications\AccountHasBeenDisabled;
 use DirectoryTree\Watchdog\Watchdog;
+use DirectoryTree\Watchdog\Notifications\AccountHasBeenDisabled;
+use DirectoryTree\Watchdog\Conditions\ActiveDirectory\AccountDisabled;
 
 class WatchAccountDisable extends Watchdog
 {

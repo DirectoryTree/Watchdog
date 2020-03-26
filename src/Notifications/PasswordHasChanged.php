@@ -16,7 +16,7 @@ class PasswordHasChanged extends Notification
      */
     public function toMail($watchdog)
     {
-        return (new MailMessage)
+        return (new MailMessage())
             ->subject($this->getSubject($watchdog))
             ->markdown('watchdog::password-changed', [
                 'watchdog' => $watchdog,
