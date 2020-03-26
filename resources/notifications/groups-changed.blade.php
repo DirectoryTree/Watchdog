@@ -11,7 +11,9 @@
 @empty
 | *None* |
 @endforelse
+@endcomponent
 
+@component('mail::table')
 | Removed Groups |
 |:---:|
 @forelse($watchdog->removed() as $group)

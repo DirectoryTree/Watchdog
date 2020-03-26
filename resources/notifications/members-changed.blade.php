@@ -11,7 +11,9 @@
 @empty
 | *None* |
 @endforelse
+@endcomponent
 
+@component('mail::table')
 | Removed Members |
 |:---:|
 @forelse($watchdog->removed() as $member)
