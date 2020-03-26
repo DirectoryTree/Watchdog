@@ -39,7 +39,7 @@ class ScanConnection
         /** @var LdapScan $scan */
         $scan = $this->connection->scans()->create();
 
-        ImportConnection::withChain([
+        ImportModels::withChain([
             new ProcessImported($scan),
             new DeleteMissingObjects($scan),
             new PurgeImported($scan)

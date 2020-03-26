@@ -1,11 +1,12 @@
 <?php
 
-namespace DirectoryTree\Watchdog\Tests;
+namespace DirectoryTree\Watchdog\Tests\Jobs;
 
 use DirectoryTree\Watchdog\LdapObject;
 use DirectoryTree\Watchdog\LdapScan;
 use DirectoryTree\Watchdog\LdapScanEntry;
 use DirectoryTree\Watchdog\Jobs\DeleteMissingObjects;
+use DirectoryTree\Watchdog\Tests\TestCase;
 
 class DeleteMissingObjectsTest extends TestCase
 {

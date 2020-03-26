@@ -11,12 +11,12 @@ class ObjectSid extends Transformer
      *
      * @return array
      */
-    public function transform(): array
+    public function transform()
     {
         if ($value = $this->getFirstValue()) {
-            return Utilities::isValidSid($value) ? [$value] : [Utilities::binarySidToString($value)];
+            $value = Utilities::isValidSid($value) ? $value : Utilities::binarySidToString($value);
         }
 
-        return $this->value;
+        return $value ? [$value] : $this->value;
     }
 }

@@ -1,9 +1,10 @@
 <?php
 
-namespace DirectoryTree\Watchdog\Tests;
+namespace DirectoryTree\Watchdog\Tests\Jobs;
 
 use DirectoryTree\Watchdog\LdapScanEntry;
 use DirectoryTree\Watchdog\Jobs\PurgeImported;
+use DirectoryTree\Watchdog\Tests\TestCase;
 
 class PurgeImportedTest extends TestCase
 {

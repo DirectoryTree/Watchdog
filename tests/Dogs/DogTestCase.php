@@ -5,7 +5,6 @@ namespace DirectoryTree\Watchdog\Tests\Dogs;
 use DirectoryTree\Watchdog\Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use LdapRecord\Models\ActiveDirectory\Entry;
-use DirectoryTree\Watchdog\Notifications\Notifiable;
 
 class DogTestCase extends TestCase
 {
@@ -23,7 +22,6 @@ class DogTestCase extends TestCase
 
         $app['config']->set('watchdog.frequency', 0);
         $app['config']->set('watchdog.models', [Entry::class]);
-        $app['config']->set('watchdog.notifications.notifiable', Notifiable::class);
     }
 
     protected function setUp(): void

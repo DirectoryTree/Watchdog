@@ -1,6 +1,6 @@
 <?php
 
-namespace DirectoryTree\Watchdog\Tests;
+namespace DirectoryTree\Watchdog\Tests\Jobs;
 
 use DirectoryTree\Watchdog\LdapChange;
 use DirectoryTree\Watchdog\LdapScan;
@@ -9,6 +9,7 @@ use DirectoryTree\Watchdog\LdapScanEntry;
 use DirectoryTree\Watchdog\LdapConnection;
 use DirectoryTree\Watchdog\Jobs\ProcessImported;
 use DirectoryTree\Watchdog\Conditions\ActiveDirectory\PasswordChanged;
+use DirectoryTree\Watchdog\Tests\TestCase;
 use DirectoryTree\Watchdog\Watchdog;
 
 class ProcessImportedTest extends TestCase
