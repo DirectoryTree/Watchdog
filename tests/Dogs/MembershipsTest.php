@@ -14,7 +14,9 @@ class MembershipsTest extends DogTestCase
     {
         parent::setUp();
 
-        config(['watchdog.watchdogs' => [WatchMemberships::class]]);
+        $model = Entry::class;
+
+        config(["watchdog.watch.$model" => [WatchMemberships::class]]);
 
         DirectoryEmulator::setup();
     }

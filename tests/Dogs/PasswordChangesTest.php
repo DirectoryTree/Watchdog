@@ -15,7 +15,9 @@ class PasswordChangesTest extends DogTestCase
     {
         parent::setUp();
 
-        config(['watchdog.watchdogs' => [WatchPasswordChanges::class]]);
+        $model = Entry::class;
+
+        config(["watchdog.watch.$model" => [WatchPasswordChanges::class]]);
 
         DirectoryEmulator::setup();
     }

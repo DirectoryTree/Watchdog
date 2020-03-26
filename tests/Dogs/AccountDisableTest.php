@@ -14,7 +14,9 @@ class AccountDisableTest extends DogTestCase
     {
         parent::setUp();
 
-        config(['watchdog.watchdogs' => [WatchAccountDisable::class]]);
+        $model = Entry::class;
+
+        config(["watchdog.watch.$model" => [WatchAccountDisable::class]]);
 
         DirectoryEmulator::setup();
     }

@@ -15,7 +15,9 @@ class LoginsTest extends DogTestCase
     {
         parent::setUp();
 
-        config(['watchdog.watchdogs' => [WatchLogins::class]]);
+        $model = Entry::class;
+
+        config(["watchdog.watch.$model" => [WatchLogins::class]]);
 
         DirectoryEmulator::setup();
     }

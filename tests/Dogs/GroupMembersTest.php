@@ -14,7 +14,9 @@ class GroupMembersTest extends DogTestCase
     {
         parent::setUp();
 
-        config(['watchdog.watchdogs' => [WatchGroupMembers::class]]);
+        $model = Entry::class;
+
+        config(["watchdog.watch.$model" => [WatchGroupMembers::class]]);
 
         DirectoryEmulator::setup();
     }

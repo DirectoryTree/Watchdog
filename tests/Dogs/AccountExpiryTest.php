@@ -15,7 +15,9 @@ class AccountExpiryTest extends DogTestCase
     {
         parent::setUp();
 
-        config(['watchdog.watchdogs' => [WatchAccountExpiry::class]]);
+        $model = Entry::class;
+
+        config(["watchdog.watch.$model" => [WatchAccountExpiry::class]]);
         config(['watchdog.attributes.transform' => ['accountexpires' => 'windows-int']]);
 
         DirectoryEmulator::setup();

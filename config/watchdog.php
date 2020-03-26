@@ -4,34 +4,24 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Models
+    | Watch
     |--------------------------------------------------------------------------
     |
-    | Here you may specify which LdapRecord models you would like to be monitored.
+    | Here you may specify which LdapRecord models you would like to be watched.
+    |
     | You must import the below monitored models via the watchdog:setup command.
     |
     */
 
-    'models' => [
-        LdapRecord\Models\ActiveDirectory\Entry::class,
-    ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Watchdogs
-    |--------------------------------------------------------------------------
-    |
-    | The watchdogs to execute when changes are detected on LDAP objects.
-    |
-    */
-
-    'watchdogs' => [
-        \DirectoryTree\Watchdog\Dogs\WatchLogins::class,
-        \DirectoryTree\Watchdog\Dogs\WatchAccountEnable::class,
-        \DirectoryTree\Watchdog\Dogs\WatchAccountDisable::class,
-        \DirectoryTree\Watchdog\Dogs\WatchMemberships::class,
-        \DirectoryTree\Watchdog\Dogs\WatchGroupMembers::class,
-        \DirectoryTree\Watchdog\Dogs\WatchPasswordChanges::class,
+    'watch' => [
+        LdapRecord\Models\ActiveDirectory\Entry::class => [
+            \DirectoryTree\Watchdog\Dogs\WatchLogins::class,
+            \DirectoryTree\Watchdog\Dogs\WatchAccountEnable::class,
+            \DirectoryTree\Watchdog\Dogs\WatchAccountDisable::class,
+            \DirectoryTree\Watchdog\Dogs\WatchMemberships::class,
+            \DirectoryTree\Watchdog\Dogs\WatchGroupMembers::class,
+            \DirectoryTree\Watchdog\Dogs\WatchPasswordChanges::class,
+        ],
     ],
 
     /*

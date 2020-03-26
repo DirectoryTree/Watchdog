@@ -89,9 +89,9 @@ class ProcessImportedTest extends TestCase
 
     public function test_notifiers_are_executed_when_ldap_objects_are_updated()
     {
-        config(['watchdog.watchdogs' => [TestPasswordHasChangedStubWatchdog::class]]);
-
         $ldap = factory(LdapConnection::class)->create();
+
+        config(["watchdog.watch.{$ldap->model}" => [TestPasswordHasChangedStubWatchdog::class]]);
 
         $scan = factory(LdapScan::class)->create([
             'connection_id' => $ldap->id,
