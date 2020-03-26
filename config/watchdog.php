@@ -14,7 +14,7 @@ return [
     */
 
     'watch' => [
-        LdapRecord\Models\ActiveDirectory\Entry::class => [
+        \LdapRecord\Models\ActiveDirectory\Entry::class => [
             \DirectoryTree\Watchdog\Dogs\WatchLogins::class,
             \DirectoryTree\Watchdog\Dogs\WatchAccountEnable::class,
             \DirectoryTree\Watchdog\Dogs\WatchAccountDisable::class,
