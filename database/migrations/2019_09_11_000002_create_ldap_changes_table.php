@@ -20,7 +20,7 @@ class CreateLdapChangesTable extends Migration
             $table->unsignedBigInteger('object_id');
             $table->string('attribute');
             $table->longText('before')->nullable();
-            $table->longText('after');
+            $table->longText('after')->nullable();
         });
     }
 
