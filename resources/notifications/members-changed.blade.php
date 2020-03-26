@@ -4,7 +4,7 @@
 ])
 
 @component('mail::table')
-| Added |
+| Added Members |
 |:---:|
 @forelse($watchdog->added() as $member)
 | {{ $member }} |
@@ -12,7 +12,7 @@
 | *None* |
 @endforelse
 
-| Removed |
+| Removed Members |
 |:---:|
 @forelse($watchdog->removed() as $member)
 | {{ $member }} |

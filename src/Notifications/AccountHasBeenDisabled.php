@@ -2,36 +2,36 @@
 
 namespace DirectoryTree\Watchdog\Notifications;
 
-use DirectoryTree\Watchdog\Dogs\WatchMemberships;
+use DirectoryTree\Watchdog\Watchdog;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class MembersHaveChanged extends Notification
+class AccountHasBeenDisabled extends Notification
 {
     /**
      * Get the mail representation of the notification.
      *
-     * @param WatchMemberships $watchdog
+     * @param Watchdog $watchdog
      *
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
-    public function toMail(WatchMemberships $watchdog)
+    public function toMail(Watchdog $watchdog)
     {
         return (new MailMessage)
             ->subject($this->getSubject($watchdog))
-            ->markdown('watchdog::members-changed', [
+            ->markdown('watchdog::account-disabled', [
                 'watchdog' => $watchdog,
             ]);
     }
 
     /**
-     * Get the subject for the watchdog notification.
+     * Get the subject for the watchdog.
      *
-     * @param WatchMemberships $watchdog
+     * @param Watchdog $watchdog
      *
      * @return string
      */
-    protected function getSubject(WatchMemberships $watchdog)
+    protected function getSubject(Watchdog $watchdog)
     {
-        return "{$watchdog->object()->name} has had members changed";
+        return "Account {$watchdog->object()->name} has been disabled";
     }
 }

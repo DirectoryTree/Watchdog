@@ -6,7 +6,7 @@ use DirectoryTree\Watchdog\Conditions\ActiveDirectory\MembersChanged;
 use DirectoryTree\Watchdog\Notifications\MembersHaveChanged;
 use DirectoryTree\Watchdog\Watchdog;
 
-class WatchMembers extends Watchdog
+class WatchGroupMembers extends Watchdog
 {
     protected $conditions = [MembersChanged::class];
 
