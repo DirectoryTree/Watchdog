@@ -2,6 +2,7 @@
 
 namespace DirectoryTree\Watchdog\Tests\Dogs;
 
+use DirectoryTree\Watchdog\LdapNotification;
 use LdapRecord\Models\ActiveDirectory\Entry;
 use LdapRecord\Laravel\Testing\DirectoryEmulator;
 use DirectoryTree\Watchdog\Dogs\WatchAccountDisable;
@@ -29,12 +30,21 @@ class AccountDisableTest extends DogTestCase
 
         $this->artisan('watchdog:monitor');
 
-        $notifiable = app(WatchAccountDisable::class);
+        $watchdog = app(WatchAccountDisable::class);
 
-        $this->expectsNotification($notifiable, AccountHasBeenDisabled::class);
+        $this->expectsNotification($watchdog, AccountHasBeenDisabled::class);
 
         $object->update(['userAccountControl' => [514]]);
 
         $this->artisan('watchdog:monitor');
+
+        $notification = LdapNotification::where([
+            'notification' => AccountHasBeenDisabled::class,
+            'channels' => json_encode(['mail']),
+        ])->first();
+
+        $this->assertEquals(1, $notification->object_id);
+        $this->assertEquals(['mail'], $notification->channels);
+        $this->assertEquals(AccountHasBeenDisabled::class, $notification->notification);
     }
 }

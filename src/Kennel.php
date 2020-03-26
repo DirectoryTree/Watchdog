@@ -53,11 +53,9 @@ class Kennel
                 ->before(new State($before))
                 ->after(new State($after));
         })->filter(function (Watchdog $watchdog) {
-            return $watchdog->enabled() && $watchdog->shouldSendNotification();
+            return $watchdog->shouldSendNotification();
         })->each(function (Watchdog $watchdog) {
-            $watchdog->notify(
-                app($watchdog->notification())
-            );
+            $watchdog->bark();
         });
     }
 

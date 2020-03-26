@@ -62,6 +62,16 @@ class LdapObject extends Model
     }
 
     /**
+     * The hasMany notifications relationship.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function notifications()
+    {
+        return $this->hasMany(LdapNotification::class, 'object_id');
+    }
+
+    /**
      * The hasMany changes relationship.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany

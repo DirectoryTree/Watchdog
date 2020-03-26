@@ -151,11 +151,61 @@ class Watchdog
     }
 
     /**
+     * Generate a watchdog notification for the current channels.
+     *
+     * @return void
+     */
+    public function bark()
+    {
+        $this->notify(
+            app($this->notification())
+        );
+
+        $this->object->notifications()->create([
+            'channels' => $this->channels(),
+            'notification' => $this->notification(),
+        ]);
+    }
+
+    /**
      * Determine whether the watchdog should fire a notification.
      *
      * @return bool
      */
     public function shouldSendNotification()
+    {
+        return $this->enabled() && $this->passesAllConditions();
+    }
+
+    /**
+     * Determine if a notification has already been sent.
+     *
+     * @return bool
+     */
+    public function notificationHasBeenSent()
+    {
+        return ! is_null($this->lastNotification());
+    }
+
+    /**
+     * Get the last notification sent by the watchdog.
+     *
+     * @return \DirectoryTree\Watchdog\LdapNotification|null
+     */
+    public function lastNotification()
+    {
+        return $this->object->notifications()->where([
+            'channels' => json_encode($this->channels()),
+            'notification' => $this->notification(),
+        ])->latest()->first();
+    }
+
+    /**
+     * Determine if all of the watchdogs conditions pass.
+     *
+     * @return bool
+     */
+    protected function passesAllConditions()
     {
         return collect($this->conditions)->filter(function ($condition) {
             return $this->makeCondition($condition)->passes();

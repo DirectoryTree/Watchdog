@@ -2,6 +2,7 @@
 
 namespace DirectoryTree\Watchdog\Tests\Dogs;
 
+use DirectoryTree\Watchdog\LdapNotification;
 use LdapRecord\Models\ActiveDirectory\Entry;
 use LdapRecord\Laravel\Testing\DirectoryEmulator;
 use DirectoryTree\Watchdog\Dogs\WatchPasswordChanges;
@@ -29,12 +30,21 @@ class PasswordChangesTest extends DogTestCase
 
         $this->artisan('watchdog:monitor');
 
-        $notifiable = app(WatchPasswordChanges::class);
+        $watchdog = app(WatchPasswordChanges::class);
 
-        $this->expectsNotification($notifiable, PasswordHasChanged::class);
+        $this->expectsNotification($watchdog, PasswordHasChanged::class);
 
         $object->update(['pwdlastset' => [1000]]);
 
         $this->artisan('watchdog:monitor');
+
+        $notification = LdapNotification::where([
+            'notification' => PasswordHasChanged::class,
+            'channels' => json_encode(['mail']),
+        ])->first();
+
+        $this->assertEquals(1, $notification->object_id);
+        $this->assertEquals(['mail'], $notification->channels);
+        $this->assertEquals(PasswordHasChanged::class, $notification->notification);
     }
 }

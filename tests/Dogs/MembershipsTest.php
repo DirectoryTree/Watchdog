@@ -2,6 +2,7 @@
 
 namespace DirectoryTree\Watchdog\Tests\Dogs;
 
+use DirectoryTree\Watchdog\LdapNotification;
 use LdapRecord\Models\ActiveDirectory\Entry;
 use DirectoryTree\Watchdog\Dogs\WatchMemberships;
 use LdapRecord\Laravel\Testing\DirectoryEmulator;
@@ -29,12 +30,21 @@ class MembershipsTest extends DogTestCase
 
         $this->artisan('watchdog:monitor');
 
-        $notifiable = app(WatchMemberships::class);
+        $watchdog = app(WatchMemberships::class);
 
-        $this->expectsNotification($notifiable, MembersHaveChanged::class);
+        $this->expectsNotification($watchdog, MembersHaveChanged::class);
 
         $object->update(['memberof' => ['foo', 'bar', 'baz']]);
 
         $this->artisan('watchdog:monitor');
+
+        $notification = LdapNotification::where([
+            'notification' => MembersHaveChanged::class,
+            'channels' => json_encode(['mail']),
+        ])->first();
+
+        $this->assertEquals(1, $notification->object_id);
+        $this->assertEquals(['mail'], $notification->channels);
+        $this->assertEquals(MembersHaveChanged::class, $notification->notification);
     }
 }
