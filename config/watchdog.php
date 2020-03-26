@@ -27,6 +27,10 @@ return [
 
     'watchdogs' => [
         \DirectoryTree\Watchdog\Dogs\WatchLogins::class,
+        \DirectoryTree\Watchdog\Dogs\WatchAccountEnable::class,
+        \DirectoryTree\Watchdog\Dogs\WatchAccountDisable::class,
+        \DirectoryTree\Watchdog\Dogs\WatchMemberships::class,
+        \DirectoryTree\Watchdog\Dogs\WatchGroupMembers::class,
         \DirectoryTree\Watchdog\Dogs\WatchPasswordChanges::class,
     ],
 
