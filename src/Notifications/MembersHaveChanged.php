@@ -32,6 +32,6 @@ class MembersHaveChanged extends Notification
      */
     protected function getSubject(WatchMemberships $watchdog)
     {
-        return "{$watchdog->object()->name} has had members changed";
+        return "Group '{$watchdog->object()->name}' has had members changed";
     }
 }

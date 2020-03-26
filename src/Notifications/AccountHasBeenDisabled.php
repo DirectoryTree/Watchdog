@@ -32,6 +32,6 @@ class AccountHasBeenDisabled extends Notification
      */
     protected function getSubject(Watchdog $watchdog)
     {
-        return "Account {$watchdog->object()->name} has been disabled";
+        return "Account '{$watchdog->object()->name}' has been disabled";
     }
 }

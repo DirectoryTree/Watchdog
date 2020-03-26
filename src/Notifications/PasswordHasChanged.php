@@ -32,6 +32,6 @@ class PasswordHasChanged extends Notification
      */
     protected function getSubject(Watchdog $watchdog)
     {
-        return "Password Changed on {$watchdog->object()->name}";
+        return "Account '{$watchdog->object()->name}' has had their password changed";
     }
 }

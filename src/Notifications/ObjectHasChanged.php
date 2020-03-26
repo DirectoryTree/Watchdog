@@ -32,6 +32,6 @@ class ObjectHasChanged extends Notification
      */
     protected function getSubject(Watchdog $watchdog)
     {
-        return "{$watchdog->object()->name} has been changed";
+        return "Object '{$watchdog->object()->name}' has been changed";
     }
 }

@@ -32,6 +32,6 @@ class AccountHasBeenEnabled extends Notification
      */
     protected function getSubject(Watchdog $watchdog)
     {
-        return "Account {$watchdog->object()->name} has been enabled";
+        return "Account '{$watchdog->object()->name}' has been enabled";
     }
 }
