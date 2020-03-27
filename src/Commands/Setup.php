@@ -5,7 +5,7 @@ namespace DirectoryTree\Watchdog\Commands;
 use Illuminate\Support\Str;
 use LdapRecord\Models\Model;
 use Illuminate\Console\Command;
-use DirectoryTree\Watchdog\LdapConnection;
+use DirectoryTree\Watchdog\LdapWatcher;
 
 class Setup extends Command
 {
@@ -31,25 +31,26 @@ class Setup extends Command
     public function handle()
     {
         $this->info('---- Watchdog ----');
-        $this->info('Starting to setup configured models...');
+        $this->info('Starting to setup configured model watchers...');
 
         collect(config('watchdog.watch', []))->each(function ($watchdogs, $model) {
             tap(new $model(), function (Model $model) {
                 $name = $model->getConnectionName() ?? $model::getConnectionContainer()->getDefaultConnectionName();
 
-                $connection = LdapConnection::firstOrNew([
-                    'name' => $name,
-                ])->fill([
-                    'slug'  => Str::slug($name),
-                    'model' => get_class($model),
+                $watcher = LdapWatcher::firstOrNew([
+                    'model' => get_class($model)
                 ]);
 
-                $connection->save();
+                $watcher->fill([
+                    'name' => $watcher->name ?? Str::studly($name),
+                ]);
 
-                if ($connection->wasRecentlyCreated) {
-                    $this->info("Successfully setup connection [$name].");
+                $watcher->save();
+
+                if ($watcher->wasRecentlyCreated) {
+                    $this->info("Successfully setup watcher for model [{$watcher->model}].");
                 } else {
-                    $this->info("Connection [$name] is already imported.");
+                    $this->info("Watcher for model [{$watcher->model}] has already been imported.");
                 }
             });
         });

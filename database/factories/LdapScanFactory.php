@@ -5,12 +5,12 @@
 use Faker\Generator as Faker;
 use DirectoryTree\Watchdog\LdapScan;
 use DirectoryTree\Watchdog\LdapScanEntry;
-use DirectoryTree\Watchdog\LdapConnection;
+use DirectoryTree\Watchdog\LdapWatcher;
 
 $factory->define(LdapScan::class, function (Faker $faker) {
     return [
-        'connection_id' => function () {
-            return factory(LdapConnection::class)->create()->id;
+        'watcher_id' => function () {
+            return factory(LdapWatcher::class)->create()->id;
         },
     ];
 });

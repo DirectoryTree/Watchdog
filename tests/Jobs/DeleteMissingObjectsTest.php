@@ -21,7 +21,7 @@ class DeleteMissingObjectsTest extends TestCase
         $this->assertCount(10, $entries);
 
         $object = factory(LdapObject::class)->create([
-            'connection_id' => $scan->ldap->id,
+            'watcher_id' => $scan->watcher->id,
         ]);
 
         $this->assertTrue($object->exists);

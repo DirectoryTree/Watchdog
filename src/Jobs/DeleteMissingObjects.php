@@ -44,7 +44,7 @@ class DeleteMissingObjects implements ShouldQueue
     {
         $guids = $this->scan->entries()->pluck('guid');
 
-        $this->scan->ldap->objects()
+        $this->scan->watcher->objects()
             ->whereNotIn('guid', $guids)
             ->delete();
     }

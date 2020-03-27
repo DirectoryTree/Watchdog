@@ -33,7 +33,7 @@ class ProcessImported implements ShouldQueue
      */
     protected $pipes = [
         Pipes\RestoreModelWhenTrashed::class,
-        Pipes\AssociateConnection::class,
+        Pipes\AssociateWatcher::class,
         Pipes\AssociateParent::class,
         Pipes\DetectChanges::class,
         Pipes\HydrateProperties::class,
@@ -68,7 +68,7 @@ class ProcessImported implements ShouldQueue
     {
         $query->cursor()->each(function (LdapScanEntry $entry) {
             /** @var LdapObject $object */
-            $object = $this->scan->ldap->objects()->withTrashed()->firstOrNew(['guid' => $entry->guid]);
+            $object = $this->scan->watcher->objects()->withTrashed()->firstOrNew(['guid' => $entry->guid]);
 
             // We will go through our process pipes an construct a
             // new instance so they can be used in the pipeline.

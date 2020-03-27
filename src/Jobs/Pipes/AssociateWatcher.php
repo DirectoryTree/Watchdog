@@ -5,7 +5,7 @@ namespace DirectoryTree\Watchdog\Jobs\Pipes;
 use Closure;
 use DirectoryTree\Watchdog\LdapObject;
 
-class AssociateConnection extends Pipe
+class AssociateWatcher extends Pipe
 {
     /**
      * Perform operations on the LDAP object model.
@@ -17,7 +17,7 @@ class AssociateConnection extends Pipe
      */
     public function handle(LdapObject $object, Closure $next)
     {
-        $object->ldap()->associate($this->scan->ldap);
+        $object->watcher()->associate($this->scan->watcher);
 
         return $next($object);
     }

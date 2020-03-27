@@ -34,7 +34,7 @@ class LdapObject extends Model
         parent::boot();
 
         static::updated(function (self $object) {
-            $watchdogs = config("watchdog.watch.{$object->ldap->model}", []);
+            $watchdogs = config("watchdog.watch.{$object->watcher->model}", []);
 
             app(Kennel::class)
                 ->setWatchdogs($watchdogs)
@@ -52,13 +52,13 @@ class LdapObject extends Model
     }
 
     /**
-     * The belongsTo LDAP connection relationship.
+     * The belongsTo watcher relationship.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function ldap()
+    public function watcher()
     {
-        return $this->belongsTo(LdapConnection::class, 'connection_id');
+        return $this->belongsTo(LdapWatcher::class, 'watcher_id');
     }
 
     /**

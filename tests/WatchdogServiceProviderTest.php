@@ -13,7 +13,7 @@ class WatchdogServiceProviderTest extends TestCase
     {
         $migrations = [
             \CreateLdapChangesTable::class,
-            \CreateLdapConnectionsTable::class,
+            \CreateLdapWatchersTable::class,
             \CreateLdapObjectsTable::class,
             \CreateLdapScansTable::class,
             \CreateLdapScanEntriesTable::class,

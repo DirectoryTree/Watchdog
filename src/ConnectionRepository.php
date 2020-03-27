@@ -21,7 +21,7 @@ class ConnectionRepository
      */
     public static function toMonitor()
     {
-        return static::query()->get()->filter(function (LdapConnection $connection) {
+        return static::query()->get()->filter(function (LdapWatcher $connection) {
             $frequencyInMinutes = config('watchdog.frequency', 15);
 
             $lastScan = $connection->scans()->latest()->first();
@@ -47,6 +47,6 @@ class ConnectionRepository
      */
     protected static function query()
     {
-        return LdapConnection::query();
+        return LdapWatcher::query();
     }
 }

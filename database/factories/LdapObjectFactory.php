@@ -4,7 +4,7 @@
 
 use Faker\Generator as Faker;
 use DirectoryTree\Watchdog\LdapObject;
-use DirectoryTree\Watchdog\LdapConnection;
+use DirectoryTree\Watchdog\LdapWatcher;
 
 $factory->define(LdapObject::class, function (Faker $faker) {
     return [
@@ -15,9 +15,9 @@ $factory->define(LdapObject::class, function (Faker $faker) {
 });
 
 $factory->afterMaking(LdapObject::class, function (LdapObject $object, Faker $faker) {
-    if (!$object->connection_id) {
-        $connection = factory(LdapConnection::class)->create();
-        $object->ldap()->associate($connection);
+    if (!$object->watcher_id) {
+        $connection = factory(LdapWatcher::class)->create();
+        $object->watcher()->associate($connection);
     }
 
     $object->name = $faker->name;

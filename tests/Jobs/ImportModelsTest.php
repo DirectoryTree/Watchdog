@@ -5,7 +5,7 @@ namespace DirectoryTree\Watchdog\Tests\Jobs;
 use Carbon\Carbon;
 use LdapRecord\Models\Entry;
 use DirectoryTree\Watchdog\LdapScanEntry;
-use DirectoryTree\Watchdog\LdapConnection;
+use DirectoryTree\Watchdog\LdapWatcher;
 use DirectoryTree\Watchdog\Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use DirectoryTree\Watchdog\Jobs\ImportModels;
@@ -35,7 +35,7 @@ class ImportModelsTest extends TestCase
 
     public function test_scan_is_updated_with_no_models_to_import()
     {
-        $connection = factory(LdapConnection::class)->create([
+        $connection = factory(LdapWatcher::class)->create([
             'model' => Entry::class,
         ]);
 
@@ -61,7 +61,7 @@ class ImportModelsTest extends TestCase
             ]);
         }
 
-        $connection = factory(LdapConnection::class)->create([
+        $connection = factory(LdapWatcher::class)->create([
             'model' => Entry::class,
         ]);
 

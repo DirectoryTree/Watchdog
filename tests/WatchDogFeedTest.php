@@ -5,7 +5,7 @@ namespace DirectoryTree\Watchdog\Tests;
 use DirectoryTree\Watchdog\LdapScan;
 use DirectoryTree\Watchdog\LdapChange;
 use DirectoryTree\Watchdog\LdapObject;
-use DirectoryTree\Watchdog\LdapConnection;
+use DirectoryTree\Watchdog\LdapWatcher;
 use Illuminate\Foundation\Testing\WithFaker;
 use LdapRecord\Models\ActiveDirectory\Entry;
 use LdapRecord\Laravel\Testing\DirectoryEmulator;
@@ -51,7 +51,7 @@ class WatchDogFeedTest extends TestCase
         $scan = LdapScan::first();
         $this->assertTrue($scan->success);
         $this->assertEquals(1, $scan->synchronized);
-        $this->assertInstanceOf(LdapConnection::class, $scan->ldap);
+        $this->assertInstanceOf(LdapWatcher::class, $scan->watcher);
 
         $imported = LdapObject::first();
         $this->assertEquals($object->cn[0], $imported->values['cn'][0]);

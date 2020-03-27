@@ -3,22 +3,18 @@
 namespace DirectoryTree\Watchdog;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
-class LdapConnection extends Model
+class LdapWatcher extends Model
 {
+    use SoftDeletes;
+
     /**
      * The attributes that aren't mass assignable.
      *
      * @var array
      */
     protected $guarded = [];
-
-    /**
-     * The attributes that should be mutated to dates.
-     *
-     * @var array
-     */
-    protected $dates = ['attempted_at'];
 
     /**
      * The "booting" method of the model.
@@ -53,7 +49,7 @@ class LdapConnection extends Model
      */
     public function scans()
     {
-        return $this->hasMany(LdapScan::class, 'connection_id');
+        return $this->hasMany(LdapScan::class, 'watcher_id');
     }
 
     /**
@@ -63,7 +59,7 @@ class LdapConnection extends Model
      */
     public function objects()
     {
-        return $this->hasMany(LdapObject::class, 'connection_id');
+        return $this->hasMany(LdapObject::class, 'watcher_id');
     }
 
     /**
@@ -73,6 +69,6 @@ class LdapConnection extends Model
      */
     public function changes()
     {
-        return $this->hasManyThrough(LdapChange::class, LdapObject::class, 'connection_id', 'object_id');
+        return $this->hasManyThrough(LdapChange::class, LdapObject::class, 'watcher_id', 'object_id');
     }
 }

@@ -3,7 +3,7 @@
 namespace DirectoryTree\Watchdog\Tests;
 
 use LdapRecord\Models\Entry;
-use DirectoryTree\Watchdog\LdapConnection;
+use DirectoryTree\Watchdog\LdapWatcher;
 use DirectoryTree\Watchdog\ConnectionRepository;
 
 class ConnectionRepositoryTest extends TestCase
@@ -26,7 +26,7 @@ class ConnectionRepositoryTest extends TestCase
     {
         $this->assertCount(1, ConnectionRepository::toMonitor());
 
-        $connection = LdapConnection::first();
+        $connection = LdapWatcher::first();
         // Default is 15 minutes.
         $connection->scans()->create(['started_at' => now()->subMinutes(15)]);
 

@@ -3,7 +3,7 @@
 namespace DirectoryTree\Watchdog\Tests\Jobs;
 
 use LdapRecord\Models\Entry;
-use DirectoryTree\Watchdog\LdapConnection;
+use DirectoryTree\Watchdog\LdapWatcher;
 use DirectoryTree\Watchdog\Tests\TestCase;
 use DirectoryTree\Watchdog\Jobs\ScanConnection;
 use LdapRecord\Laravel\Testing\DirectoryEmulator;
@@ -34,7 +34,7 @@ class ScanConnectionTest extends TestCase
 
     public function test_scan_records_are_created_for_connections()
     {
-        $connection = LdapConnection::first();
+        $connection = LdapWatcher::first();
 
         ScanConnection::dispatch($connection);
 

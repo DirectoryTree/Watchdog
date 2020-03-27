@@ -2,7 +2,7 @@
 
 namespace DirectoryTree\Watchdog\Tests;
 
-use DirectoryTree\Watchdog\LdapConnection;
+use DirectoryTree\Watchdog\LdapWatcher;
 use LdapRecord\Models\ActiveDirectory\Entry;
 
 class WatchDogSetupTest extends TestCase
@@ -20,12 +20,11 @@ class WatchDogSetupTest extends TestCase
     {
         $this->artisan('watchdog:setup');
 
-        $this->assertCount(1, LdapConnection::get());
+        $this->assertCount(1, LdapWatcher::get());
 
-        $connection = LdapConnection::first();
+        $connection = LdapWatcher::first();
 
-        $this->assertEquals('default', $connection->name);
-        $this->assertEquals('default', $connection->slug);
+        $this->assertEquals('Default', $connection->name);
         $this->assertEquals(Entry::class, $connection->model);
     }
 
@@ -34,6 +33,6 @@ class WatchDogSetupTest extends TestCase
         $this->artisan('watchdog:setup');
         $this->artisan('watchdog:setup');
 
-        $this->assertCount(1, LdapConnection::get());
+        $this->assertCount(1, LdapWatcher::get());
     }
 }

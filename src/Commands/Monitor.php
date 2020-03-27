@@ -3,7 +3,7 @@
 namespace DirectoryTree\Watchdog\Commands;
 
 use Illuminate\Console\Command;
-use DirectoryTree\Watchdog\LdapConnection;
+use DirectoryTree\Watchdog\LdapWatcher;
 use DirectoryTree\Watchdog\Jobs\ScanConnection;
 use DirectoryTree\Watchdog\ConnectionRepository;
 
@@ -43,7 +43,7 @@ class Monitor extends Command
 
         $bar->start();
 
-        $connections->each(function (LdapConnection $connection) use ($bar) {
+        $connections->each(function (LdapWatcher $connection) use ($bar) {
             ScanConnection::dispatch($connection);
 
             $bar->advance();

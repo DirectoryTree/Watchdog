@@ -58,7 +58,7 @@ class ImportModels implements ShouldQueue
     {
         $this->scan->update(['started_at' => now()]);
 
-        info("Starting to scan domain [{$this->scan->ldap->name}]");
+        info("Starting to scan domain [{$this->scan->watcher->name}]");
 
         // We'll initialize a database transaction so all of our
         // inserts and updates are pushed at once. Otherwise
@@ -88,7 +88,7 @@ class ImportModels implements ShouldQueue
      */
     protected function createModel()
     {
-        $model = $this->scan->ldap->model;
+        $model = $this->scan->watcher->model;
 
         if (!class_exists($model)) {
             throw new Exception("No model is defined for domain [$model].");

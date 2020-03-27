@@ -15,7 +15,7 @@ class CreateLdapScansTable extends Migration
     {
         Schema::create('ldap_scans', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('connection_id');
+            $table->unsignedBigInteger('watcher_id');
             $table->timestamps();
             $table->timestamp('started_at')->nullable();
             $table->timestamp('completed_at')->nullable();

@@ -3,7 +3,7 @@
 namespace DirectoryTree\Watchdog\Jobs;
 
 use DirectoryTree\Watchdog\LdapScan;
-use DirectoryTree\Watchdog\LdapConnection;
+use DirectoryTree\Watchdog\LdapWatcher;
 use Illuminate\Foundation\Bus\Dispatchable;
 
 class ScanConnection
@@ -13,18 +13,18 @@ class ScanConnection
     /**
      * The LDAP connection.
      *
-     * @var LdapConnection
+     * @var LdapWatcher
      */
     protected $connection;
 
     /**
      * Create a new job instance.
      *
-     * @param LdapConnection $connection
+     * @param LdapWatcher $connection
      *
      * @return void
      */
-    public function __construct(LdapConnection $connection)
+    public function __construct(LdapWatcher $connection)
     {
         $this->connection = $connection;
     }

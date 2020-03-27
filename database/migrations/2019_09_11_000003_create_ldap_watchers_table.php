@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateLdapConnectionsTable extends Migration
+class CreateLdapWatchersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,12 @@ class CreateLdapConnectionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('ldap_connections', function (Blueprint $table) {
+        Schema::create('ldap_watchers', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->timestamps();
-            $table->string('name')->unique();
-            $table->string('slug')->unique();
-            $table->string('model');
+            $table->softDeletes();
+            $table->string('model')->unique();
+            $table->string('name');
         });
     }
 
@@ -29,6 +29,6 @@ class CreateLdapConnectionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ldap_connections');
+        Schema::dropIfExists('ldap_watchers');
     }
 }

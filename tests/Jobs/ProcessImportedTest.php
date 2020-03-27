@@ -7,7 +7,7 @@ use DirectoryTree\Watchdog\Watchdog;
 use DirectoryTree\Watchdog\LdapChange;
 use DirectoryTree\Watchdog\LdapObject;
 use DirectoryTree\Watchdog\LdapScanEntry;
-use DirectoryTree\Watchdog\LdapConnection;
+use DirectoryTree\Watchdog\LdapWatcher;
 use DirectoryTree\Watchdog\Tests\TestCase;
 use DirectoryTree\Watchdog\Jobs\ProcessImported;
 use DirectoryTree\Watchdog\Conditions\ActiveDirectory\PasswordChanged;
@@ -29,14 +29,14 @@ class ProcessImportedTest extends TestCase
 
     public function test_trashed_objects_are_restored_when_scanned()
     {
-        $ldap = factory(LdapConnection::class)->create();
+        $ldap = factory(LdapWatcher::class)->create();
 
         $scan = factory(LdapScan::class)->create([
-            'connection_id' => $ldap->id,
+            'watcher_id' => $ldap->id,
         ]);
 
         $object = factory(LdapObject::class)->create([
-            'connection_id' => $ldap->id,
+            'watcher_id' => $ldap->id,
             'deleted_at'    => now(),
         ]);
 
@@ -55,14 +55,14 @@ class ProcessImportedTest extends TestCase
 
     public function test_changes_are_created()
     {
-        $ldap = factory(LdapConnection::class)->create();
+        $ldap = factory(LdapWatcher::class)->create();
 
         $scan = factory(LdapScan::class)->create([
-            'connection_id' => $ldap->id,
+            'watcher_id' => $ldap->id,
         ]);
 
         $object = factory(LdapObject::class)->create([
-            'connection_id' => $ldap->id,
+            'watcher_id' => $ldap->id,
             'values'        => [
                 'foo' => 'bar',
                 'baz' => 'sas',
@@ -89,16 +89,16 @@ class ProcessImportedTest extends TestCase
 
     public function test_notifiers_are_executed_when_ldap_objects_are_updated()
     {
-        $ldap = factory(LdapConnection::class)->create();
+        $ldap = factory(LdapWatcher::class)->create();
 
         config(["watchdog.watch.{$ldap->model}" => [TestPasswordHasChangedStubWatchdog::class]]);
 
         $scan = factory(LdapScan::class)->create([
-            'connection_id' => $ldap->id,
+            'watcher_id' => $ldap->id,
         ]);
 
         $object = factory(LdapObject::class)->create([
-            'connection_id' => $ldap->id,
+            'watcher_id' => $ldap->id,
             'values'        => ['pwdlastset' => ['0']],
         ]);
 
