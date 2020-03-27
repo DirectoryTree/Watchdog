@@ -1,4 +1,8 @@
-# Watchdog
+<p align="center">
+    <img title="Watchdog" height="150" src="https://raw.githubusercontent.com/DirectoryTree/LdapWatchdog.com/master/source/assets/img/logo-large.png"/>
+</p>
+
+<hr/>
 
 <p align="center">
     <a href="https://laravel.com"><img src="https://img.shields.io/badge/Built_for-Laravel-green.svg?style=flat-square"></a>
