@@ -33,7 +33,7 @@ class Setup extends Command
         $this->info('---- Watchdog ----');
         $this->info('Starting to setup configured models...');
 
-        collect(config('watchdog.models', []))->each(function ($model) {
+        collect(config('watchdog.watch', []))->each(function ($watchdogs, $model) {
             tap(new $model(), function (Model $model) {
                 $name = $model->getConnectionName() ?? $model::getConnectionContainer()->getDefaultConnectionName();
 
