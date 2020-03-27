@@ -4,11 +4,11 @@ namespace DirectoryTree\Watchdog\Tests\Dogs;
 
 use LdapRecord\Models\Attributes\Timestamp;
 use DirectoryTree\Watchdog\LdapNotification;
+use Illuminate\Support\Facades\Notification;
 use LdapRecord\Models\ActiveDirectory\Entry;
 use LdapRecord\Laravel\Testing\DirectoryEmulator;
 use DirectoryTree\Watchdog\Dogs\WatchAccountExpiry;
 use DirectoryTree\Watchdog\Notifications\AccountHasExpired;
-use Illuminate\Support\Facades\Notification;
 
 class AccountExpiryTest extends DogTestCase
 {
@@ -85,7 +85,7 @@ class AccountExpiryTest extends DogTestCase
             'cn'                => 'John Doe',
             'objectclass'       => ['foo'],
             'objectguid'        => $this->faker->uuid,
-            'accountexpires'    => [$timestamp->fromDateTime(now())]
+            'accountexpires'    => [$timestamp->fromDateTime(now())],
         ]);
 
         $this->artisan('watchdog:monitor');

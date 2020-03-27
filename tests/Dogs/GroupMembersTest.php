@@ -3,10 +3,10 @@
 namespace DirectoryTree\Watchdog\Tests\Dogs;
 
 use DirectoryTree\Watchdog\LdapNotification;
+use Illuminate\Support\Facades\Notification;
 use LdapRecord\Models\ActiveDirectory\Entry;
 use LdapRecord\Laravel\Testing\DirectoryEmulator;
 use DirectoryTree\Watchdog\Dogs\WatchGroupMembers;
-use Illuminate\Support\Facades\Notification;
 use DirectoryTree\Watchdog\Notifications\MembersHaveChanged;
 
 class GroupMembersTest extends DogTestCase
