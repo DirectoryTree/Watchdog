@@ -7,6 +7,7 @@ use DirectoryTree\Watchdog\Dogs\WatchLogins;
 use DirectoryTree\Watchdog\LdapNotification;
 use LdapRecord\Models\ActiveDirectory\Entry;
 use LdapRecord\Laravel\Testing\DirectoryEmulator;
+use Illuminate\Support\Facades\Notification;
 use DirectoryTree\Watchdog\Notifications\LoginHasOccurred;
 
 class LoginsTest extends DogTestCase
@@ -22,8 +23,10 @@ class LoginsTest extends DogTestCase
         DirectoryEmulator::setup();
     }
 
-    public function test()
+    public function test_notification_is_sent()
     {
+        Notification::fake();
+
         $timestamp = new Timestamp('windows-int');
 
         $object = Entry::create([
@@ -35,13 +38,11 @@ class LoginsTest extends DogTestCase
 
         $this->artisan('watchdog:monitor');
 
-        $watchdog = app(WatchLogins::class);
-
-        $this->expectsNotification($watchdog, LoginHasOccurred::class);
-
         $object->update(['lastlogon' => [$timestamp->fromDateTime(now())]]);
 
         $this->artisan('watchdog:monitor');
+
+        Notification::assertSentTo(app(WatchLogins::class), LoginHasOccurred::class);
 
         $notification = LdapNotification::where([
             'notification' => LoginHasOccurred::class,

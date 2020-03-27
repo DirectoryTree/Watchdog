@@ -6,6 +6,7 @@ use DirectoryTree\Watchdog\LdapNotification;
 use LdapRecord\Models\ActiveDirectory\Entry;
 use LdapRecord\Laravel\Testing\DirectoryEmulator;
 use DirectoryTree\Watchdog\Dogs\WatchGroupMembers;
+use Illuminate\Support\Facades\Notification;
 use DirectoryTree\Watchdog\Notifications\MembersHaveChanged;
 
 class GroupMembersTest extends DogTestCase
@@ -21,8 +22,10 @@ class GroupMembersTest extends DogTestCase
         DirectoryEmulator::setup();
     }
 
-    public function test()
+    public function test_notification_is_sent()
     {
+        Notification::fake();
+
         $object = Entry::create([
             'cn'          => 'John Doe',
             'objectclass' => ['foo'],
@@ -32,13 +35,11 @@ class GroupMembersTest extends DogTestCase
 
         $this->artisan('watchdog:monitor');
 
-        $watchdog = app(WatchGroupMembers::class);
-
-        $this->expectsNotification($watchdog, MembersHaveChanged::class);
-
         $object->update(['member' => ['foo', 'bar', 'baz']]);
 
         $this->artisan('watchdog:monitor');
+
+        Notification::assertSentTo(app(WatchGroupMembers::class), MembersHaveChanged::class);
 
         $notification = LdapNotification::where([
             'notification' => MembersHaveChanged::class,
@@ -48,5 +49,25 @@ class GroupMembersTest extends DogTestCase
         $this->assertEquals(1, $notification->object_id);
         $this->assertEquals(['mail'], $notification->channels);
         $this->assertEquals(MembersHaveChanged::class, $notification->notification);
+    }
+
+    public function test_notification_is_not_sent_again_when_members_are_reordered()
+    {
+        Notification::fake();
+
+        $object = Entry::create([
+            'cn'          => 'John Doe',
+            'objectclass' => ['foo'],
+            'objectguid'  => $this->faker->uuid,
+            'member'      => ['foo', 'bar'],
+        ]);
+
+        $this->artisan('watchdog:monitor');
+
+        $object->update(['member' => ['bar', 'foo']]);
+
+        $this->artisan('watchdog:monitor');
+
+        Notification::assertNotSentTo(app(WatchGroupMembers::class), MembersHaveChanged::class);
     }
 }

@@ -6,6 +6,7 @@ use LdapRecord\Models\Attributes\Timestamp;
 use DirectoryTree\Watchdog\LdapNotification;
 use LdapRecord\Models\ActiveDirectory\Entry;
 use LdapRecord\Laravel\Testing\DirectoryEmulator;
+use Illuminate\Support\Facades\Notification;
 use DirectoryTree\Watchdog\Dogs\WatchPasswordChanges;
 use DirectoryTree\Watchdog\Notifications\PasswordHasChanged;
 
@@ -22,8 +23,10 @@ class PasswordChangesTest extends DogTestCase
         DirectoryEmulator::setup();
     }
 
-    public function test()
+    public function test_notification_is_sent()
     {
+        Notification::fake();
+
         $object = Entry::create([
             'cn'          => 'John Doe',
             'objectclass' => ['foo'],
@@ -33,15 +36,13 @@ class PasswordChangesTest extends DogTestCase
 
         $this->artisan('watchdog:monitor');
 
-        $watchdog = app(WatchPasswordChanges::class);
-
-        $this->expectsNotification($watchdog, PasswordHasChanged::class);
-
         $timestamp = new Timestamp('windows-int');
 
         $object->update(['pwdlastset' => [$timestamp->fromDateTime(now())]]);
 
         $this->artisan('watchdog:monitor');
+
+        Notification::assertSentTo(app(WatchPasswordChanges::class), PasswordHasChanged::class);
 
         $notification = LdapNotification::where([
             'notification' => PasswordHasChanged::class,

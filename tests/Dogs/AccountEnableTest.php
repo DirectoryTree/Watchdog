@@ -7,6 +7,8 @@ use LdapRecord\Models\ActiveDirectory\Entry;
 use LdapRecord\Laravel\Testing\DirectoryEmulator;
 use DirectoryTree\Watchdog\Dogs\WatchAccountEnable;
 use DirectoryTree\Watchdog\Notifications\AccountHasBeenEnabled;
+use Illuminate\Support\Facades\Notification;
+use LdapRecord\Models\Attributes\AccountControl;
 
 class AccountEnableTest extends DogTestCase
 {
@@ -21,8 +23,10 @@ class AccountEnableTest extends DogTestCase
         DirectoryEmulator::setup();
     }
 
-    public function test()
+    public function test_notification_is_sent()
     {
+        Notification::fake();
+
         $object = Entry::create([
             'cn'                 => 'John Doe',
             'objectclass'        => ['foo'],
@@ -32,13 +36,11 @@ class AccountEnableTest extends DogTestCase
 
         $this->artisan('watchdog:monitor');
 
-        $watchdog = app(WatchAccountEnable::class);
-
-        $this->expectsNotification($watchdog, AccountHasBeenEnabled::class);
-
         $object->update(['userAccountControl' => [512]]);
 
         $this->artisan('watchdog:monitor');
+
+        Notification::assertSentTo(app(WatchAccountEnable::class), AccountHasBeenEnabled::class);
 
         $notification = LdapNotification::where([
             'notification' => AccountHasBeenEnabled::class,
@@ -48,5 +50,28 @@ class AccountEnableTest extends DogTestCase
         $this->assertEquals(1, $notification->object_id);
         $this->assertEquals(['mail'], $notification->channels);
         $this->assertEquals(AccountHasBeenEnabled::class, $notification->notification);
+    }
+
+    public function test_notification_is_not_sent_again_after_user_account_control_changes_but_account_is_still_enabled()
+    {
+        Notification::fake();
+
+        $uac = new AccountControl();
+        $uac->accountIsNormal();
+
+        $object = Entry::create([
+            'cn'                 => 'John Doe',
+            'objectclass'        => ['foo'],
+            'objectguid'         => $this->faker->uuid,
+            'userAccountControl' => [$uac],
+        ]);
+
+        $this->artisan('watchdog:monitor');
+
+        $object->update(['userAccountControl' => [$uac->accountIsForWorkstation()]]);
+
+        $this->artisan('watchdog:monitor');
+
+        Notification::assertNotSentTo(app(WatchAccountEnable::class), AccountHasBeenEnabled::class);
     }
 }
