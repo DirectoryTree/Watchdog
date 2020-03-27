@@ -24,7 +24,9 @@ class WatchDogFeedTest extends TestCase
             ],
         ]);
 
-        $app['config']->set('watchdog.models', [Entry::class]);
+        $model = Entry::class;
+
+        $app['config']->set("watchdog.watch.{$model}", []);
     }
 
     protected function setUp(): void

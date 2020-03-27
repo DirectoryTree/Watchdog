@@ -5,22 +5,14 @@ namespace DirectoryTree\Watchdog\Tests\Dogs;
 use DirectoryTree\Watchdog\LdapNotification;
 use Illuminate\Support\Facades\Notification;
 use LdapRecord\Models\ActiveDirectory\Entry;
-use LdapRecord\Laravel\Testing\DirectoryEmulator;
 use DirectoryTree\Watchdog\Dogs\WatchGroupMembers;
 use DirectoryTree\Watchdog\Notifications\MembersHaveChanged;
 
 class GroupMembersTest extends DogTestCase
 {
-    protected function setUp(): void
-    {
-        parent::setUp();
+    protected $model = Entry::class;
 
-        $model = Entry::class;
-
-        config(["watchdog.watch.$model" => [WatchGroupMembers::class]]);
-
-        DirectoryEmulator::setup();
-    }
+    protected $watchdogs = WatchGroupMembers::class;
 
     public function test_notification_is_sent()
     {

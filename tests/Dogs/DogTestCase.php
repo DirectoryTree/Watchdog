@@ -4,11 +4,15 @@ namespace DirectoryTree\Watchdog\Tests\Dogs;
 
 use DirectoryTree\Watchdog\Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
-use LdapRecord\Models\ActiveDirectory\Entry;
+use LdapRecord\Laravel\Testing\DirectoryEmulator;
 
 class DogTestCase extends TestCase
 {
     use WithFaker;
+
+    protected $model;
+
+    protected $watchdogs = [];
 
     protected function getEnvironmentSetUp($app)
     {
@@ -21,12 +25,15 @@ class DogTestCase extends TestCase
         ]);
 
         $app['config']->set('watchdog.frequency', 0);
-        $app['config']->set('watchdog.models', [Entry::class]);
     }
 
     protected function setUp(): void
     {
         parent::setUp();
+
+        DirectoryEmulator::setup();
+
+        config(["watchdog.watch.{$this->model}" => (array) $this->watchdogs]);
 
         $this->artisan('watchdog:setup');
     }

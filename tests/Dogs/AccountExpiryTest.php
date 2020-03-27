@@ -6,22 +6,20 @@ use LdapRecord\Models\Attributes\Timestamp;
 use DirectoryTree\Watchdog\LdapNotification;
 use Illuminate\Support\Facades\Notification;
 use LdapRecord\Models\ActiveDirectory\Entry;
-use LdapRecord\Laravel\Testing\DirectoryEmulator;
 use DirectoryTree\Watchdog\Dogs\WatchAccountExpiry;
 use DirectoryTree\Watchdog\Notifications\AccountHasExpired;
 
 class AccountExpiryTest extends DogTestCase
 {
+    protected $model = Entry::class;
+
+    protected $watchdogs = WatchAccountExpiry::class;
+
     protected function setUp(): void
     {
         parent::setUp();
 
-        $model = Entry::class;
-
-        config(["watchdog.watch.$model" => [WatchAccountExpiry::class]]);
         config(['watchdog.attributes.transform' => ['accountexpires' => 'windows-int']]);
-
-        DirectoryEmulator::setup();
     }
 
     public function test_notification_is_sent()

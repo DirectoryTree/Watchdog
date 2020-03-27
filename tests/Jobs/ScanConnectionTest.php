@@ -18,7 +18,9 @@ class ScanConnectionTest extends TestCase
             'base_dn' => 'dc=local,dc=com',
         ]);
 
-        $app['config']->set('watchdog.models', [Entry::class]);
+        $model = Entry::class;
+
+        $app['config']->set("watchdog.watch.{$model}", []);
     }
 
     protected function setUp(): void

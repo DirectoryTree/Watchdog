@@ -6,25 +6,19 @@ use DirectoryTree\Watchdog\LdapNotification;
 use Illuminate\Support\Facades\Notification;
 use LdapRecord\Models\ActiveDirectory\Entry;
 use LdapRecord\Models\Attributes\AccountControl;
-use LdapRecord\Laravel\Testing\DirectoryEmulator;
 use DirectoryTree\Watchdog\Dogs\WatchAccountDisable;
 use DirectoryTree\Watchdog\Notifications\AccountHasBeenDisabled;
 
 class AccountDisableTest extends DogTestCase
 {
-    protected function setUp(): void
-    {
-        parent::setUp();
+    protected $model = Entry::class;
 
-        $model = Entry::class;
-
-        config(["watchdog.watch.$model" => [WatchAccountDisable::class]]);
-
-        DirectoryEmulator::setup();
-    }
+    protected $watchdogs = WatchAccountDisable::class;
 
     public function test_notification_is_sent()
     {
+        Notification::fake();
+
         $object = Entry::create([
             'cn'                 => 'John Doe',
             'objectclass'        => ['foo'],
@@ -34,13 +28,11 @@ class AccountDisableTest extends DogTestCase
 
         $this->artisan('watchdog:monitor');
 
-        $watchdog = app(WatchAccountDisable::class);
-
-        $this->expectsNotification($watchdog, AccountHasBeenDisabled::class);
-
         $object->update(['userAccountControl' => [514]]);
 
         $this->artisan('watchdog:monitor');
+
+        Notification::assertSentTo(app(WatchAccountDisable::class), AccountHasBeenDisabled::class);
 
         $notification = LdapNotification::where([
             'notification' => AccountHasBeenDisabled::class,

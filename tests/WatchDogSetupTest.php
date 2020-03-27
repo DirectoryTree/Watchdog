@@ -11,7 +11,9 @@ class WatchDogSetupTest extends TestCase
     {
         parent::getEnvironmentSetUp($app);
 
-        $app['config']->set('watchdog.models', [Entry::class]);
+        $model = Entry::class;
+
+        $app['config']->set("watchdog.watch.{$model}", []);
     }
 
     public function test_model_connections_can_be_imported()

@@ -6,22 +6,14 @@ use DirectoryTree\Watchdog\LdapNotification;
 use Illuminate\Support\Facades\Notification;
 use LdapRecord\Models\ActiveDirectory\Entry;
 use LdapRecord\Models\Attributes\AccountControl;
-use LdapRecord\Laravel\Testing\DirectoryEmulator;
 use DirectoryTree\Watchdog\Dogs\WatchAccountEnable;
 use DirectoryTree\Watchdog\Notifications\AccountHasBeenEnabled;
 
 class AccountEnableTest extends DogTestCase
 {
-    protected function setUp(): void
-    {
-        parent::setUp();
+    protected $model = Entry::class;
 
-        $model = Entry::class;
-
-        config(["watchdog.watch.$model" => [WatchAccountEnable::class]]);
-
-        DirectoryEmulator::setup();
-    }
+    protected $watchdogs = WatchAccountEnable::class;
 
     public function test_notification_is_sent()
     {

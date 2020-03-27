@@ -6,21 +6,13 @@ use DirectoryTree\Watchdog\LdapNotification;
 use Illuminate\Support\Facades\Notification;
 use LdapRecord\Models\ActiveDirectory\Entry;
 use DirectoryTree\Watchdog\Dogs\WatchMemberships;
-use LdapRecord\Laravel\Testing\DirectoryEmulator;
 use DirectoryTree\Watchdog\Notifications\MembersHaveChanged;
 
 class MembershipsTest extends DogTestCase
 {
-    protected function setUp(): void
-    {
-        parent::setUp();
+    protected $model = Entry::class;
 
-        $model = Entry::class;
-
-        config(["watchdog.watch.$model" => [WatchMemberships::class]]);
-
-        DirectoryEmulator::setup();
-    }
+    protected $watchdogs = WatchMemberships::class;
 
     public function test_notification_is_sent()
     {

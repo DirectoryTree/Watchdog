@@ -7,21 +7,13 @@ use DirectoryTree\Watchdog\Dogs\WatchLogins;
 use DirectoryTree\Watchdog\LdapNotification;
 use Illuminate\Support\Facades\Notification;
 use LdapRecord\Models\ActiveDirectory\Entry;
-use LdapRecord\Laravel\Testing\DirectoryEmulator;
 use DirectoryTree\Watchdog\Notifications\LoginHasOccurred;
 
 class LoginsTest extends DogTestCase
 {
-    protected function setUp(): void
-    {
-        parent::setUp();
+    protected $model = Entry::class;
 
-        $model = Entry::class;
-
-        config(["watchdog.watch.$model" => [WatchLogins::class]]);
-
-        DirectoryEmulator::setup();
-    }
+    protected $watchdogs = WatchLogins::class;
 
     public function test_notification_is_sent()
     {

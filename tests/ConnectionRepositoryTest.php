@@ -12,7 +12,7 @@ class ConnectionRepositoryTest extends TestCase
     {
         parent::getEnvironmentSetUp($app);
 
-        $app['config']->set('watchdog.models', [Entry::class]);
+        $app['config']->set('watchdog.watch', [Entry::class => []]);
     }
 
     protected function setUp(): void
