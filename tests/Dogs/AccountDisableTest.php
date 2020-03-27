@@ -5,10 +5,10 @@ namespace DirectoryTree\Watchdog\Tests\Dogs;
 use DirectoryTree\Watchdog\LdapNotification;
 use Illuminate\Support\Facades\Notification;
 use LdapRecord\Models\ActiveDirectory\Entry;
+use LdapRecord\Models\Attributes\AccountControl;
 use LdapRecord\Laravel\Testing\DirectoryEmulator;
 use DirectoryTree\Watchdog\Dogs\WatchAccountDisable;
 use DirectoryTree\Watchdog\Notifications\AccountHasBeenDisabled;
-use LdapRecord\Models\Attributes\AccountControl;
 
 class AccountDisableTest extends DogTestCase
 {

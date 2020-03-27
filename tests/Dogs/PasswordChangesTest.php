@@ -4,9 +4,9 @@ namespace DirectoryTree\Watchdog\Tests\Dogs;
 
 use LdapRecord\Models\Attributes\Timestamp;
 use DirectoryTree\Watchdog\LdapNotification;
+use Illuminate\Support\Facades\Notification;
 use LdapRecord\Models\ActiveDirectory\Entry;
 use LdapRecord\Laravel\Testing\DirectoryEmulator;
-use Illuminate\Support\Facades\Notification;
 use DirectoryTree\Watchdog\Dogs\WatchPasswordChanges;
 use DirectoryTree\Watchdog\Notifications\PasswordHasChanged;
 
