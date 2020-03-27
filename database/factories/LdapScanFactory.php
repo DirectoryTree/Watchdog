@@ -4,8 +4,8 @@
 
 use Faker\Generator as Faker;
 use DirectoryTree\Watchdog\LdapScan;
-use DirectoryTree\Watchdog\LdapScanEntry;
 use DirectoryTree\Watchdog\LdapWatcher;
+use DirectoryTree\Watchdog\LdapScanEntry;
 
 $factory->define(LdapScan::class, function (Faker $faker) {
     return [

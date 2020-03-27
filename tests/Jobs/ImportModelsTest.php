@@ -4,8 +4,8 @@ namespace DirectoryTree\Watchdog\Tests\Jobs;
 
 use Carbon\Carbon;
 use LdapRecord\Models\Entry;
-use DirectoryTree\Watchdog\LdapScanEntry;
 use DirectoryTree\Watchdog\LdapWatcher;
+use DirectoryTree\Watchdog\LdapScanEntry;
 use DirectoryTree\Watchdog\Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use DirectoryTree\Watchdog\Jobs\ImportModels;

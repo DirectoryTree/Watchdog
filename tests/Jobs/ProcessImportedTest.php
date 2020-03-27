@@ -6,8 +6,8 @@ use DirectoryTree\Watchdog\LdapScan;
 use DirectoryTree\Watchdog\Watchdog;
 use DirectoryTree\Watchdog\LdapChange;
 use DirectoryTree\Watchdog\LdapObject;
-use DirectoryTree\Watchdog\LdapScanEntry;
 use DirectoryTree\Watchdog\LdapWatcher;
+use DirectoryTree\Watchdog\LdapScanEntry;
 use DirectoryTree\Watchdog\Tests\TestCase;
 use DirectoryTree\Watchdog\Jobs\ProcessImported;
 use DirectoryTree\Watchdog\Conditions\ActiveDirectory\PasswordChanged;
@@ -36,7 +36,7 @@ class ProcessImportedTest extends TestCase
         ]);
 
         $object = factory(LdapObject::class)->create([
-            'watcher_id' => $ldap->id,
+            'watcher_id'    => $ldap->id,
             'deleted_at'    => now(),
         ]);
 
@@ -62,7 +62,7 @@ class ProcessImportedTest extends TestCase
         ]);
 
         $object = factory(LdapObject::class)->create([
-            'watcher_id' => $ldap->id,
+            'watcher_id'    => $ldap->id,
             'values'        => [
                 'foo' => 'bar',
                 'baz' => 'sas',
@@ -98,7 +98,7 @@ class ProcessImportedTest extends TestCase
         ]);
 
         $object = factory(LdapObject::class)->create([
-            'watcher_id' => $ldap->id,
+            'watcher_id'    => $ldap->id,
             'values'        => ['pwdlastset' => ['0']],
         ]);
 

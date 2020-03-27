@@ -38,7 +38,7 @@ class Setup extends Command
                 $name = $model->getConnectionName() ?? $model::getConnectionContainer()->getDefaultConnectionName();
 
                 $watcher = LdapWatcher::firstOrNew([
-                    'model' => get_class($model)
+                    'model' => get_class($model),
                 ]);
 
                 $watcher->fill([
