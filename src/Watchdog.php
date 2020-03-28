@@ -161,9 +161,20 @@ class Watchdog
             app($this->notification())
         );
 
+        $this->createNotificationRecord();
+    }
+
+    /**
+     * Create a record indicating a notification has been sent.
+     *
+     * @return void
+     */
+    protected function createNotificationRecord()
+    {
         $this->object->notifications()->create([
-            'channels'     => $this->channels(),
-            'notification' => $this->notification(),
+            'watchdog'      => $this->getKey(),
+            'channels'      => $this->channels(),
+            'notification'  => $this->notification(),
         ]);
     }
 
@@ -195,8 +206,7 @@ class Watchdog
     public function lastNotification()
     {
         return $this->object->notifications()->where([
-            'channels'     => json_encode($this->channels()),
-            'notification' => $this->notification(),
+            'watchdog' => $this->getKey(),
         ])->latest()->first();
     }
 

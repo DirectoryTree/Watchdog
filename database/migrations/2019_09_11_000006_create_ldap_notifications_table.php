@@ -17,6 +17,7 @@ class CreateLdapNotificationsTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('object_id');
             $table->timestamps();
+            $table->string('watchdog');
             $table->string('notification');
             $table->string('channels');
         });

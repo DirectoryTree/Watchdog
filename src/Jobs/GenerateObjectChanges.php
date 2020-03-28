@@ -72,10 +72,6 @@ class GenerateObjectChanges implements ShouldQueue
     public function handle()
     {
         foreach ($this->modified as $attribute => $values) {
-            $change = new LdapChange();
-
-            $change->object()->associate($this->object);
-
             $before = array_key_exists($attribute, $this->old) ? $this->old[$attribute] : [];
 
             // Our values will be serialized from the DetectChanges pipe. We
@@ -85,12 +81,12 @@ class GenerateObjectChanges implements ShouldQueue
                 return unserialize($values);
             }, $values);
 
-            $change->fill([
+            $this->object->changes()->create([
                 'ldap_updated_at' => $this->when,
                 'attribute'       => $attribute,
                 'before'          => $before,
                 'after'           => $after,
-            ])->save();
+            ]);
         }
     }
 }
