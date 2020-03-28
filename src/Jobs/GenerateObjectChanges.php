@@ -4,7 +4,6 @@ namespace DirectoryTree\Watchdog\Jobs;
 
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
-use DirectoryTree\Watchdog\LdapChange;
 use DirectoryTree\Watchdog\LdapObject;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
