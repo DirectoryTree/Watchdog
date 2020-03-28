@@ -12,7 +12,7 @@ class WatchPasswordChanges extends Watchdog
 
     public function getName()
     {
-        return  trans('watchdog::passwords_changed');
+        return  trans('watchdog::watchdogs.passwords_changed');
     }
 
     public function getKey()

@@ -12,7 +12,7 @@ class WatchLogins extends Watchdog
 
     public function getName()
     {
-        return trans('watchdog::new_logins');
+        return trans('watchdog::watchdogs.new_logins');
     }
 
     public function getKey()

@@ -26,7 +26,7 @@ class WatchGroupMembers extends Watchdog
 
     public function getName()
     {
-        return trans('watchdog::group_members_changed');
+        return trans('watchdog::watchdogs.group_members_changed');
     }
 
     public function getKey()

@@ -23,7 +23,7 @@ class WatchAccountExpiry extends Watchdog
 
     public function getName()
     {
-        return trans('watchdog::accounts_expired');
+        return trans('watchdog::watchdogs.accounts_expired');
     }
 
     public function getKey()

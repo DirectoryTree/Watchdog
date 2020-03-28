@@ -12,7 +12,7 @@ class WatchAccountDisable extends Watchdog
 
     public function getName()
     {
-        return trans('watchdog::accounts_disabled');
+        return trans('watchdog::watchdogs.accounts_disabled');
     }
 
     public function getKey()
