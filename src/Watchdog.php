@@ -2,12 +2,12 @@
 
 namespace DirectoryTree\Watchdog;
 
-use Illuminate\Notifications\Notifiable;
+use Illuminate\Notifications\RoutesNotifications;
 use DirectoryTree\Watchdog\Notifications\ObjectHasChanged;
 
 class Watchdog
 {
-    use Notifiable;
+    use RoutesNotifications;
 
     /**
      * The LDAP object.
@@ -189,13 +189,25 @@ class Watchdog
     }
 
     /**
-     * Determine if a notification has already been sent.
+     * Determine if a notification has already been sent for the current LDAP object.
      *
      * @return bool
      */
     public function notificationHasBeenSent()
     {
-        return !is_null($this->lastNotification());
+        return !is_null($this->lastNotificationForObject());
+    }
+
+    /**
+     * Get the last notification sent to the object inspected by the watchdog.
+     *
+     * @return \DirectoryTree\Watchdog\LdapNotification|null
+     */
+    public function lastNotificationForObject()
+    {
+        return $this->notifications()
+            ->where('object_id', '=', $this->object->id)
+            ->first();
     }
 
     /**
@@ -205,9 +217,17 @@ class Watchdog
      */
     public function lastNotification()
     {
-        return $this->object->notifications()->where([
-            'watchdog' => $this->getKey(),
-        ])->latest()->first();
+        return $this->notifications()->first();
+    }
+
+    /**
+     * Get a query for the latest watchdog notifications.
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function notifications()
+    {
+        return LdapNotification::where('watchdog', '=', $this->getKey())->latest();
     }
 
     /**
