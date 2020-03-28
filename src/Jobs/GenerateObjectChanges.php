@@ -79,7 +79,7 @@ class GenerateObjectChanges implements ShouldQueue
             $before = array_key_exists($attribute, $this->old) ? $this->old[$attribute] : [];
 
             // Our values will be serialized from the DetectChanges pipe. We
-            // will attempt to unserialize the values, and if it values we
+            // will attempt to unserialize the values, and if it fails we
             // will simply save the values that cannot be unserialized.
             $after = rescue(function () use ($values) {
                 return unserialize($values);
