@@ -10,6 +10,16 @@ class WatchAccountDisable extends Watchdog
 {
     protected $conditions = [AccountDisabled::class];
 
+    public function getName()
+    {
+        return trans('watchdog::accounts_disabled');
+    }
+
+    public function getKey()
+    {
+        return 'watchdog.accounts.disabled';
+    }
+
     public function notification()
     {
         return AccountHasBeenDisabled::class;

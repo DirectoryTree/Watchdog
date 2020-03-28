@@ -24,6 +24,16 @@ class WatchGroupMembers extends Watchdog
         );
     }
 
+    public function getName()
+    {
+        return trans('watchdog::group_members_changed');
+    }
+
+    public function getKey()
+    {
+        return 'watchdog.group.members';
+    }
+
     public function notification()
     {
         return MembersHaveChanged::class;

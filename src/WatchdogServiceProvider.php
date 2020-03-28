@@ -40,6 +40,8 @@ class WatchdogServiceProvider extends ServiceProvider
             ], 'config');
         }
 
+        $this->loadTranslationsFrom(__DIR__.'/../resources/lang/', 'watchdog');
+
         $this->loadViewsFrom(__DIR__.'/../resources/notifications', 'watchdog');
 
         $this->loadFactoriesFrom(__DIR__.'/../database/factories');

@@ -24,6 +24,16 @@ class WatchMemberships extends Watchdog
         );
     }
 
+    public function getName()
+    {
+        return trans('watchdog::members_changed');
+    }
+
+    public function getKey()
+    {
+        return 'watchdog.accounts.memberships';
+    }
+
     public function notification()
     {
         return MembersHaveChanged::class;

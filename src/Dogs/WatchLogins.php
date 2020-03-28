@@ -10,6 +10,16 @@ class WatchLogins extends Watchdog
 {
     protected $conditions = [NewLogin::class];
 
+    public function getName()
+    {
+        return trans('watchdog::new_logins');
+    }
+
+    public function getKey()
+    {
+        return 'watchdog.accounts.logins';
+    }
+
     public function notification()
     {
         return LoginHasOccurred::class;

@@ -21,6 +21,16 @@ class WatchAccountExpiry extends Watchdog
         }
     }
 
+    public function getName()
+    {
+        return trans('watchdog::accounts_expired');
+    }
+
+    public function getKey()
+    {
+        return 'watchdog.accounts.expired';
+    }
+
     public function notification()
     {
         return AccountHasExpired::class;
