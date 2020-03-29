@@ -157,11 +157,13 @@ class Watchdog
      */
     public function bark()
     {
-        $this->notify(
-            app($this->notification())
-        );
+        rescue(function () {
+            $this->notify(
+                app($this->notification())
+            );
 
-        $this->createNotificationRecord();
+            $this->createNotificationRecord();
+        });
     }
 
     /**
