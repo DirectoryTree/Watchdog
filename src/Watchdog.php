@@ -175,7 +175,7 @@ class Watchdog
             app($this->notification())
         );
 
-        return true;
+        return empty($this->channels());
     }
 
     /**
@@ -301,7 +301,11 @@ class Watchdog
      */
     public function channels()
     {
-        return ['mail'];
+        $model = $this->object->watcher->model;
+
+        $watchdog = get_class($this);
+
+        return config("watchdog.watch.$model.$watchdog", []);
     }
 
     /**

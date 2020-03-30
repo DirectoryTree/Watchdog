@@ -33,7 +33,9 @@ class DogTestCase extends TestCase
 
         DirectoryEmulator::setup();
 
-        config(["watchdog.watch.{$this->model}" => (array) $this->watchdogs]);
+        foreach ((array) $this->watchdogs as $watchdog) {
+            config(["watchdog.watch.{$this->model}" => [$watchdog => ['mail']]]);
+        }
 
         $this->artisan('watchdog:setup');
     }

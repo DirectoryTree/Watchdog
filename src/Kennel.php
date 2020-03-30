@@ -47,7 +47,7 @@ class Kennel
         $before = $this->transform($object->getOriginalValues());
         $after = $this->transform($object->getUpdatedValues());
 
-        collect($this->watchdogs)->transform(function ($watchdog) use ($object, $before, $after) {
+        collect($this->watchdogs)->transform(function ($channels, $watchdog) use ($object, $before, $after) {
             return app($watchdog)
                 ->object($object)
                 ->before(new State($before))

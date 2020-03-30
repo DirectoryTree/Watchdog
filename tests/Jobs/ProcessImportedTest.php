@@ -91,7 +91,7 @@ class ProcessImportedTest extends TestCase
     {
         $ldap = factory(LdapWatcher::class)->create();
 
-        config(["watchdog.watch.{$ldap->model}" => [TestPasswordHasChangedStubWatchdog::class]]);
+        config(["watchdog.watch.{$ldap->model}" => [TestPasswordHasChangedStubWatchdog::class => []]]);
 
         $scan = factory(LdapScan::class)->create([
             'watcher_id' => $ldap->id,
