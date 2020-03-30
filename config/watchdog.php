@@ -57,6 +57,8 @@ return [
         // ex. January 1st, 2020 @ 00:00 AM
         'date_format' => 'F jS, Y @ g:i A',
 
+        'seconds_between_notifications' => 5,
+
     ],
 
     'attributes' => [

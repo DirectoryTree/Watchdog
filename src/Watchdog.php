@@ -171,8 +171,10 @@ class Watchdog
      */
     protected function sendNotification()
     {
+        $seconds = config('watchdog.notifications.seconds_between_notifications', 5);
+
         $this->notify(
-            app($this->notification())
+            app($this->notification())->delay($seconds)
         );
 
         return empty($this->channels());
