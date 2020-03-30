@@ -7,6 +7,7 @@ class TypeGuesser
     const TYPE_USER = 'user';
     const TYPE_GROUP = 'group';
     const TYPE_DOMAIN = 'domain';
+    const TYPE_COMPUTER = 'computer';
     const TYPE_CONTAINER = 'container';
 
     /**
@@ -29,6 +30,7 @@ class TypeGuesser
         'groupofentries'        => self::TYPE_GROUP,
         'groupofuniquenames'    => self::TYPE_GROUP,
         'domain'                => self::TYPE_DOMAIN,
+        'computer'              => self::TYPE_COMPUTER,
         'locality'              => self::TYPE_CONTAINER,
         'container'             => self::TYPE_CONTAINER,
         'lostandfound'          => self::TYPE_CONTAINER,
@@ -43,7 +45,9 @@ class TypeGuesser
      */
     public function __construct(array $classes = [])
     {
-        $this->classes = array_map('strtolower', $classes);
+        $this->classes = array_reverse(
+            array_map('strtolower', $classes)
+        );
     }
 
     /**
