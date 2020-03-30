@@ -158,22 +158,37 @@ class Watchdog
     public function bark()
     {
         rescue(function () {
-            $this->notify(
-                app($this->notification())
+            $this->createNotificationRecord(
+                $sent = $this->sendNotification()
             );
-
-            $this->createNotificationRecord();
         });
+    }
+
+    /**
+     * Send a watchdog notification.
+     *
+     * @return bool
+     */
+    protected function sendNotification()
+    {
+        $this->notify(
+            app($this->notification())
+        );
+
+        return true;
     }
 
     /**
      * Create a record indicating a notification has been sent.
      *
+     * @param $sent bool
+     *
      * @return void
      */
-    protected function createNotificationRecord()
+    protected function createNotificationRecord($sent = true)
     {
         $this->object->notifications()->create([
+            'sent'          => $sent,
             'watchdog'      => $this->getKey(),
             'channels'      => $this->channels(),
             'notification'  => $this->notification(),
