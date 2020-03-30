@@ -2,8 +2,8 @@
 
 namespace DirectoryTree\Watchdog\Notifications;
 
-use DirectoryTree\Watchdog\Watchdog;
 use Illuminate\Bus\Queueable;
+use DirectoryTree\Watchdog\Watchdog;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Notification as BaseNotification;
 
