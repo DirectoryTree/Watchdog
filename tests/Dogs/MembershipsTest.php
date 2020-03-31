@@ -3,11 +3,11 @@
 namespace DirectoryTree\Watchdog\Tests\Dogs;
 
 use DirectoryTree\Watchdog\LdapNotification;
-use DirectoryTree\Watchdog\Notifications\AccountGroupsHaveChanged;
 use Illuminate\Support\Facades\Notification;
 use LdapRecord\Models\ActiveDirectory\Entry;
 use DirectoryTree\Watchdog\Dogs\WatchAccountGroups;
 use DirectoryTree\Watchdog\Notifications\MembersHaveChanged;
+use DirectoryTree\Watchdog\Notifications\AccountGroupsHaveChanged;
 
 class MembershipsTest extends DogTestCase
 {
