@@ -34,6 +34,11 @@ class WatchGroupMembers extends Watchdog
         return 'watchdog.group.members';
     }
 
+    public function getNotifiableSubject()
+    {
+        return  "Group [{$this->object->name}] has had members changed";
+    }
+
     public function notification()
     {
         return MembersHaveChanged::class;

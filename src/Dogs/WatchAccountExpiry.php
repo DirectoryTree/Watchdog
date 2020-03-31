@@ -31,6 +31,11 @@ class WatchAccountExpiry extends Watchdog
         return 'watchdog.accounts.expired';
     }
 
+    public function getNotifiableSubject()
+    {
+        return "Account [{$this->object->name}] has expired";
+    }
+
     public function notification()
     {
         return AccountHasExpired::class;

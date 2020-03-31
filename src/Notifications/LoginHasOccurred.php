@@ -17,21 +17,9 @@ class LoginHasOccurred extends Notification
     public function toMail(Watchdog $watchdog)
     {
         return (new MailMessage())
-            ->subject($this->getSubject($watchdog))
+            ->subject($watchdog->getNotifiableSubject())
             ->markdown('watchdog::new-login', [
                 'watchdog' => $watchdog,
             ]);
-    }
-
-    /**
-     * Get the subject for the watchdog.
-     *
-     * @param Watchdog $watchdog
-     *
-     * @return string
-     */
-    protected function getSubject(Watchdog $watchdog)
-    {
-        return "Account '{$watchdog->object()->name}' has a new login";
     }
 }

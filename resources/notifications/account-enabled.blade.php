@@ -1,5 +1,5 @@
 @component('watchdog::layout', [
-    'title' => "{$watchdog->object()->name} has been enabled.",
+    'title' => $watchdog->getNotifiableSubject(),
     'subtitle' => $watchdog->object()->dn,
 ])
 @endcomponent

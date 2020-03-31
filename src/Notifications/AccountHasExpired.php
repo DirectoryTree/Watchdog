@@ -17,21 +17,9 @@ class AccountHasExpired extends Notification
     public function toMail(Watchdog $watchdog)
     {
         return (new MailMessage())
-            ->subject($this->getSubject($watchdog))
+            ->subject($watchdog->getNotifiableSubject())
             ->markdown('watchdog::account-expired', [
                 'watchdog' => $watchdog,
             ]);
-    }
-
-    /**
-     * Get the subject for the watchdog.
-     *
-     * @param Watchdog $watchdog
-     *
-     * @return string
-     */
-    protected function getSubject(Watchdog $watchdog)
-    {
-        return "Account '{$watchdog->object()->name}' has expired";
     }
 }

@@ -2,7 +2,7 @@
 
 namespace DirectoryTree\Watchdog\Notifications;
 
-use DirectoryTree\Watchdog\Dogs\WatchMemberships;
+use DirectoryTree\Watchdog\Dogs\WatchGroupMembers;
 use Illuminate\Notifications\Messages\MailMessage;
 
 class MembersHaveChanged extends Notification
@@ -10,28 +10,16 @@ class MembersHaveChanged extends Notification
     /**
      * Get the mail representation of the notification.
      *
-     * @param WatchMemberships $watchdog
+     * @param WatchGroupMembers $watchdog
      *
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
-    public function toMail(WatchMemberships $watchdog)
+    public function toMail(WatchGroupMembers $watchdog)
     {
         return (new MailMessage())
-            ->subject($this->getSubject($watchdog))
+            ->subject($watchdog->getNotifiableSubject())
             ->markdown('watchdog::members-changed', [
                 'watchdog' => $watchdog,
             ]);
-    }
-
-    /**
-     * Get the subject for the watchdog notification.
-     *
-     * @param WatchMemberships $watchdog
-     *
-     * @return string
-     */
-    protected function getSubject(WatchMemberships $watchdog)
-    {
-        return "Group '{$watchdog->object()->name}' has had members changed";
     }
 }

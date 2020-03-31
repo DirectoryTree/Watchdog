@@ -20,6 +20,11 @@ class WatchLogins extends Watchdog
         return 'watchdog.accounts.logins';
     }
 
+    public function getNotifiableSubject()
+    {
+        return "Account [{$this->object->name}] has a new login";
+    }
+
     public function notification()
     {
         return LoginHasOccurred::class;

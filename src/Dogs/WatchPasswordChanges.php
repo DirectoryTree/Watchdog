@@ -33,6 +33,11 @@ class WatchPasswordChanges extends Watchdog
         return 'watchdog.accounts.passwords';
     }
 
+    public function getNotifiableSubject()
+    {
+        return "{$this->object->name} has had their password changed";
+    }
+
     public function notification()
     {
         return PasswordHasChanged::class;

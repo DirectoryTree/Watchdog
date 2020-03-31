@@ -20,6 +20,11 @@ class WatchAccountEnable extends Watchdog
         return 'watchdog.accounts.enabled';
     }
 
+    public function getNotifiableSubject()
+    {
+        return "Account [{$this->object->name}] has been enabled";
+    }
+
     public function notification()
     {
         return AccountHasBeenEnabled::class;

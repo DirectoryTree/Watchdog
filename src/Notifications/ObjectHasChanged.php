@@ -17,21 +17,9 @@ class ObjectHasChanged extends Notification
     public function toMail(Watchdog $watchdog)
     {
         return (new MailMessage())
-            ->subject($this->getSubject($watchdog))
+            ->subject($watchdog->getNotifiableSubject())
             ->markdown('watchdog::changed', [
                 'watchdog' => $watchdog,
             ]);
-    }
-
-    /**
-     * Get the subject for the watchdog notification.
-     *
-     * @param Watchdog $watchdog
-     *
-     * @return string
-     */
-    protected function getSubject(Watchdog $watchdog)
-    {
-        return "Object '{$watchdog->object()->name}' has been changed";
     }
 }

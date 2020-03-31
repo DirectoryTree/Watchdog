@@ -141,6 +141,26 @@ class Watchdog
     }
 
     /**
+     * Get the description of the watchdog.
+     *
+     * @return string|null
+     */
+    public function getDescription()
+    {
+        return;
+    }
+
+    /**
+     * Get the notifiable subject for the watchdog.
+     *
+     * @return string
+     */
+    public function getNotifiableSubject()
+    {
+        return "Object [{$this->object->name}] has been changed";
+    }
+
+    /**
      * Get the notification key for the watchdog.
      *
      * @return string
@@ -298,7 +318,7 @@ class Watchdog
     }
 
     /**
-     * Get the data that
+     * Get the arrayable data of the watchdog.
      *
      * @return array
      */
@@ -307,7 +327,18 @@ class Watchdog
         return [
             'before' => $this->before->toJson(),
             'after' => $this->after->toJson(),
+            'extra' => collect($this->extra())->toJson(),
         ];
+    }
+
+    /**
+     * Get extra data to insert into the notification record.
+     *
+     * @return array
+     */
+    public function extra()
+    {
+        return [];
     }
 
     /**

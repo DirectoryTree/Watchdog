@@ -3,10 +3,10 @@
 namespace DirectoryTree\Watchdog\Dogs;
 
 use DirectoryTree\Watchdog\Watchdog;
-use DirectoryTree\Watchdog\Notifications\MembersHaveChanged;
+use DirectoryTree\Watchdog\Notifications\AccountGroupsHaveChanged;
 use DirectoryTree\Watchdog\Conditions\ActiveDirectory\GroupsChanged;
 
-class WatchMemberships extends Watchdog
+class WatchAccountGroups extends Watchdog
 {
     protected $conditions = [GroupsChanged::class];
 
@@ -26,16 +26,21 @@ class WatchMemberships extends Watchdog
 
     public function getName()
     {
-        return trans('watchdog::watchdogs.members_changed');
+        return trans('watchdog::watchdogs.account_groups_changed');
     }
 
     public function getKey()
     {
-        return 'watchdog.accounts.memberships';
+        return 'watchdog.accounts.groups';
+    }
+
+    public function getNotifiableSubject()
+    {
+        return "Account [{$this->object->name}] has had their groups changed";
     }
 
     public function notification()
     {
-        return MembersHaveChanged::class;
+        return AccountGroupsHaveChanged::class;
     }
 }

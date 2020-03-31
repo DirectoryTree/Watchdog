@@ -20,6 +20,11 @@ class WatchAccountDisable extends Watchdog
         return 'watchdog.accounts.disabled';
     }
 
+    public function getNotifiableSubject()
+    {
+        return "Account [{$this->object->name}] has been disabled";
+    }
+
     public function notification()
     {
         return AccountHasBeenDisabled::class;
