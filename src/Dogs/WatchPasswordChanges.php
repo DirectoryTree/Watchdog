@@ -2,8 +2,8 @@
 
 namespace DirectoryTree\Watchdog\Dogs;
 
-use DirectoryTree\Watchdog\Ldap\TypeGuesser;
 use DirectoryTree\Watchdog\Watchdog;
+use DirectoryTree\Watchdog\Ldap\TypeGuesser;
 use DirectoryTree\Watchdog\Notifications\PasswordHasChanged;
 use DirectoryTree\Watchdog\Conditions\ActiveDirectory\PasswordChanged;
 
