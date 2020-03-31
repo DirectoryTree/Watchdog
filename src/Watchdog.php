@@ -328,6 +328,7 @@ class Watchdog
             'before' => $this->before->toJson(),
             'after' => $this->after->toJson(),
             'extra' => collect($this->extra())->toJson(),
+            'subject' => $this->getNotifiableSubject(),
         ];
     }
 
