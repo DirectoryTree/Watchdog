@@ -147,7 +147,6 @@ class Watchdog
      */
     public function getDescription()
     {
-        return;
     }
 
     /**
@@ -326,8 +325,8 @@ class Watchdog
     {
         return [
             'before' => $this->before->toJson(),
-            'after' => $this->after->toJson(),
-            'extra' => collect($this->extra())->toJson(),
+            'after'  => $this->after->toJson(),
+            'extra'  => collect($this->extra())->toJson(),
         ];
     }
 
