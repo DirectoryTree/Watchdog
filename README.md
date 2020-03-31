@@ -27,6 +27,14 @@ Monitor & Audit your Active Directory server.
 
 Watchdog records every change made to every attribute inside of your Active Directory server.
 
-🚨 **Get alerted when things happen**
+🚨 **Get alerted when important things happen**
 
-Watchdog notifies you of changes that can affect security, such as changes to passwords, groups, users, and more.
+Watchdog notifies you of changes that affect security, such as changes to passwords, groups, users, and more.
+
+---
+
+<h3 align="center">Watchdog is Sponsorware™</h3>
+
+<p align="center">If you require support using Watchdog, a <a href="https://github.com/sponsors/stevebauman">sponsorship</a> is required.</p>
+
+<p align="center">Thank you for your understanding :heart:</p>
