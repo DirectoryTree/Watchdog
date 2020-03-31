@@ -150,7 +150,6 @@ class Watchdog
      */
     public function getDescription()
     {
-        return;
     }
 
     /**
@@ -342,9 +341,9 @@ class Watchdog
     public function data()
     {
         return [
-            'before' => $this->before->toJson(),
-            'after' => $this->after->toJson(),
-            'extra' => collect($this->extra())->toJson(),
+            'before'  => $this->before->toJson(),
+            'after'   => $this->after->toJson(),
+            'extra'   => collect($this->extra())->toJson(),
             'subject' => $this->getNotifiableSubject(),
         ];
     }
