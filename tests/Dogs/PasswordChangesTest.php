@@ -21,7 +21,7 @@ class PasswordChangesTest extends DogTestCase
 
         $object = Entry::create([
             'cn'          => 'John Doe',
-            'objectclass' => ['foo'],
+            'objectclass' => ['user'],
             'objectguid'  => $this->faker->uuid,
             'pwdlastset'  => [0],
         ]);
