@@ -17,7 +17,7 @@ class WatchPasswordChanges extends Watchdog
     protected $conditions = [PasswordChanged::class];
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function bark()
     {
