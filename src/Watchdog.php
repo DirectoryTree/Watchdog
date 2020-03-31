@@ -298,7 +298,7 @@ class Watchdog
     }
 
     /**
-     * Get the data that
+     * Get the data that.
      *
      * @return array
      */
@@ -306,7 +306,7 @@ class Watchdog
     {
         return [
             'before' => $this->before->toJson(),
-            'after' => $this->after->toJson(),
+            'after'  => $this->after->toJson(),
         ];
     }
 
