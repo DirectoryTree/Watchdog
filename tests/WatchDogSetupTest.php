@@ -22,10 +22,10 @@ class WatchDogSetupTest extends TestCase
 
         $this->assertCount(1, LdapWatcher::get());
 
-        $connection = LdapWatcher::first();
+        $watcher = LdapWatcher::first();
 
-        $this->assertEquals('Default', $connection->name);
-        $this->assertEquals(Entry::class, $connection->model);
+        $this->assertEquals('Default', $watcher->name);
+        $this->assertEquals(Entry::class, $watcher->model);
     }
 
     public function test_model_connections_are_not_duplicated()

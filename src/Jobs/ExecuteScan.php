@@ -6,7 +6,7 @@ use DirectoryTree\Watchdog\LdapScan;
 use DirectoryTree\Watchdog\LdapWatcher;
 use Illuminate\Foundation\Bus\Dispatchable;
 
-class ScanConnection
+class ExecuteScan
 {
     use Dispatchable;
 
@@ -15,18 +15,18 @@ class ScanConnection
      *
      * @var LdapWatcher
      */
-    protected $connection;
+    protected $watcher;
 
     /**
      * Create a new job instance.
      *
-     * @param LdapWatcher $connection
+     * @param LdapWatcher $watcher
      *
      * @return void
      */
-    public function __construct(LdapWatcher $connection)
+    public function __construct(LdapWatcher $watcher)
     {
-        $this->connection = $connection;
+        $this->watcher = $watcher;
     }
 
     /**
@@ -37,7 +37,7 @@ class ScanConnection
     public function handle()
     {
         /** @var LdapScan $scan */
-        $scan = $this->connection->scans()->create();
+        $scan = $this->watcher->scans()->create();
 
         ImportModels::withChain([
             new ProcessImported($scan),

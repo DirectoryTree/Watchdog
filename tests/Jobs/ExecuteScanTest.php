@@ -5,10 +5,10 @@ namespace DirectoryTree\Watchdog\Tests\Jobs;
 use LdapRecord\Models\Entry;
 use DirectoryTree\Watchdog\LdapWatcher;
 use DirectoryTree\Watchdog\Tests\TestCase;
-use DirectoryTree\Watchdog\Jobs\ScanConnection;
+use DirectoryTree\Watchdog\Jobs\ExecuteScan;
 use LdapRecord\Laravel\Testing\DirectoryEmulator;
 
-class ScanConnectionTest extends TestCase
+class ExecuteScanTest extends TestCase
 {
     protected function getEnvironmentSetUp($app)
     {
@@ -34,11 +34,11 @@ class ScanConnectionTest extends TestCase
 
     public function test_scan_records_are_created_for_connections()
     {
-        $connection = LdapWatcher::first();
+        $watcher = LdapWatcher::first();
 
-        ScanConnection::dispatch($connection);
+        ExecuteScan::dispatch($watcher);
 
-        $scan = $connection->scans()->first();
+        $scan = $watcher->scans()->first();
         $this->assertTrue($scan->success);
         $this->assertEquals(0, $scan->synchronized);
     }

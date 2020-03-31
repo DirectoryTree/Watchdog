@@ -2,7 +2,7 @@
 
 namespace DirectoryTree\Watchdog;
 
-class ConnectionRepository
+class WatcherRepository
 {
     /**
      * Get all the LDAP connections being monitored.
@@ -21,10 +21,10 @@ class ConnectionRepository
      */
     public static function toMonitor()
     {
-        return static::query()->get()->filter(function (LdapWatcher $connection) {
+        return static::query()->get()->filter(function (LdapWatcher $watcher) {
             $frequencyInMinutes = config('watchdog.frequency', 15);
 
-            $lastScan = $connection->scans()->latest()->first();
+            $lastScan = $watcher->scans()->latest()->first();
 
             if (!$lastScan) {
                 return true;

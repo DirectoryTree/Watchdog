@@ -35,11 +35,11 @@ class ImportModelsTest extends TestCase
 
     public function test_scan_is_updated_with_no_models_to_import()
     {
-        $connection = factory(LdapWatcher::class)->create([
+        $watcher = factory(LdapWatcher::class)->create([
             'model' => Entry::class,
         ]);
 
-        $scan = $connection->scans()->create();
+        $scan = $watcher->scans()->create();
 
         ImportModels::dispatch($scan);
 
@@ -61,11 +61,11 @@ class ImportModelsTest extends TestCase
             ]);
         }
 
-        $connection = factory(LdapWatcher::class)->create([
+        $watcher = factory(LdapWatcher::class)->create([
             'model' => Entry::class,
         ]);
 
-        $scan = $connection->scans()->create();
+        $scan = $watcher->scans()->create();
 
         ImportModels::dispatch($scan);
 

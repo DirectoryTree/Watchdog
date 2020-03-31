@@ -25,15 +25,15 @@ class LdapWatcher extends Model
     {
         parent::boot();
 
-        static::deleting(function (self $connection) {
-            $connection->scans()->each(function (LdapScan $scan) {
+        static::deleting(function (self $watcher) {
+            $watcher->scans()->each(function (LdapScan $scan) {
                 $scan->delete();
             });
 
             // The connection may have a large amount of objects. We
             // will chunk our results to keep memory usage low
             // and so object deletion events are fired.
-            $connection->objects()->chunk(500, function ($objects) {
+            $watcher->objects()->chunk(500, function ($objects) {
                 /** @var LdapObject $object */
                 foreach ($objects as $object) {
                     $object->forceDelete();

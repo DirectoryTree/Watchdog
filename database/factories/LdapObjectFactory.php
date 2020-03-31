@@ -16,8 +16,8 @@ $factory->define(LdapObject::class, function (Faker $faker) {
 
 $factory->afterMaking(LdapObject::class, function (LdapObject $object, Faker $faker) {
     if (!$object->watcher_id) {
-        $connection = factory(LdapWatcher::class)->create();
-        $object->watcher()->associate($connection);
+        $watcher = factory(LdapWatcher::class)->create();
+        $object->watcher()->associate($watcher);
     }
 
     $object->name = $faker->name;

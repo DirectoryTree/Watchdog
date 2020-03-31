@@ -4,8 +4,8 @@ namespace DirectoryTree\Watchdog\Commands;
 
 use Illuminate\Console\Command;
 use DirectoryTree\Watchdog\LdapWatcher;
-use DirectoryTree\Watchdog\Jobs\ScanConnection;
-use DirectoryTree\Watchdog\ConnectionRepository;
+use DirectoryTree\Watchdog\Jobs\ExecuteScan;
+use DirectoryTree\Watchdog\WatcherRepository;
 
 class Monitor extends Command
 {
@@ -33,18 +33,18 @@ class Monitor extends Command
         $this->info('---- Watchdog ----');
         $this->info('Starting to queue monitor...');
 
-        $connections = ConnectionRepository::toMonitor();
+        $watchers = WatcherRepository::toMonitor();
 
-        if ($connections->isEmpty()) {
+        if ($watchers->isEmpty()) {
             return $this->info('No LDAP connections are scheduled to be synchronized.');
         }
 
-        $bar = $this->output->createProgressBar($connections->count());
+        $bar = $this->output->createProgressBar($watchers->count());
 
         $bar->start();
 
-        $connections->each(function (LdapWatcher $connection) use ($bar) {
-            ScanConnection::dispatch($connection);
+        $watchers->each(function (LdapWatcher $watcher) use ($bar) {
+            ExecuteScan::dispatch($watcher);
 
             $bar->advance();
         });
@@ -52,6 +52,6 @@ class Monitor extends Command
         $bar->finish();
 
         $this->info("\n");
-        $this->table(['Domains Queued'], $connections->map->only('name'));
+        $this->table(['Domains Queued'], $watchers->map->only('name'));
     }
 }
