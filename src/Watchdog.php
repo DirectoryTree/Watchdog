@@ -2,9 +2,9 @@
 
 namespace DirectoryTree\Watchdog;
 
+use Illuminate\Support\Str;
 use Illuminate\Notifications\RoutesNotifications;
 use DirectoryTree\Watchdog\Notifications\ObjectHasChanged;
-use Illuminate\Support\Str;
 
 class Watchdog
 {

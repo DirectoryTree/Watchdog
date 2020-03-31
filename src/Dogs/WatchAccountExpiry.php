@@ -16,7 +16,7 @@ class WatchAccountExpiry extends Watchdog
     protected $conditions = [AccountExpired::class];
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function bark()
     {
