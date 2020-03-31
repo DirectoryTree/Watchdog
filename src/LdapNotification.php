@@ -19,7 +19,7 @@ class LdapNotification extends Model
      * @var array
      */
     protected $casts = [
-        'data' => 'array',
+        'data'     => 'array',
         'channels' => 'array',
     ];
 
