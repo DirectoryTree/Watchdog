@@ -3,8 +3,9 @@
 namespace DirectoryTree\Watchdog;
 
 use Illuminate\Support\Arr;
+use Illuminate\Contracts\Support\Jsonable;
 
-class State
+class State implements Jsonable
 {
     /**
      * The attributes for the current state.
@@ -53,5 +54,17 @@ class State
         sort($values);
 
         return collect($values);
+    }
+
+    /**
+     * Convert the object to its JSON representation.
+     *
+     * @param int $options
+     *
+     * @return string
+     */
+    public function toJson($options = 0)
+    {
+        return $this->attributes()->toJson($options);
     }
 }

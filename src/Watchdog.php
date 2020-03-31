@@ -191,6 +191,7 @@ class Watchdog
     {
         $this->object->notifications()->create([
             'sent'          => $sent,
+            'data'          => $this->data(),
             'watchdog'      => $this->getKey(),
             'channels'      => $this->channels(),
             'notification'  => $this->notification(),
@@ -294,6 +295,19 @@ class Watchdog
     public function notification()
     {
         return ObjectHasChanged::class;
+    }
+
+    /**
+     * Get the data that
+     *
+     * @return array
+     */
+    public function data()
+    {
+        return [
+            'before' => $this->before->toJson(),
+            'after' => $this->after->toJson(),
+        ];
     }
 
     /**

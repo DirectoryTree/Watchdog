@@ -21,6 +21,7 @@ class CreateLdapNotificationsTable extends Migration
             $table->string('notification');
             $table->string('channels');
             $table->boolean('sent');
+            $table->text('data')->nullable();
         });
     }
 

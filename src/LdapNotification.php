@@ -18,7 +18,10 @@ class LdapNotification extends Model
      *
      * @var array
      */
-    protected $casts = ['channels' => 'array'];
+    protected $casts = [
+        'data' => 'array',
+        'channels' => 'array',
+    ];
 
     /**
      * The belongsTo LDAP object relationship.
