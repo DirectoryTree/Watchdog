@@ -213,7 +213,7 @@ class Watchdog
             app($this->notification())->delay($seconds)
         );
 
-        return empty($this->channels());
+        return !empty($this->channels());
     }
 
     /**

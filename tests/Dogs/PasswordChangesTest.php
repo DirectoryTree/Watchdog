@@ -43,6 +43,7 @@ class PasswordChangesTest extends DogTestCase
 
         $this->assertEquals(1, $notification->object_id);
         $this->assertEquals(['mail'], $notification->channels);
+        $this->assertTrue($notification->sent);
         $this->assertEquals(PasswordHasChanged::class, $notification->notification);
     }
 }

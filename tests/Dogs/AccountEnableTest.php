@@ -41,6 +41,7 @@ class AccountEnableTest extends DogTestCase
 
         $this->assertEquals(1, $notification->object_id);
         $this->assertEquals(['mail'], $notification->channels);
+        $this->assertTrue($notification->sent);
         $this->assertEquals(AccountHasBeenEnabled::class, $notification->notification);
     }
 
