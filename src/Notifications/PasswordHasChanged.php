@@ -14,24 +14,12 @@ class PasswordHasChanged extends Notification
      *
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
-    public function toMail($watchdog)
+    public function toMail(Watchdog $watchdog)
     {
         return (new MailMessage())
-            ->subject($this->getSubject($watchdog))
+            ->subject($watchdog->getNotifiableSubject())
             ->markdown('watchdog::password-changed', [
                 'watchdog' => $watchdog,
             ]);
-    }
-
-    /**
-     * Get the subject for the watchdog notification.
-     *
-     * @param Watchdog $watchdog
-     *
-     * @return string
-     */
-    protected function getSubject(Watchdog $watchdog)
-    {
-        return "Account '{$watchdog->object()->name}' has had their password changed";
     }
 }

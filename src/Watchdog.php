@@ -4,6 +4,7 @@ namespace DirectoryTree\Watchdog;
 
 use Illuminate\Notifications\RoutesNotifications;
 use DirectoryTree\Watchdog\Notifications\ObjectHasChanged;
+use Illuminate\Support\Str;
 
 class Watchdog
 {
@@ -137,7 +138,9 @@ class Watchdog
      */
     public function getName()
     {
-        return get_class($this);
+        $watchdog = get_class($this);
+
+        return trans("watchdog::watchdogs.$watchdog.name") ?? $watchdog;
     }
 
     /**
@@ -157,7 +160,11 @@ class Watchdog
      */
     public function getNotifiableSubject()
     {
-        return "Object [{$this->object->name}] has been changed";
+        $watchdog = get_class($this);
+
+        return trans("watchdog::watchdogs.$watchdog.subject", [
+            'object' => $this->object->name,
+        ]);
     }
 
     /**
@@ -167,7 +174,17 @@ class Watchdog
      */
     public function getKey()
     {
-        return $this->getName();
+        return $this->getRouteKey();
+    }
+
+    /**
+     * Get the value of the watchdogs route key.
+     *
+     * @return mixed
+     */
+    public function getRouteKey()
+    {
+        return Str::slug(Str::kebab(class_basename($this)));
     }
 
     /**

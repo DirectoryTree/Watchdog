@@ -8,8 +8,18 @@ use DirectoryTree\Watchdog\Conditions\ActiveDirectory\MembersChanged;
 
 class WatchGroupMembers extends Watchdog
 {
+    /**
+     * The watchdog conditions.
+     *
+     * @var array
+     */
     protected $conditions = [MembersChanged::class];
 
+    /**
+     * Get the members that have been added.
+     *
+     * @return \Illuminate\Support\Collection
+     */
     public function added()
     {
         return $this->after->attribute('member')->diff(
@@ -17,6 +27,11 @@ class WatchGroupMembers extends Watchdog
         );
     }
 
+    /**
+     * Get the members that have been removed.
+     *
+     * @return \Illuminate\Support\Collection
+     */
     public function removed()
     {
         return $this->before->attribute('member')->diff(
@@ -24,21 +39,11 @@ class WatchGroupMembers extends Watchdog
         );
     }
 
-    public function getName()
-    {
-        return trans('watchdog::watchdogs.group_members_changed');
-    }
-
-    public function getKey()
-    {
-        return 'watchdog.group.members';
-    }
-
-    public function getNotifiableSubject()
-    {
-        return  "Group [{$this->object->name}] has had members changed";
-    }
-
+    /**
+     * The watchdog notification.
+     *
+     * @return string
+     */
     public function notification()
     {
         return MembersHaveChanged::class;

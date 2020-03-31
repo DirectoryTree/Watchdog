@@ -8,8 +8,18 @@ use DirectoryTree\Watchdog\Conditions\ActiveDirectory\GroupsChanged;
 
 class WatchAccountGroups extends Watchdog
 {
+    /**
+     * The watchdog conditions.
+     *
+     * @var array
+     */
     protected $conditions = [GroupsChanged::class];
 
+    /**
+     * Get the groups that have been added.
+     *
+     * @return \Illuminate\Support\Collection
+     */
     public function added()
     {
         return $this->after->attribute('memberof')->diff(
@@ -17,6 +27,11 @@ class WatchAccountGroups extends Watchdog
         );
     }
 
+    /**
+     * Get the groups that have been removed.
+     *
+     * @return \Illuminate\Support\Collection
+     */
     public function removed()
     {
         return $this->before->attribute('memberof')->diff(
@@ -24,21 +39,11 @@ class WatchAccountGroups extends Watchdog
         );
     }
 
-    public function getName()
-    {
-        return trans('watchdog::watchdogs.account_groups_changed');
-    }
-
-    public function getKey()
-    {
-        return 'watchdog.accounts.groups';
-    }
-
-    public function getNotifiableSubject()
-    {
-        return "Account [{$this->object->name}] has had their groups changed";
-    }
-
+    /**
+     * The watchdog notification.
+     *
+     * @return string
+     */
     public function notification()
     {
         return AccountGroupsHaveChanged::class;

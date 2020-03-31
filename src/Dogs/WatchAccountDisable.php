@@ -8,23 +8,18 @@ use DirectoryTree\Watchdog\Conditions\ActiveDirectory\AccountDisabled;
 
 class WatchAccountDisable extends Watchdog
 {
+    /**
+     * The watchdog conditions.
+     *
+     * @var array
+     */
     protected $conditions = [AccountDisabled::class];
 
-    public function getName()
-    {
-        return trans('watchdog::watchdogs.accounts_disabled');
-    }
-
-    public function getKey()
-    {
-        return 'watchdog.accounts.disabled';
-    }
-
-    public function getNotifiableSubject()
-    {
-        return "Account [{$this->object->name}] has been disabled";
-    }
-
+    /**
+     * The watchdog notification.
+     *
+     * @return string
+     */
     public function notification()
     {
         return AccountHasBeenDisabled::class;

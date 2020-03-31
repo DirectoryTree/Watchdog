@@ -5,7 +5,7 @@ namespace DirectoryTree\Watchdog\Tests;
 use DirectoryTree\Watchdog\LdapWatcher;
 use LdapRecord\Models\ActiveDirectory\Entry;
 
-class WatchDogSetupTest extends TestCase
+class WatchdogSetupTest extends TestCase
 {
     protected function getEnvironmentSetUp($app)
     {

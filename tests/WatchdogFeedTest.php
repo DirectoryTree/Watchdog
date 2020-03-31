@@ -10,7 +10,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use LdapRecord\Models\ActiveDirectory\Entry;
 use LdapRecord\Laravel\Testing\DirectoryEmulator;
 
-class WatchDogFeedTest extends TestCase
+class WatchdogFeedTest extends TestCase
 {
     use WithFaker;
 

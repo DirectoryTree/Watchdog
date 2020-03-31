@@ -8,8 +8,16 @@ use DirectoryTree\Watchdog\Conditions\ActiveDirectory\AccountExpired;
 
 class WatchAccountExpiry extends Watchdog
 {
+    /**
+     * The watchdog conditions.
+     *
+     * @var array
+     */
     protected $conditions = [AccountExpired::class];
 
+    /**
+     * {@inheritDoc}
+     */
     public function bark()
     {
         if (!$this->notificationHasBeenSent()) {
@@ -21,21 +29,11 @@ class WatchAccountExpiry extends Watchdog
         }
     }
 
-    public function getName()
-    {
-        return trans('watchdog::watchdogs.accounts_expired');
-    }
-
-    public function getKey()
-    {
-        return 'watchdog.accounts.expired';
-    }
-
-    public function getNotifiableSubject()
-    {
-        return "Account [{$this->object->name}] has expired";
-    }
-
+    /**
+     * The watchdog notification.
+     *
+     * @return string
+     */
     public function notification()
     {
         return AccountHasExpired::class;

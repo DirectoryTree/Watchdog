@@ -8,23 +8,18 @@ use DirectoryTree\Watchdog\Conditions\ActiveDirectory\AccountEnabled;
 
 class WatchAccountEnable extends Watchdog
 {
+    /**
+     * The watchdog conditions.
+     *
+     * @var array
+     */
     protected $conditions = [AccountEnabled::class];
 
-    public function getName()
-    {
-        return trans('watchdog::watchdogs.accounts_enabled');
-    }
-
-    public function getKey()
-    {
-        return 'watchdog.accounts.enabled';
-    }
-
-    public function getNotifiableSubject()
-    {
-        return "Account [{$this->object->name}] has been enabled";
-    }
-
+    /**
+     * The watchdog notification.
+     *
+     * @return string
+     */
     public function notification()
     {
         return AccountHasBeenEnabled::class;

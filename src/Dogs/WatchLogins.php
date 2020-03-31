@@ -8,23 +8,18 @@ use DirectoryTree\Watchdog\Conditions\ActiveDirectory\NewLogin;
 
 class WatchLogins extends Watchdog
 {
+    /**
+     * The watchdog conditions.
+     *
+     * @var array
+     */
     protected $conditions = [NewLogin::class];
 
-    public function getName()
-    {
-        return trans('watchdog::watchdogs.new_logins');
-    }
-
-    public function getKey()
-    {
-        return 'watchdog.accounts.logins';
-    }
-
-    public function getNotifiableSubject()
-    {
-        return "Account [{$this->object->name}] has a new login";
-    }
-
+    /**
+     * The watchdog notification.
+     *
+     * @return string
+     */
     public function notification()
     {
         return LoginHasOccurred::class;

@@ -9,10 +9,16 @@ use DirectoryTree\Watchdog\Conditions\ActiveDirectory\PasswordChanged;
 
 class WatchPasswordChanges extends Watchdog
 {
-    protected $conditions = [
-        PasswordChanged::class,
-    ];
+    /**
+     * The watchdog conditions.
+     *
+     * @var array
+     */
+    protected $conditions = [PasswordChanged::class];
 
+    /**
+     * {@inheritDoc}
+     */
     public function bark()
     {
         // Here we will make sure to only send a notification on the event that the
@@ -23,21 +29,11 @@ class WatchPasswordChanges extends Watchdog
         }
     }
 
-    public function getName()
-    {
-        return trans('watchdog::watchdogs.passwords_changed');
-    }
-
-    public function getKey()
-    {
-        return 'watchdog.accounts.passwords';
-    }
-
-    public function getNotifiableSubject()
-    {
-        return "{$this->object->name} has had their password changed";
-    }
-
+    /**
+     * The watchdog notification.
+     *
+     * @return string
+     */
     public function notification()
     {
         return PasswordHasChanged::class;
