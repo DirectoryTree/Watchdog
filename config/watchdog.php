@@ -9,7 +9,7 @@ return [
     |
     | Here you may specify which LdapRecord models you would like to be watched.
     |
-    | You must import the below monitored models via the watchdog:setup command.
+    | You must import the below monitored models via the watchdog:setup command.-
     |
     */
 
@@ -52,12 +52,14 @@ return [
     'notifications' => [
 
         'mail' => [
-            'to' => ['your@email.com'],
+            'to' => [env('WATCHDOG_NOTIFICATION_EMAIL', 'your@email.com')],
         ],
 
         // ex. January 1st, 2020 @ 00:00 AM
         'date_format' => 'F jS, Y @ g:i A',
 
+        // These seconds are applied to dispatched notification jobs you
+        // don't receive the "Too many emails per second" SMTP error.
         'seconds_between_notifications' => 5,
 
     ],
@@ -99,6 +101,8 @@ return [
         |--------------------------------------------------------------------------
         |
         | The LDAP attributes that should be ignored when detecting object changes.
+        |
+        | These attributes will not create change records on LDAP objects.
         |
         | Sensible Active Directory defaults are set here.
         |
