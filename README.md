@@ -29,7 +29,7 @@ Watchdog records every change made to every attribute inside of your Active Dire
 
 🚨 **Get alerted when important things happen**
 
-Watchdog notifies you of changes that affect security, such as changes to passwords, groups, users, and more.
+Watchdog notifies you of changes that affect security, such as account lockouts and changes to passwords, groups, users, and more.
 
 ---
 
