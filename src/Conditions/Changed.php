@@ -36,6 +36,10 @@ class Changed extends Condition
      */
     protected function attributeHasChanged($attribute)
     {
-        return $this->before->attribute($attribute)->toArray() != $this->after->attribute($attribute)->toArray();
+        // We'll compare attribute values by converting them to a serialized
+        // array, so objects are converted to their serialized value and a
+        // proper comparison can be performed. Otherwise, exceptions
+        // can be thrown and inconsistencies may occur.
+        return $this->before->attribute($attribute)->jsonSerialize() != $this->after->attribute($attribute)->jsonSerialize();
     }
 }
