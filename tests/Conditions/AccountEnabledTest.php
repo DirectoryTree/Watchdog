@@ -2,10 +2,10 @@
 
 namespace DirectoryTree\Watchdog\Tests\Conditions;
 
-use DirectoryTree\Watchdog\Conditions\ActiveDirectory\AccountEnabled;
 use DirectoryTree\Watchdog\State;
 use DirectoryTree\Watchdog\Tests\TestCase;
 use LdapRecord\Models\Attributes\AccountControl;
+use DirectoryTree\Watchdog\Conditions\ActiveDirectory\AccountEnabled;
 
 class AccountEnabledTest extends TestCase
 {
@@ -21,9 +21,9 @@ class AccountEnabledTest extends TestCase
 
         $this->assertTrue(
             $this->newCondition(['userAccountControl' => [
-                AccountControl::NORMAL_ACCOUNT + AccountControl::ACCOUNTDISABLE
+                AccountControl::NORMAL_ACCOUNT + AccountControl::ACCOUNTDISABLE,
             ]], ['userAccountControl' => [
-                AccountControl::NORMAL_ACCOUNT
+                AccountControl::NORMAL_ACCOUNT,
             ]])->passes()
         );
     }

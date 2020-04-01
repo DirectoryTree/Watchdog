@@ -21,7 +21,7 @@ class WatchdogTest extends TestCase
 
     public function test_modified_with_empty_states()
     {
-        $watchdog = (new Watchdog)->before(new State())->after(new State());
+        $watchdog = (new Watchdog())->before(new State())->after(new State());
         $this->assertEmpty($watchdog->modified());
         $this->assertEmpty($watchdog->diffBefore());
         $this->assertEmpty($watchdog->diffAfter());
@@ -29,7 +29,7 @@ class WatchdogTest extends TestCase
 
     public function test_modified_with_equal_states()
     {
-        $watchdog = (new Watchdog)
+        $watchdog = (new Watchdog())
             ->before(new State(['foo' => 'bar']))
             ->after(new State(['foo' => 'bar']));
 
@@ -40,7 +40,7 @@ class WatchdogTest extends TestCase
 
     public function test_modified_with_different_states()
     {
-        $watchdog = (new Watchdog)
+        $watchdog = (new Watchdog())
             ->before(new State(['foo' => 'bar']))
             ->after(new State(['foo' => 'baz', 'bar' => 'baz']));
 
@@ -51,7 +51,7 @@ class WatchdogTest extends TestCase
 
     public function test_modified_with_object_values()
     {
-        $watchdog = (new Watchdog)
+        $watchdog = (new Watchdog())
             ->before(new State(['foo' => now()->subHour()]))
             ->after(new State(['foo' => now()->subHours(2)]));
 
@@ -62,7 +62,7 @@ class WatchdogTest extends TestCase
 
     public function test_modified_with_empty_before_state()
     {
-        $watchdog = (new Watchdog)
+        $watchdog = (new Watchdog())
             ->before(new State([]))
             ->after(new State(['foo' => ['bar']]));
 
@@ -73,7 +73,7 @@ class WatchdogTest extends TestCase
 
     public function test_modified_with_empty_after_state()
     {
-        $watchdog = (new Watchdog)
+        $watchdog = (new Watchdog())
             ->before(new State(['foo' => ['bar']]))
             ->after(new State(['foo' => ['baz']]));
 
