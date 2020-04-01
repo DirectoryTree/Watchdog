@@ -14,11 +14,28 @@ class AccountExpired extends Condition
      */
     public function passes()
     {
-        if (($date = $this->accountsCurrentExpiry()) && $date instanceof Carbon) {
-            return $date->isPast();
+        $previousExpiryDate = $this->accountsPreviousExpiry();
+
+        if (($currentExpiryDate = $this->accountsCurrentExpiry()) && $currentExpiryDate instanceof Carbon) {
+            // We will ensure the expiry date has been changed before
+            // allowing the condition to pass. Otherwise, we will
+            // simply check if the current expiry has passed.
+            return $previousExpiryDate instanceof Carbon ?
+                !$currentExpiryDate->eq($previousExpiryDate) :
+                $currentExpiryDate->isPast();
         }
 
         return false;
+    }
+
+    /**
+     * Get the accounts previous expiry date.
+     *
+     * @return null|string|Carbon
+     */
+    protected function accountsPreviousExpiry()
+    {
+        return $this->before->attribute('accountexpires')->first();
     }
 
     /**
