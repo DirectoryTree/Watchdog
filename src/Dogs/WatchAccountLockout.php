@@ -2,10 +2,11 @@
 
 namespace DirectoryTree\Watchdog\Dogs;
 
+use DirectoryTree\Watchdog\Watchdog;
 use DirectoryTree\Watchdog\Notifications\AccountHasBeenLocked;
 use DirectoryTree\Watchdog\Conditions\ActiveDirectory\AccountLocked;
 
-class WatchAccountLockout
+class WatchAccountLockout extends Watchdog
 {
     /**
      * The watchdog conditions.
