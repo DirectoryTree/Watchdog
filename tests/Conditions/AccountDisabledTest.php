@@ -7,7 +7,7 @@ use DirectoryTree\Watchdog\Tests\TestCase;
 use LdapRecord\Models\Attributes\AccountControl;
 use DirectoryTree\Watchdog\Conditions\ActiveDirectory\AccountDisabled;
 
-class AccountIsDisabledTest extends TestCase
+class AccountDisabledTest extends TestCase
 {
     public function test()
     {

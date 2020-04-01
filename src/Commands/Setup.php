@@ -50,7 +50,7 @@ class Setup extends Command
                 if ($watcher->wasRecentlyCreated) {
                     $this->info("Successfully setup watcher for model [{$watcher->model}].");
                 } else {
-                    $this->info("Watcher for model [{$watcher->model}] has already been imported.");
+                    $this->info("Watcher for model [{$watcher->model}] has already been setup.");
                 }
             });
         });
