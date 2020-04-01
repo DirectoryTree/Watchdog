@@ -93,16 +93,43 @@ class Watchdog
     }
 
     /**
-     * Get the attribute names that were modified on the LDAP object.
+     * Get the names of attributes that were modified on the LDAP object.
      *
      * @return array
      */
     public function modified()
     {
+        return array_unique(
+            array_merge($this->diffAfter(), $this->diffBefore())
+        );
+    }
+
+    /**
+     * Get the names of attributes that have been modified or do not exist in the 'before' state.
+     *
+     * @return array
+     */
+    public function diffAfter()
+    {
         return array_keys(
             array_diff(
-                array_map('serialize', $this->after->attributes()->toArray()),
-                array_map('serialize', $this->before->attributes()->toArray())
+                array_map('serialize', $this->after->attributes()->jsonSerialize()),
+                array_map('serialize', $this->before->attributes()->jsonSerialize())
+            )
+        );
+    }
+
+    /**
+     *  Get the names of attributes that have been modified or do not exist in the 'after' state.
+     *
+     * @return array
+     */
+    public function diffBefore()
+    {
+        return array_keys(
+            array_diff(
+                array_map('serialize', $this->before->attributes()->jsonSerialize()),
+                array_map('serialize', $this->after->attributes()->jsonSerialize())
             )
         );
     }
@@ -207,13 +234,21 @@ class Watchdog
      */
     protected function sendNotification()
     {
-        $seconds = config('watchdog.notifications.seconds_between_notifications', 5);
-
         $this->notify(
-            app($this->notification())->delay($seconds)
+            app($this->notification())->delay($this->secondsBetweenNotifications())
         );
 
         return !empty($this->channels());
+    }
+
+    /**
+     * Get the number of seconds to wait in-between notifications.
+     *
+     * @return int
+     */
+    protected function secondsBetweenNotifications()
+    {
+        return config('watchdog.notifications.seconds_between_notifications', 5);
     }
 
     /**
