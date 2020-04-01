@@ -20,6 +20,7 @@ return [
             \DirectoryTree\Watchdog\Dogs\WatchAccountGroups::class   => ['mail'],
             \DirectoryTree\Watchdog\Dogs\WatchAccountEnable::class   => ['mail'],
             \DirectoryTree\Watchdog\Dogs\WatchAccountDisable::class  => ['mail'],
+            \DirectoryTree\Watchdog\Dogs\WatchAccountLockout::class  => ['mail'],
             \DirectoryTree\Watchdog\Dogs\WatchPasswordChanges::class => ['mail'],
         ],
     ],

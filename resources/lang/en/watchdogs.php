@@ -5,6 +5,10 @@ return [
         'name'    => 'Object Changed',
         'subject' => 'Object [:object] has been changed',
     ],
+    \DirectoryTree\Watchdog\Dogs\WatchAccountLockout::class => [
+        'name'    => 'Account Locked',
+        'subject' => 'Account [:object] has been locked',
+    ],
     \DirectoryTree\Watchdog\Dogs\WatchAccountDisable::class => [
         'name'    => 'Accounts Disabled',
         'subject' => 'Account [:object] has been disabled',
