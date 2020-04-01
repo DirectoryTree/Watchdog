@@ -21,7 +21,7 @@ class Monitor extends Command
      *
      * @var string
      */
-    protected $description = 'Monitors the configured LDAP models for changes.';
+    protected $description = 'Monitors the setup watchers for changes.';
 
     /**
      * Execute the console command.
@@ -31,12 +31,12 @@ class Monitor extends Command
     public function handle()
     {
         $this->info('---- Watchdog ----');
-        $this->info('Starting to queue monitor...');
+        $this->info('Starting to queue watchers...');
 
         $watchers = WatcherRepository::toMonitor();
 
         if ($watchers->isEmpty()) {
-            return $this->info('No LDAP connections are scheduled to be synchronized.');
+            return $this->info('There are no scheduled watchers to be monitored.');
         }
 
         $bar = $this->output->createProgressBar($watchers->count());
@@ -52,6 +52,6 @@ class Monitor extends Command
         $bar->finish();
 
         $this->info("\n");
-        $this->table(['Domains Queued'], $watchers->map->only('name'));
+        $this->table(['Watchers Queued'], $watchers->map->only('name'));
     }
 }
