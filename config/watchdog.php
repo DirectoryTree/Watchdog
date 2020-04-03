@@ -9,7 +9,7 @@ return [
     |
     | Here you may specify which LdapRecord models you would like to be watched.
     |
-    | You must import the below monitored models via the watchdog:setup command.-
+    | You must import the below monitored models via the watchdog:setup command.
     |
     */
 
