@@ -9,6 +9,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 class GenerateObjectChanges
 {
     use Dispatchable;
+
     /**
      * The LDAP object that has been modified.
      *
