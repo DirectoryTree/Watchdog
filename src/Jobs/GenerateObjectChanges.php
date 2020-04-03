@@ -3,20 +3,12 @@
 namespace DirectoryTree\Watchdog\Jobs;
 
 use Carbon\Carbon;
-use Illuminate\Bus\Queueable;
 use DirectoryTree\Watchdog\LdapObject;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 
-class GenerateObjectChanges implements ShouldQueue
+class GenerateObjectChanges
 {
     use Dispatchable;
-    use InteractsWithQueue;
-    use Queueable;
-    use SerializesModels;
-
     /**
      * The LDAP object that has been modified.
      *
