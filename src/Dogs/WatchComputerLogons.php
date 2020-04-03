@@ -17,7 +17,7 @@ class WatchComputerLogons extends Watchdog
     protected $conditions = [NewLogin::class];
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function bark()
     {
