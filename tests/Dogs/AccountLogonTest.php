@@ -3,10 +3,10 @@
 namespace DirectoryTree\Watchdog\Tests\Dogs;
 
 use LdapRecord\Models\Attributes\Timestamp;
-use DirectoryTree\Watchdog\Dogs\WatchAccountLogons;
 use DirectoryTree\Watchdog\LdapNotification;
 use Illuminate\Support\Facades\Notification;
 use LdapRecord\Models\ActiveDirectory\Entry;
+use DirectoryTree\Watchdog\Dogs\WatchAccountLogons;
 use DirectoryTree\Watchdog\Notifications\AccountLogonHasOccurred;
 
 class AccountLogonTest extends DogTestCase
