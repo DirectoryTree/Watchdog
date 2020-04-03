@@ -46,6 +46,7 @@ class ImportModelsTest extends TestCase
         $scan->refresh();
 
         $this->assertTrue($scan->success);
+        $this->assertEquals('imported', $scan->state);
         $this->assertEquals(0, $scan->synchronized);
         $this->assertInstanceOf(Carbon::class, $scan->started_at);
         $this->assertInstanceOf(Carbon::class, $scan->completed_at);
@@ -72,6 +73,7 @@ class ImportModelsTest extends TestCase
         $scan->refresh();
 
         $this->assertTrue($scan->success);
+        $this->assertEquals('imported', $scan->state);
         $this->assertEquals(10, $scan->synchronized);
         $this->assertEquals(10, LdapScanEntry::count());
         $this->assertInstanceOf(Carbon::class, $scan->started_at);

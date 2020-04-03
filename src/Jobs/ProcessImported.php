@@ -56,7 +56,11 @@ class ProcessImported implements ShouldQueue
      */
     public function handle()
     {
+        $this->scan->update(['state' => 'processing']);
+
         $this->process($this->scan->rootEntries());
+
+        $this->scan->update(['state' => 'processed']);
     }
 
     /**

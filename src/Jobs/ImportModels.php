@@ -56,7 +56,10 @@ class ImportModels implements ShouldQueue
      */
     public function handle()
     {
-        $this->scan->update(['started_at' => now()]);
+        $this->scan->update([
+            'started_at' => now(),
+            'state' => 'importing',
+        ]);
 
         info("Starting to scan domain [{$this->scan->watcher->name}]");
 
@@ -74,6 +77,7 @@ class ImportModels implements ShouldQueue
         // stats to ensure it is not processed again.
         $this->scan->fill([
             'success'      => true,
+            'state'        => 'imported',
             'synchronized' => $imported,
             'completed_at' => now(),
         ])->save();

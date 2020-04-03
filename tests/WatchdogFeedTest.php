@@ -50,6 +50,7 @@ class WatchdogFeedTest extends TestCase
 
         $scan = LdapScan::first();
         $this->assertTrue($scan->success);
+        $this->assertEquals('processed', $scan->state);
         $this->assertEquals(1, $scan->synchronized);
         $this->assertInstanceOf(LdapWatcher::class, $scan->watcher);
 

@@ -40,6 +40,7 @@ class ExecuteScanTest extends TestCase
 
         $scan = $watcher->scans()->first();
         $this->assertTrue($scan->success);
+        $this->assertEquals('processed', $scan->state);
         $this->assertEquals(0, $scan->synchronized);
     }
 }
