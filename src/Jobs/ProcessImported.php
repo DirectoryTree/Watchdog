@@ -42,7 +42,7 @@ class ProcessImported extends ScanJob
 
         $this->scan->update([
             'processed' => $this->processed,
-            'state' => LdapScan::STATE_PROCESSED,
+            'state'     => LdapScan::STATE_PROCESSED,
         ]);
     }
 

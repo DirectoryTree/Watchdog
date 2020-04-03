@@ -49,7 +49,7 @@ class ImportModels extends ScanJob
         // Upon successful completion, we'll update our scan
         // stats to ensure it is not processed again.
         $this->scan->fill([
-            'imported' => $imported,
+            'imported'  => $imported,
             'state'     => LdapScan::STATE_IMPORTED,
         ])->save();
 
