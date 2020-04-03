@@ -52,8 +52,7 @@ class WatchdogFeedTest extends TestCase
         $this->assertTrue($scan->successful);
         $this->assertEquals(1, $scan->processed);
         $this->assertInstanceOf(LdapWatcher::class, $scan->watcher);
-        $this->assertEquals(LdapScan::STATE_PURGED,  $scan->progress()->get()->last()->state);
-
+        $this->assertEquals(LdapScan::STATE_PURGED, $scan->progress()->get()->last()->state);
 
         $imported = LdapObject::first();
         $this->assertEquals($object->cn[0], $imported->values['cn'][0]);
