@@ -33,11 +33,9 @@ class WatcherRepository
 
             // If the last scan has not yet been started, we
             // will avoid stacking scans until it has begun.
-            if ($lastScan->state === LdapScan::STATE_CREATED) {
-                return false;
-            }
-
-            return now()->diffInMinutes($lastScan->started_at) >= $frequencyInMinutes;
+            return is_null($lastScan->started_at)
+                ? false
+                : now()->diffInMinutes($lastScan->started_at) >= $frequencyInMinutes;
         });
     }
 

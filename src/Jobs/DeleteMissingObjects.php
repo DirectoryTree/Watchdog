@@ -13,7 +13,7 @@ class DeleteMissingObjects extends ScanJob
      */
     public function handle()
     {
-        $this->scan->update(['state' => LdapScan::STATE_DELETING_MISSING]);
+        $this->scan->progress()->create(['state' => LdapScan::STATE_DELETING_MISSING]);
 
         $guids = $this->scan->entries()->pluck('guid');
 
@@ -21,6 +21,6 @@ class DeleteMissingObjects extends ScanJob
             ->whereNotIn('guid', $guids)
             ->delete();
 
-        $this->scan->update(['state' => LdapScan::STATE_DELETED_MISSING]);
+        $this->scan->progress()->create(['state' => LdapScan::STATE_DELETED_MISSING]);
     }
 }

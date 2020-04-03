@@ -3,6 +3,7 @@
 namespace DirectoryTree\Watchdog\Tests\Jobs;
 
 use Carbon\Carbon;
+use DirectoryTree\Watchdog\LdapScan;
 use LdapRecord\Models\Entry;
 use DirectoryTree\Watchdog\LdapWatcher;
 use DirectoryTree\Watchdog\LdapScanEntry;
@@ -45,10 +46,10 @@ class ImportModelsTest extends TestCase
 
         $scan->refresh();
 
-        $this->assertEquals('imported', $scan->state);
         $this->assertEquals(0, $scan->processed);
         $this->assertEquals(0, $scan->imported);
         $this->assertInstanceOf(Carbon::class, $scan->started_at);
+        $this->assertEquals(LdapScan::STATE_IMPORTED, $scan->progress()->get()->last()->state);
     }
 
     public function test_models_can_be_imported()
@@ -71,9 +72,9 @@ class ImportModelsTest extends TestCase
 
         $scan->refresh();
 
-        $this->assertEquals('imported', $scan->state);
         $this->assertEquals(10, $scan->imported);
         $this->assertEquals(10, LdapScanEntry::count());
         $this->assertInstanceOf(Carbon::class, $scan->started_at);
+        $this->assertEquals(LdapScan::STATE_IMPORTED, $scan->progress()->get()->last()->state);
     }
 }

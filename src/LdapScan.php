@@ -78,6 +78,16 @@ class LdapScan extends Model
     }
 
     /**
+     * The hasMany scan progress relationship.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function progress()
+    {
+        return $this->hasMany(LdapScanProgress::class, 'scan_id');
+    }
+
+    /**
      * Begin querying root scan entries.
      *
      * @return \Illuminate\Database\Eloquent\Builder
@@ -94,7 +104,7 @@ class LdapScan extends Model
      */
     public function getSuccessfulAttribute()
     {
-        return $this->started_at && $this->completed_at && $this->state == self::STATE_PURGED;
+        return !is_null($this->completed_at);
     }
 
     /**

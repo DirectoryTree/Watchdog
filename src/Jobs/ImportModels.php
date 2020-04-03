@@ -29,10 +29,9 @@ class ImportModels extends ScanJob
      */
     public function handle()
     {
-        $this->scan->update([
-            'state'      => LdapScan::STATE_IMPORTING,
-            'started_at' => now(),
-        ]);
+        $this->scan->update(['started_at' => now()]);
+
+        $this->scan->progress()->create(['state' => LdapScan::STATE_IMPORTING]);
 
         info("Starting to scan domain [{$this->scan->watcher->name}]");
 
@@ -48,10 +47,9 @@ class ImportModels extends ScanJob
 
         // Upon successful completion, we'll update our scan
         // stats to ensure it is not processed again.
-        $this->scan->fill([
-            'imported'  => $imported,
-            'state'     => LdapScan::STATE_IMPORTED,
-        ])->save();
+        $this->scan->update(['imported'  => $imported]);
+
+        $this->scan->progress()->create(['state' => LdapScan::STATE_IMPORTED]);
 
         info("Successfully completed scan. Imported [$imported] record(s).");
     }

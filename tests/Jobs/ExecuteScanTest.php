@@ -41,7 +41,7 @@ class ExecuteScanTest extends TestCase
 
         $scan = $watcher->scans()->first();
         $this->assertTrue($scan->successful);
-        $this->assertEquals(LdapScan::STATE_PURGED, $scan->state);
         $this->assertEquals(0, $scan->processed);
+        $this->assertEquals(LdapScan::STATE_PURGED, $scan->progress()->get()->last()->state);
     }
 }

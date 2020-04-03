@@ -31,7 +31,7 @@ class WatcherRepositoryTest extends TestCase
 
         $watcher = LdapWatcher::first();
 
-        factory(LdapScan::class)->states([LdapScan::STATE_CREATED, LdapScan::STATE_IMPORTING])->create([
+        factory(LdapScan::class)->create([
             'watcher_id' => $watcher->id,
             'started_at' => now()->subMinutes(5),
         ]);
@@ -51,9 +51,7 @@ class WatcherRepositoryTest extends TestCase
 
         $watcher = LdapWatcher::first();
 
-        factory(LdapScan::class)->state(LdapScan::STATE_CREATED)->create([
-            'watcher_id' => $watcher->id,
-        ]);
+        factory(LdapScan::class)->create(['watcher_id' => $watcher->id]);
 
         $toSync = WatcherRepository::toMonitor();
         $this->assertCount(0, $toSync);

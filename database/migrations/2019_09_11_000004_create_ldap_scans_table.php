@@ -19,7 +19,6 @@ class CreateLdapScansTable extends Migration
             $table->timestamps();
             $table->timestamp('started_at')->nullable();
             $table->timestamp('completed_at')->nullable();
-            $table->string('state')->nullable();
             $table->integer('imported')->default(0);
             $table->integer('processed')->default(0);
             $table->boolean('failed')->default(false);

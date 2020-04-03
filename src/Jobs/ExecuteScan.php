@@ -37,9 +37,9 @@ class ExecuteScan
     public function handle()
     {
         /** @var LdapScan $scan */
-        $scan = $this->watcher->scans()->create([
-            'state' => LdapScan::STATE_CREATED,
-        ]);
+        $scan = $this->watcher->scans()->create();
+
+        $scan->progress()->create(['state' => LdapScan::STATE_CREATED]);
 
         ImportModels::withChain([
             new ProcessImported($scan),

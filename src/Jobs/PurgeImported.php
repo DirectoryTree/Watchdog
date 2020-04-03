@@ -13,13 +13,12 @@ class PurgeImported extends ScanJob
      */
     public function handle()
     {
-        $this->scan->update(['state' => LdapScan::STATE_PURGING]);
+        $this->scan->progress()->create(['state' => LdapScan::STATE_PURGING]);
 
         $this->scan->entries()->delete();
 
-        $this->scan->update([
-            'completed_at' => now(),
-            'state'        => LdapScan::STATE_PURGED,
-        ]);
+        $this->scan->update(['completed_at' => now()]);
+
+        $this->scan->progress()->create(['state' => LdapScan::STATE_PURGED]);
     }
 }

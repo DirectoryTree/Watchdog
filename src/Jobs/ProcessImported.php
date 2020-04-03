@@ -36,14 +36,13 @@ class ProcessImported extends ScanJob
      */
     public function handle()
     {
-        $this->scan->update(['state' => LdapScan::STATE_PROCESSING]);
+        $this->scan->progress()->create(['state' => LdapScan::STATE_PROCESSING]);
 
-        $processed = $this->process($this->scan->rootEntries());
+        $this->process($this->scan->rootEntries());
 
-        $this->scan->update([
-            'processed' => $this->processed,
-            'state'     => LdapScan::STATE_PROCESSED,
-        ]);
+        $this->scan->update(['processed' => $this->processed]);
+
+        $this->scan->progress()->create(['state' => LdapScan::STATE_PROCESSED]);
     }
 
     /**
