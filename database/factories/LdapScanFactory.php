@@ -21,14 +21,14 @@ $factory->state(LdapScan::class, LdapScan::STATE_CREATED, [
 
 $factory->state(LdapScan::class, LdapScan::STATE_IMPORTING, function () {
     return [
-        'state' => LdapScan::STATE_IMPORTING,
+        'state'      => LdapScan::STATE_IMPORTING,
         'started_at' => now(),
     ];
 });
 
 $factory->state(LdapScan::class, LdapScan::STATE_IMPORTED, function (Faker $faker) {
     return [
-        'state' => LdapScan::STATE_IMPORTED,
+        'state'    => LdapScan::STATE_IMPORTED,
         'imported' => $faker->numberBetween(0, 10),
     ];
 });
@@ -59,7 +59,7 @@ $factory->state(LdapScan::class, LdapScan::STATE_PURGING, [
 
 $factory->state(LdapScan::class, LdapScan::STATE_PURGED, function () {
     return [
-        'state' => LdapScan::STATE_PURGED,
+        'state'        => LdapScan::STATE_PURGED,
         'completed_at' => now(),
     ];
 });

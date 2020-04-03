@@ -94,7 +94,7 @@ class LdapScan extends Model
      */
     public function getSuccessfulAttribute()
     {
-        return $this->started_at && $this->completed_at && $this->state == LdapScan::STATE_PURGED;
+        return $this->started_at && $this->completed_at && $this->state == self::STATE_PURGED;
     }
 
     /**
@@ -104,7 +104,7 @@ class LdapScan extends Model
      */
     public function getRunningAttribute()
     {
-        return !in_array($this->state, [LdapScan::STATE_CREATED, LdapScan::STATE_PURGED]);
+        return !in_array($this->state, [self::STATE_CREATED, self::STATE_PURGED]);
     }
 
     /**
