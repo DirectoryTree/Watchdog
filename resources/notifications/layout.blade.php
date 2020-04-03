@@ -1,4 +1,12 @@
 @component('mail::message')
+
+{{-- Header --}}
+@slot('header')
+@component('mail::header', ['url' => config('app.url')])
+<img alt="Watchdog Logo" width="175" src="https://ldapwatchdog.com/assets/img/logo.svg"/>
+@endcomponent
+@endslot
+
 <style>
     .text-center {
         text-align: center;
