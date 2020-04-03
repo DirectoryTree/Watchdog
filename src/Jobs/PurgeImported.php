@@ -19,7 +19,7 @@ class PurgeImported extends ScanJob
 
         $this->scan->update([
             'completed_at' => now(),
-            'state' => LdapScan::STATE_PURGED,
+            'state'        => LdapScan::STATE_PURGED,
         ]);
     }
 }
