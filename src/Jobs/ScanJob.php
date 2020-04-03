@@ -12,10 +12,10 @@ use Illuminate\Foundation\Bus\Dispatchable;
 
 class ScanJob implements ShouldQueue
 {
-    use Dispatchable;
-    use InteractsWithQueue;
     use Queueable;
+    use Dispatchable;
     use SerializesModels;
+    use InteractsWithQueue;
 
     /**
      * The LDAP scan to process.
@@ -44,9 +44,8 @@ class ScanJob implements ShouldQueue
     public function failed(Exception $ex)
     {
         $this->scan->fill([
-            'failed'       => true,
-            'message'      => $ex->getMessage(),
-            'completed_at' => now(),
+            'failed'  => true,
+            'message' => $ex->getMessage(),
         ])->save();
     }
 }
