@@ -4,8 +4,8 @@ namespace DirectoryTree\Watchdog\Dogs;
 
 use DirectoryTree\Watchdog\Watchdog;
 use DirectoryTree\Watchdog\Ldap\TypeGuesser;
-use DirectoryTree\Watchdog\Notifications\AccountLogonHasOccurred;
 use DirectoryTree\Watchdog\Conditions\ActiveDirectory\NewLogin;
+use DirectoryTree\Watchdog\Notifications\AccountLogonHasOccurred;
 
 class WatchAccountLogons extends Watchdog
 {
@@ -17,7 +17,7 @@ class WatchAccountLogons extends Watchdog
     protected $conditions = [NewLogin::class];
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function bark()
     {
