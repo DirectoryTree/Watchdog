@@ -3,8 +3,8 @@
 namespace DirectoryTree\Watchdog\Tests\Jobs;
 
 use Carbon\Carbon;
-use DirectoryTree\Watchdog\LdapScan;
 use LdapRecord\Models\Entry;
+use DirectoryTree\Watchdog\LdapScan;
 use DirectoryTree\Watchdog\LdapWatcher;
 use DirectoryTree\Watchdog\LdapScanEntry;
 use DirectoryTree\Watchdog\Tests\TestCase;
