@@ -5,7 +5,6 @@
 use Faker\Generator as Faker;
 use DirectoryTree\Watchdog\LdapScan;
 use DirectoryTree\Watchdog\LdapWatcher;
-use DirectoryTree\Watchdog\LdapScanEntry;
 
 $factory->define(LdapScan::class, function (Faker $faker) {
     return [
@@ -15,19 +14,52 @@ $factory->define(LdapScan::class, function (Faker $faker) {
     ];
 });
 
-$factory->define(LdapScanEntry::class, function (Faker $faker) {
+// LdapScan state definitions.
+$factory->state(LdapScan::class, LdapScan::STATE_CREATED, [
+    'state' => LdapScan::STATE_CREATED,
+]);
+
+$factory->state(LdapScan::class, LdapScan::STATE_IMPORTING, function () {
     return [
-        'scan_id' => function () {
-            return factory(LdapScan::class)->create()->id;
-        },
-        'guid'            => $faker->uuid,
-        'type'            => 'user',
-        'values'          => [],
-        'ldap_updated_at' => now(),
+        'state' => LdapScan::STATE_IMPORTING,
+        'started_at' => now(),
     ];
 });
 
-$factory->afterMaking(LdapScanEntry::class, function (LdapScanEntry $entry, Faker $faker) {
-    $entry->name = $faker->name;
-    $entry->dn = "cn={$entry->name},dc=local,dc=com";
+$factory->state(LdapScan::class, LdapScan::STATE_IMPORTED, function (Faker $faker) {
+    return [
+        'state' => LdapScan::STATE_IMPORTED,
+        'imported' => $faker->numberBetween(0, 10),
+    ];
+});
+
+$factory->state(LdapScan::class, LdapScan::STATE_PROCESSING, [
+    'state' => LdapScan::STATE_PROCESSING,
+]);
+
+$factory->state(LdapScan::class, LdapScan::STATE_PROCESSED, [
+    'state' => LdapScan::STATE_PROCESSED,
+]);
+
+$factory->afterMakingState(LdapScan::class, LdapScan::STATE_PROCESSED, function (LdapScan $scan) {
+    $scan->processed = $scan->imported;
+});
+
+$factory->state(LdapScan::class, LdapScan::STATE_DELETING_MISSING, [
+    'state' => LdapScan::STATE_DELETING_MISSING,
+]);
+
+$factory->state(LdapScan::class, LdapScan::STATE_DELETED_MISSING, [
+    'state' => LdapScan::STATE_DELETED_MISSING,
+]);
+
+$factory->state(LdapScan::class, LdapScan::STATE_PURGING, [
+    'state' => LdapScan::STATE_PURGING,
+]);
+
+$factory->state(LdapScan::class, LdapScan::STATE_PURGED, function () {
+    return [
+        'state' => LdapScan::STATE_PURGED,
+        'completed_at' => now(),
+    ];
 });

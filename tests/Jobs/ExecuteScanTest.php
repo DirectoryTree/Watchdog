@@ -2,6 +2,7 @@
 
 namespace DirectoryTree\Watchdog\Tests\Jobs;
 
+use DirectoryTree\Watchdog\LdapScan;
 use LdapRecord\Models\Entry;
 use DirectoryTree\Watchdog\LdapWatcher;
 use DirectoryTree\Watchdog\Tests\TestCase;
@@ -39,8 +40,8 @@ class ExecuteScanTest extends TestCase
         ExecuteScan::dispatch($watcher);
 
         $scan = $watcher->scans()->first();
-        $this->assertTrue($scan->success);
-        $this->assertEquals('processed', $scan->state);
-        $this->assertEquals(0, $scan->synchronized);
+        $this->assertTrue($scan->successful);
+        $this->assertEquals(LdapScan::STATE_PURGED, $scan->state);
+        $this->assertEquals(0, $scan->processed);
     }
 }

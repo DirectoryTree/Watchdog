@@ -20,8 +20,9 @@ class CreateLdapScansTable extends Migration
             $table->timestamp('started_at')->nullable();
             $table->timestamp('completed_at')->nullable();
             $table->string('state')->nullable();
-            $table->boolean('success')->default(false);
-            $table->integer('synchronized')->default(0);
+            $table->integer('imported')->default(0);
+            $table->integer('processed')->default(0);
+            $table->boolean('failed')->default(false);
             $table->longText('message')->nullable();
         });
     }

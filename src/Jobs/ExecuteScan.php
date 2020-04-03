@@ -38,7 +38,7 @@ class ExecuteScan
     {
         /** @var LdapScan $scan */
         $scan = $this->watcher->scans()->create([
-            'state' => 'created',
+            'state' => LdapScan::STATE_CREATED,
         ]);
 
         ImportModels::withChain([

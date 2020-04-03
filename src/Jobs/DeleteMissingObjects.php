@@ -2,39 +2,10 @@
 
 namespace DirectoryTree\Watchdog\Jobs;
 
-use Illuminate\Bus\Queueable;
 use DirectoryTree\Watchdog\LdapScan;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Bus\Dispatchable;
 
-class DeleteMissingObjects implements ShouldQueue
+class DeleteMissingObjects extends ScanJob
 {
-    use Dispatchable;
-    use InteractsWithQueue;
-    use Queueable;
-    use SerializesModels;
-
-    /**
-     * The LDAP scan to process.
-     *
-     * @var LdapScan
-     */
-    protected $scan;
-
-    /**
-     * Create a new job instance.
-     *
-     * @param LdapScan $scan
-     *
-     * @return void
-     */
-    public function __construct(LdapScan $scan)
-    {
-        $this->scan = $scan;
-    }
-
     /**
      * Soft-delete all LDAP objects that were missing from the scan.
      *
@@ -42,10 +13,14 @@ class DeleteMissingObjects implements ShouldQueue
      */
     public function handle()
     {
+        $this->scan->update(['state' => LdapScan::STATE_DELETING_MISSING]);
+
         $guids = $this->scan->entries()->pluck('guid');
 
         $this->scan->watcher->objects()
             ->whereNotIn('guid', $guids)
             ->delete();
+
+        $this->scan->update(['state' => LdapScan::STATE_DELETED_MISSING]);
     }
 }

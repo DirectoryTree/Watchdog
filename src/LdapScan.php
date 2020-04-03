@@ -7,6 +7,19 @@ use Illuminate\Database\Eloquent\Model;
 class LdapScan extends Model
 {
     /**
+     * The various LDAP scan states.
+     */
+    const STATE_CREATED = 'created';
+    const STATE_IMPORTING = 'importing';
+    const STATE_IMPORTED = 'imported';
+    const STATE_PROCESSING = 'processing';
+    const STATE_PROCESSED = 'processed';
+    const STATE_DELETING_MISSING = 'deleting';
+    const STATE_DELETED_MISSING = 'deleted';
+    const STATE_PURGING = 'purging';
+    const STATE_PURGED = 'purged';
+
+    /**
      * The attributes that aren't mass assignable.
      *
      * @var array
@@ -28,7 +41,7 @@ class LdapScan extends Model
      *
      * @var array
      */
-    protected $casts = ['success' => 'boolean'];
+    protected $casts = ['failed' => 'bool'];
 
     /**
      * The "booting" method of the model.
@@ -75,15 +88,13 @@ class LdapScan extends Model
     }
 
     /**
-     * Begin querying successful scans.
+     * Determine whether the scan was successful.
      *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return bool
      */
-    public function scopeSuccessful($query)
+    public function getSuccessfulAttribute()
     {
-        return $query->where('success', '=', true);
+        return $this->started_at && $this->completed_at && $this->state == LdapScan::STATE_PURGED;
     }
 
     /**
@@ -93,7 +104,7 @@ class LdapScan extends Model
      */
     public function getRunningAttribute()
     {
-        return !is_null($this->started_at) && is_null($this->completed_at);
+        return !in_array($this->state, [LdapScan::STATE_CREATED, LdapScan::STATE_PURGED]);
     }
 
     /**

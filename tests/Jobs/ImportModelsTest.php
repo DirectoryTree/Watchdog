@@ -45,11 +45,10 @@ class ImportModelsTest extends TestCase
 
         $scan->refresh();
 
-        $this->assertTrue($scan->success);
         $this->assertEquals('imported', $scan->state);
-        $this->assertEquals(0, $scan->synchronized);
+        $this->assertEquals(0, $scan->processed);
+        $this->assertEquals(0, $scan->imported);
         $this->assertInstanceOf(Carbon::class, $scan->started_at);
-        $this->assertInstanceOf(Carbon::class, $scan->completed_at);
     }
 
     public function test_models_can_be_imported()
@@ -72,11 +71,9 @@ class ImportModelsTest extends TestCase
 
         $scan->refresh();
 
-        $this->assertTrue($scan->success);
         $this->assertEquals('imported', $scan->state);
-        $this->assertEquals(10, $scan->synchronized);
+        $this->assertEquals(10, $scan->imported);
         $this->assertEquals(10, LdapScanEntry::count());
         $this->assertInstanceOf(Carbon::class, $scan->started_at);
-        $this->assertInstanceOf(Carbon::class, $scan->completed_at);
     }
 }

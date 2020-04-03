@@ -5,47 +5,20 @@ namespace DirectoryTree\Watchdog\Jobs;
 use Exception;
 use Carbon\Carbon;
 use LdapRecord\Models\Model;
-use Illuminate\Bus\Queueable;
 use Illuminate\Support\Facades\DB;
 use DirectoryTree\Watchdog\LdapScan;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
 use DirectoryTree\Watchdog\LdapScanEntry;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Bus\Dispatchable;
 use DirectoryTree\Watchdog\Ldap\TypeGuesser;
 use LdapRecord\Models\Types\ActiveDirectory;
 
-class ImportModels implements ShouldQueue
+class ImportModels extends ScanJob
 {
-    use Dispatchable;
-    use InteractsWithQueue;
-    use Queueable;
-    use SerializesModels;
-
-    /**
-     * The current scan.
-     *
-     * @var LdapScan|null
-     */
-    protected $scan;
-
     /**
      * The guids of the LDAP objects scanned.
      *
      * @var array
      */
     protected $guids = [];
-
-    /**
-     * Constructor.
-     *
-     * @param LdapScan $scan
-     */
-    public function __construct(LdapScan $scan)
-    {
-        $this->scan = $scan;
-    }
 
     /**
      * Import all of the scanned LDAP objects.
@@ -57,8 +30,8 @@ class ImportModels implements ShouldQueue
     public function handle()
     {
         $this->scan->update([
+            'state'      => LdapScan::STATE_IMPORTING,
             'started_at' => now(),
-            'state'      => 'importing',
         ]);
 
         info("Starting to scan domain [{$this->scan->watcher->name}]");
@@ -76,10 +49,8 @@ class ImportModels implements ShouldQueue
         // Upon successful completion, we'll update our scan
         // stats to ensure it is not processed again.
         $this->scan->fill([
-            'success'      => true,
-            'state'        => 'imported',
-            'synchronized' => $imported,
-            'completed_at' => now(),
+            'imported' => $imported,
+            'state'     => LdapScan::STATE_IMPORTED,
         ])->save();
 
         info("Successfully completed scan. Imported [$imported] record(s).");
@@ -101,22 +72,6 @@ class ImportModels implements ShouldQueue
         $class = '\\'.ltrim($model, '\\');
 
         return new $class();
-    }
-
-    /**
-     * The job failed to process.
-     *
-     * @param Exception $ex
-     *
-     * @return void
-     */
-    public function failed(Exception $ex)
-    {
-        $this->scan->fill([
-            'success'      => false,
-            'message'      => $ex->getMessage(),
-            'completed_at' => now(),
-        ])->save();
     }
 
     /**

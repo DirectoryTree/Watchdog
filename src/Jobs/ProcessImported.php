@@ -2,30 +2,13 @@
 
 namespace DirectoryTree\Watchdog\Jobs;
 
-use Illuminate\Bus\Queueable;
 use Illuminate\Pipeline\Pipeline;
 use DirectoryTree\Watchdog\LdapScan;
 use DirectoryTree\Watchdog\LdapObject;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
 use DirectoryTree\Watchdog\LdapScanEntry;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Bus\Dispatchable;
 
-class ProcessImported implements ShouldQueue
+class ProcessImported extends ScanJob
 {
-    use Dispatchable;
-    use InteractsWithQueue;
-    use Queueable;
-    use SerializesModels;
-
-    /**
-     * The LDAP scan being processed.
-     *
-     * @var LdapScan
-     */
-    protected $scan;
-
     /**
      * The pipes to run through the pipeline.
      *
@@ -40,14 +23,11 @@ class ProcessImported implements ShouldQueue
     ];
 
     /**
-     * Constructor.
+     * The total number of processed records.
      *
-     * @param LdapScan $scan
+     * @var int
      */
-    public function __construct(LdapScan $scan)
-    {
-        $this->scan = $scan;
-    }
+    protected $processed = 0;
 
     /**
      * Process the imported scan entries.
@@ -56,11 +36,14 @@ class ProcessImported implements ShouldQueue
      */
     public function handle()
     {
-        $this->scan->update(['state' => 'processing']);
+        $this->scan->update(['state' => LdapScan::STATE_PROCESSING]);
 
-        $this->process($this->scan->rootEntries());
+        $processed = $this->process($this->scan->rootEntries());
 
-        $this->scan->update(['state' => 'processed']);
+        $this->scan->update([
+            'processed' => $this->processed,
+            'state' => LdapScan::STATE_PROCESSED,
+        ]);
     }
 
     /**
@@ -95,6 +78,8 @@ class ProcessImported implements ShouldQueue
             // it is not re-processed again in the event of
             // an exception being generated during.
             $entry->update(['processed' => true]);
+
+            $this->processed++;
 
             $this->process($entry->children());
         });
