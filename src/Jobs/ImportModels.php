@@ -58,7 +58,7 @@ class ImportModels implements ShouldQueue
     {
         $this->scan->update([
             'started_at' => now(),
-            'state' => 'importing',
+            'state'      => 'importing',
         ]);
 
         info("Starting to scan domain [{$this->scan->watcher->name}]");
