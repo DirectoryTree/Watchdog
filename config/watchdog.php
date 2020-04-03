@@ -15,10 +15,11 @@ return [
 
     'watch' => [
         \LdapRecord\Models\ActiveDirectory\Entry::class => [
-            \DirectoryTree\Watchdog\Dogs\WatchLogins::class          => ['mail'],
             \DirectoryTree\Watchdog\Dogs\WatchGroupMembers::class    => ['mail'],
+            \DirectoryTree\Watchdog\Dogs\WatchComputerLogons::class  => ['mail'],
             \DirectoryTree\Watchdog\Dogs\WatchAccountGroups::class   => ['mail'],
             \DirectoryTree\Watchdog\Dogs\WatchAccountEnable::class   => ['mail'],
+            \DirectoryTree\Watchdog\Dogs\WatchAccountLogons::class   => ['mail'],
             \DirectoryTree\Watchdog\Dogs\WatchAccountDisable::class  => ['mail'],
             \DirectoryTree\Watchdog\Dogs\WatchAccountLockout::class  => ['mail'],
             \DirectoryTree\Watchdog\Dogs\WatchPasswordChanges::class => ['mail'],
@@ -27,7 +28,7 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Frequency
+    | Frequency (minutes)
     |--------------------------------------------------------------------------
     |
     | This option controls how frequently each model can be scanned using

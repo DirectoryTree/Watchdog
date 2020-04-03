@@ -3,10 +3,11 @@
 namespace DirectoryTree\Watchdog\Dogs;
 
 use DirectoryTree\Watchdog\Watchdog;
-use DirectoryTree\Watchdog\Notifications\LoginHasOccurred;
+use DirectoryTree\Watchdog\Ldap\TypeGuesser;
+use DirectoryTree\Watchdog\Notifications\AccountLogonHasOccurred;
 use DirectoryTree\Watchdog\Conditions\ActiveDirectory\NewLogin;
 
-class WatchLogins extends Watchdog
+class WatchAccountLogons extends Watchdog
 {
     /**
      * The watchdog conditions.
@@ -16,12 +17,22 @@ class WatchLogins extends Watchdog
     protected $conditions = [NewLogin::class];
 
     /**
+     * {@inheritDoc}
+     */
+    public function bark()
+    {
+        if ($this->object->type == TypeGuesser::TYPE_USER) {
+            parent::bark();
+        }
+    }
+
+    /**
      * The watchdog notification.
      *
      * @return string
      */
     public function notification()
     {
-        return LoginHasOccurred::class;
+        return AccountLogonHasOccurred::class;
     }
 }

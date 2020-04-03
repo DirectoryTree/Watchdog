@@ -5,7 +5,7 @@ namespace DirectoryTree\Watchdog\Notifications;
 use DirectoryTree\Watchdog\Watchdog;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class LoginHasOccurred extends Notification
+class ComputerLoginHasOccurred extends Notification
 {
     /**
      * Get the mail representation of the notification.

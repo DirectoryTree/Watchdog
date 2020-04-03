@@ -5,6 +5,10 @@ return [
         'name'    => 'Object Changed',
         'subject' => 'Object [:object] has been changed',
     ],
+    \DirectoryTree\Watchdog\Dogs\WatchComputerLogons::class => [
+        'name'    => 'Computer Logons',
+        'subject' => 'Computer [:object] has a new login',
+    ],
     \DirectoryTree\Watchdog\Dogs\WatchAccountLockout::class => [
         'name'    => 'Account Locked',
         'subject' => 'Account [:object] has been locked',
@@ -29,9 +33,9 @@ return [
         'name'    => 'Group Members Changed',
         'subject' => 'Group [:object] has had members changed',
     ],
-    \DirectoryTree\Watchdog\Dogs\WatchLogins::class => [
-        'name'    => 'New Logins',
-        'subject' => 'Account [:object] has a new login',
+    \DirectoryTree\Watchdog\Dogs\WatchAccountLogons::class => [
+        'name'    => 'Account Logons',
+        'subject' => 'Account [:object] has been logged into',
     ],
     \DirectoryTree\Watchdog\Dogs\WatchPasswordChanges::class => [
         'name'    => 'Passwords Changed',

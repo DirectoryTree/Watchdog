@@ -3,17 +3,17 @@
 namespace DirectoryTree\Watchdog\Tests\Dogs;
 
 use LdapRecord\Models\Attributes\Timestamp;
-use DirectoryTree\Watchdog\Dogs\WatchLogins;
 use DirectoryTree\Watchdog\LdapNotification;
 use Illuminate\Support\Facades\Notification;
 use LdapRecord\Models\ActiveDirectory\Entry;
-use DirectoryTree\Watchdog\Notifications\LoginHasOccurred;
+use DirectoryTree\Watchdog\Dogs\WatchComputerLogons;
+use DirectoryTree\Watchdog\Notifications\ComputerLoginHasOccurred;
 
-class LoginsTest extends DogTestCase
+class ComputerLogonTest extends DogTestCase
 {
     protected $model = Entry::class;
 
-    protected $watchdogs = WatchLogins::class;
+    protected $watchdogs = WatchComputerLogons::class;
 
     public function test_notification_is_sent()
     {
@@ -22,8 +22,8 @@ class LoginsTest extends DogTestCase
         $timestamp = new Timestamp('windows-int');
 
         $object = Entry::create([
-            'cn'          => 'John Doe',
-            'objectclass' => ['foo'],
+            'cn'          => 'SERV-01',
+            'objectclass' => ['computer'],
             'objectguid'  => $this->faker->uuid,
             'lastlogon'   => [$timestamp->fromDateTime(now()->subMinute())],
         ]);
@@ -34,16 +34,16 @@ class LoginsTest extends DogTestCase
 
         $this->artisan('watchdog:monitor');
 
-        Notification::assertSentTo(app(WatchLogins::class), LoginHasOccurred::class);
+        Notification::assertSentTo(app(WatchComputerLogons::class), ComputerLoginHasOccurred::class);
 
         $notification = LdapNotification::where([
-            'notification' => LoginHasOccurred::class,
+            'notification' => ComputerLoginHasOccurred::class,
             'channels'     => json_encode(['mail']),
         ])->first();
 
         $this->assertEquals(1, $notification->object_id);
         $this->assertEquals(['mail'], $notification->channels);
         $this->assertTrue($notification->sent);
-        $this->assertEquals(LoginHasOccurred::class, $notification->notification);
+        $this->assertEquals(ComputerLoginHasOccurred::class, $notification->notification);
     }
 }
