@@ -3,7 +3,7 @@
 </p>
 
 <h3 align="center">
-Monitor & Audit your Active Directory server.
+Monitor & Audit your Active Directory / LDAP server.
 </h3>
 
 <h4 align="center">
