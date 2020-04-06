@@ -224,7 +224,21 @@ class Watchdog
             $this->createNotificationRecord(
                 $sent = $this->sendNotification()
             );
+        }, function ($e) {
+            $this->failedSendingNotification($e);
         });
+    }
+
+    /**
+     * Operations to perform when the watchdog fails to send a notification.
+     *
+     * @param mixed $e
+     *
+     * @return void
+     */
+    protected function failedSendingNotification($e)
+    {
+        //
     }
 
     /**
@@ -384,8 +398,8 @@ class Watchdog
     public function data()
     {
         return [
-            'before'  => $this->before->toJson(),
-            'after'   => $this->after->toJson(),
+            'before'  => optional($this->before)->toJson(),
+            'after'   => optional($this->after)->toJson(),
             'extra'   => collect($this->extra())->toJson(),
             'subject' => $this->getNotifiableSubject(),
         ];
