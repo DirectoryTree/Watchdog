@@ -37,6 +37,6 @@ class LdapChange extends Model
      */
     public function object()
     {
-        return $this->belongsTo(LdapObject::class, 'object_id');
+        return $this->belongsTo(ModelRepository::get(LdapObject::class), 'object_id');
     }
 }

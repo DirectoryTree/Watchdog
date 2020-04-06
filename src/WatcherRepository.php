@@ -46,6 +46,8 @@ class WatcherRepository
      */
     protected static function query()
     {
-        return LdapWatcher::query();
+        $model = ModelRepository::get(LdapWatcher::class);
+
+        return $model::query();
     }
 }

@@ -58,7 +58,7 @@ class LdapObject extends Model
      */
     public function watcher()
     {
-        return $this->belongsTo(LdapWatcher::class, 'watcher_id');
+        return $this->belongsTo(ModelRepository::get(LdapWatcher::class), 'watcher_id');
     }
 
     /**
@@ -68,7 +68,7 @@ class LdapObject extends Model
      */
     public function notifications()
     {
-        return $this->hasMany(LdapNotification::class, 'object_id');
+        return $this->hasMany(ModelRepository::get(LdapNotification::class), 'object_id');
     }
 
     /**
@@ -78,7 +78,7 @@ class LdapObject extends Model
      */
     public function changes()
     {
-        return $this->hasMany(LdapChange::class, 'object_id');
+        return $this->hasMany(ModelRepository::get(LdapChange::class), 'object_id');
     }
 
     /**

@@ -20,6 +20,6 @@ class LdapScanProgress extends Model
      */
     public function scan()
     {
-        return $this->belongsTo(LdapScan::class, 'scan_id');
+        return $this->belongsTo(ModelRepository::get(LdapScan::class), 'scan_id');
     }
 }

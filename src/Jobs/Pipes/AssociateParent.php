@@ -5,6 +5,7 @@ namespace DirectoryTree\Watchdog\Jobs\Pipes;
 use Closure;
 use DirectoryTree\Watchdog\LdapObject;
 use DirectoryTree\Watchdog\LdapScanEntry;
+use DirectoryTree\Watchdog\ModelRepository;
 
 class AssociateParent extends Pipe
 {
@@ -34,7 +35,9 @@ class AssociateParent extends Pipe
      */
     protected function findParentObject(LdapScanEntry $parent)
     {
-        return LdapObject::withTrashed()->where('guid', '=', $parent->guid)->first();
+        $model = ModelRepository::get(LdapObject::class);
+
+        return $model::withTrashed()->where('guid', '=', $parent->guid)->first();
     }
 
     /**
@@ -44,6 +47,8 @@ class AssociateParent extends Pipe
      */
     protected function findParentScanEntry()
     {
-        return LdapScanEntry::find($this->entry->parent_id);
+        $model = ModelRepository::get(LdapScanEntry::class);
+
+        return $model::find($this->entry->parent_id);
     }
 }

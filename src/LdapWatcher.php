@@ -49,7 +49,7 @@ class LdapWatcher extends Model
      */
     public function scans()
     {
-        return $this->hasMany(LdapScan::class, 'watcher_id');
+        return $this->hasMany(ModelRepository::get(LdapScan::class), 'watcher_id');
     }
 
     /**
@@ -59,7 +59,7 @@ class LdapWatcher extends Model
      */
     public function objects()
     {
-        return $this->hasMany(LdapObject::class, 'watcher_id');
+        return $this->hasMany(ModelRepository::get(LdapObject::class), 'watcher_id');
     }
 
     /**
@@ -69,6 +69,11 @@ class LdapWatcher extends Model
      */
     public function changes()
     {
-        return $this->hasManyThrough(LdapChange::class, LdapObject::class, 'watcher_id', 'object_id');
+        return $this->hasManyThrough(
+            ModelRepository::get(LdapChange::class),
+            ModelRepository::get(LdapObject::class),
+            'watcher_id',
+            'object_id'
+        );
     }
 }

@@ -64,7 +64,7 @@ class LdapScan extends Model
      */
     public function watcher()
     {
-        return $this->belongsTo(LdapWatcher::class, 'watcher_id');
+        return $this->belongsTo(ModelRepository::get(LdapWatcher::class), 'watcher_id');
     }
 
     /**
@@ -74,7 +74,7 @@ class LdapScan extends Model
      */
     public function entries()
     {
-        return $this->hasMany(LdapScanEntry::class, 'scan_id');
+        return $this->hasMany(ModelRepository::get(LdapScanEntry::class), 'scan_id');
     }
 
     /**
@@ -84,7 +84,7 @@ class LdapScan extends Model
      */
     public function progress()
     {
-        return $this->hasMany(LdapScanProgress::class, 'scan_id');
+        return $this->hasMany(ModelRepository::get(LdapScanProgress::class), 'scan_id');
     }
 
     /**

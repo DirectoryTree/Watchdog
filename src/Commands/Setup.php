@@ -2,6 +2,7 @@
 
 namespace DirectoryTree\Watchdog\Commands;
 
+use DirectoryTree\Watchdog\ModelRepository;
 use Illuminate\Support\Str;
 use LdapRecord\Models\Model;
 use Illuminate\Console\Command;
@@ -37,11 +38,7 @@ class Setup extends Command
             tap(new $model(), function (Model $model) {
                 $name = $model->getConnectionName() ?? $model::getConnectionContainer()->getDefaultConnectionName();
 
-                $watcher = LdapWatcher::firstOrNew([
-                    'model' => get_class($model),
-                ]);
-
-                $watcher->fill([
+                $watcher = $this->firstOrNewWatcher($model)->fill([
                     'name' => $watcher->name ?? Str::studly($name),
                 ]);
 
@@ -54,5 +51,19 @@ class Setup extends Command
                 }
             });
         });
+    }
+
+    /**
+     * Get the first watcher that uses the given model, or create a new instance.
+     *
+     * @param string $ldapModel
+     *
+     * @return LdapWatcher
+     */
+    protected function firstOrNewWatcher($ldapModel)
+    {
+        $model = ModelRepository::get(LdapWatcher::class);
+
+        return $model::firstOrNew(['model' => get_class($ldapModel)]);
     }
 }
