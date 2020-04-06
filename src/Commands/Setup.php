@@ -2,11 +2,11 @@
 
 namespace DirectoryTree\Watchdog\Commands;
 
-use DirectoryTree\Watchdog\ModelRepository;
 use Illuminate\Support\Str;
 use LdapRecord\Models\Model;
 use Illuminate\Console\Command;
 use DirectoryTree\Watchdog\LdapWatcher;
+use DirectoryTree\Watchdog\ModelRepository;
 
 class Setup extends Command
 {
