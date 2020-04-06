@@ -98,26 +98,6 @@ class LdapScan extends Model
     }
 
     /**
-     * Determine whether the scan was successful.
-     *
-     * @return bool
-     */
-    public function getSuccessfulAttribute()
-    {
-        return !is_null($this->completed_at);
-    }
-
-    /**
-     * Determine whether the scan is running.
-     *
-     * @return bool
-     */
-    public function getRunningAttribute()
-    {
-        return !in_array($this->state, [self::STATE_CREATED, self::STATE_PURGED]);
-    }
-
-    /**
      * Get the duration of the scan.
      *
      * @return string|null
