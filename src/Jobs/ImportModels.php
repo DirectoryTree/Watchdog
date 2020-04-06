@@ -8,8 +8,8 @@ use LdapRecord\Models\Model;
 use Illuminate\Support\Facades\DB;
 use DirectoryTree\Watchdog\LdapScan;
 use DirectoryTree\Watchdog\LdapScanEntry;
-use DirectoryTree\Watchdog\Ldap\TypeResolver;
 use LdapRecord\Models\Types\ActiveDirectory;
+use DirectoryTree\Watchdog\Ldap\TypeResolver;
 
 class ImportModels extends ScanJob
 {
