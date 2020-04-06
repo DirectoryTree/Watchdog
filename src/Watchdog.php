@@ -250,7 +250,7 @@ class Watchdog
     {
         $delay = config('watchdog.notifications.seconds_between_notifications', 5);
 
-        if (! is_null($lastNotification = $this->lastNotification())) {
+        if (!is_null($lastNotification = $this->lastNotification())) {
             return $lastNotification->created_at->diffInSeconds(now()) > $delay ? 0 : $delay;
         }
 
