@@ -3,7 +3,7 @@
 namespace DirectoryTree\Watchdog\Dogs;
 
 use DirectoryTree\Watchdog\Watchdog;
-use DirectoryTree\Watchdog\Ldap\TypeGuesser;
+use DirectoryTree\Watchdog\Ldap\TypeResolver;
 use DirectoryTree\Watchdog\Conditions\ActiveDirectory\NewLogin;
 use DirectoryTree\Watchdog\Notifications\ComputerLoginHasOccurred;
 
@@ -21,7 +21,7 @@ class WatchComputerLogons extends Watchdog
      */
     public function bark()
     {
-        if ($this->object->type == TypeGuesser::TYPE_COMPUTER) {
+        if ($this->object->type == TypeResolver::TYPE_COMPUTER) {
             parent::bark();
         }
     }

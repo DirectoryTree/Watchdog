@@ -2,7 +2,7 @@
 
 namespace DirectoryTree\Watchdog\Ldap;
 
-class TypeGuesser
+class TypeResolver
 {
     const TYPE_USER = 'user';
     const TYPE_GROUP = 'group';

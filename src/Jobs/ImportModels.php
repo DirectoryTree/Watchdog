@@ -8,7 +8,7 @@ use LdapRecord\Models\Model;
 use Illuminate\Support\Facades\DB;
 use DirectoryTree\Watchdog\LdapScan;
 use DirectoryTree\Watchdog\LdapScanEntry;
-use DirectoryTree\Watchdog\Ldap\TypeGuesser;
+use DirectoryTree\Watchdog\Ldap\TypeResolver;
 use LdapRecord\Models\Types\ActiveDirectory;
 
 class ImportModels extends ScanJob
@@ -109,7 +109,7 @@ class ImportModels extends ScanJob
 
                 // If the object is a container, we will
                 // recursively import its descendants.
-                if ($type == TypeGuesser::TYPE_CONTAINER) {
+                if ($type == TypeResolver::TYPE_CONTAINER) {
                     $this->import($object, $entry);
                 }
             });
@@ -142,7 +142,7 @@ class ImportModels extends ScanJob
      */
     protected function getObjectType(Model $object)
     {
-        return (new TypeGuesser($object->getAttribute('objectclass') ?? []))->get();
+        return (new TypeResolver($object->getAttribute('objectclass') ?? []))->get();
     }
 
     /**
