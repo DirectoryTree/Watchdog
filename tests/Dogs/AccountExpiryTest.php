@@ -15,11 +15,11 @@ class AccountExpiryTest extends DogTestCase
 
     protected $watchdogs = WatchAccountExpiry::class;
 
-    protected function setUp(): void
+    protected function getEnvironmentSetUp($app)
     {
-        parent::setUp();
+        parent::getEnvironmentSetUp($app);
 
-        config(['watchdog.attributes.transform' => ['accountexpires' => 'windows-int']]);
+        $app['config']->set('watchdog.attributes.transform', ['accountexpires' => 'windows-int']);
     }
 
     public function test_notification_is_sent()

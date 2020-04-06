@@ -15,11 +15,11 @@ class AccountLockoutTest extends DogTestCase
 
     protected $watchdogs = WatchAccountLockout::class;
 
-    protected function setUp(): void
+    protected function getEnvironmentSetUp($app)
     {
-        parent::setUp();
+        parent::getEnvironmentSetUp($app);
 
-        config(['watchdog.attributes.transform' => ['lockouttime' => 'windows-int']]);
+        $app['config']->set('watchdog.attributes.transform', ['lockouttime' => 'windows-int']);
     }
 
     public function test_notification_is_sent()
