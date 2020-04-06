@@ -21,7 +21,7 @@ class WatchdogTest extends DogTestCase
     {
         Notification::fake();
 
-        $watchdog = tap(new Watchdog, function (Watchdog $watchdog) {
+        $watchdog = tap(new Watchdog(), function (Watchdog $watchdog) {
             $watchdog->object(factory(LdapObject::class)->create());
 
             $watchdog->bark();
@@ -42,13 +42,13 @@ class WatchdogTest extends DogTestCase
 
         $object = factory(LdapObject::class)->create();
 
-        $watchdog = new Watchdog;
+        $watchdog = new Watchdog();
         $watchdog->object($object);
 
         factory(LdapNotification::class)->create([
-            'created_at' => now()->subSeconds(6),
-            'object_id' => $object->id,
-            'watchdog' => $watchdog->getKey(),
+            'created_at'   => now()->subSeconds(6),
+            'object_id'    => $object->id,
+            'watchdog'     => $watchdog->getKey(),
             'notification' => ObjectHasChanged::class,
         ]);
 
