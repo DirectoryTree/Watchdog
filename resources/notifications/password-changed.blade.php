@@ -8,7 +8,7 @@
 </p>
 
 <p class="text-center">
-    <strong>{{ $watchdog->before()->attribute('pwdlastset')->first()->format(config('watchdog.notifications.date_format')) }}</strong>
+    <strong>{{ $watchdog->after()->attribute('pwdlastset')->first()->format(config('watchdog.notifications.date_format')) }}</strong>
 </p>
 
 @endcomponent
