@@ -2,6 +2,7 @@
 
 namespace DirectoryTree\Watchdog\Tests;
 
+use Carbon\Carbon;
 use DirectoryTree\Watchdog\LdapScan;
 use DirectoryTree\Watchdog\LdapChange;
 use DirectoryTree\Watchdog\LdapObject;
@@ -49,8 +50,8 @@ class WatchdogFeedTest extends TestCase
         $this->artisan('watchdog:monitor');
 
         $scan = LdapScan::first();
-        $this->assertTrue($scan->successful);
         $this->assertEquals(1, $scan->processed);
+        $this->assertInstanceOf(Carbon::class, $scan->completed_at);
         $this->assertInstanceOf(LdapWatcher::class, $scan->watcher);
         $this->assertEquals(LdapScan::STATE_PURGED, $scan->progress()->get()->last()->state);
 

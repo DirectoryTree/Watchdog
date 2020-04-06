@@ -2,6 +2,7 @@
 
 namespace DirectoryTree\Watchdog\Tests\Jobs;
 
+use Carbon\Carbon;
 use LdapRecord\Models\Entry;
 use DirectoryTree\Watchdog\LdapScan;
 use DirectoryTree\Watchdog\LdapWatcher;
@@ -40,8 +41,9 @@ class ExecuteScanTest extends TestCase
         ExecuteScan::dispatch($watcher);
 
         $scan = $watcher->scans()->first();
-        $this->assertTrue($scan->successful);
+
         $this->assertEquals(0, $scan->processed);
+        $this->assertInstanceOf(Carbon::class, $scan->completed_at);
         $this->assertEquals(LdapScan::STATE_PURGED, $scan->progress()->get()->last()->state);
     }
 }

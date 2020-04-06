@@ -8,7 +8,7 @@
 </p>
 
 <p class="text-center">
-    <strong>{{ $watchdog->after()->attribute('lockouttime')->first()->format(config('watchdog.notifications.date_format')) }}</strong>
+    <strong>{{ $watchdog->after()->attribute('lockouttime')->first()->format(config('watchdog.date.format')) }}</strong>
 </p>
 
 @endcomponent

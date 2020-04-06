@@ -13,6 +13,7 @@ class WindowsTimestampTest extends TestCase
         $transformer = (new WindowsTimestamp(['20200326143107.0Z']));
 
         $this->assertInstanceOf(Carbon::class, $transformer->transform()[0]);
+        $this->assertEquals('UTC', $transformer->transform()[0]->getTimezone()->getName());
     }
 
     public function test_invalid_timestamp_is_not_converted()

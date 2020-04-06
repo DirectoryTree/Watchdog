@@ -39,12 +39,12 @@ abstract class Timestamp extends Transformer
     }
 
     /**
-     * Get the current application timezone.
+     * Get the current watchdog timezone.
      *
      * @return string
      */
     protected function timezone()
     {
-        return config('app.timezone', 'UTC');
+        return config('watchdog.date.timezone', 'UTC');
     }
 }

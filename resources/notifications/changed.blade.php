@@ -3,7 +3,7 @@
     'subtitle' => $watchdog->object()->dn,
 ])
 
-<h5 class="text-center">Detected on {{ $watchdog->object()->updated_at->format(config('watchdog.notifications.date_format')) }}</h5>
+<h5 class="text-center">Detected on {{ $watchdog->object()->updated_at->format(config('watchdog.date.format')) }}</h5>
 
 @foreach($watchdog->modified() as $attribute)
 <div class="table">

@@ -5,7 +5,7 @@ namespace DirectoryTree\Watchdog\Tests\Ldap;
 use DirectoryTree\Watchdog\Tests\TestCase;
 use DirectoryTree\Watchdog\Ldap\TypeResolver;
 
-class TypeGuesserTest extends TestCase
+class TypeResolverTest extends TestCase
 {
     public function test_first_object_class_determines_type()
     {
