@@ -13,10 +13,10 @@ $factory->define(LdapNotification::class, function (Faker $faker) {
         'object_id' => function () {
             return factory(LdapObject::class)->create()->id;
         },
-        'watchdog' => app(Watchdog::class)->getKey(),
+        'watchdog'     => app(Watchdog::class)->getKey(),
         'notification' => ObjectHasChanged::class,
-        'data' => [],
-        'sent' => false,
-        'channels' => [],
+        'data'         => [],
+        'sent'         => false,
+        'channels'     => [],
     ];
 });
