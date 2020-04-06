@@ -248,7 +248,13 @@ class Watchdog
      */
     protected function secondsBetweenNotifications()
     {
-        return config('watchdog.notifications.seconds_between_notifications', 5);
+        $delay = config('watchdog.notifications.seconds_between_notifications', 5);
+
+        if (! is_null($lastNotification = $this->lastNotification())) {
+            return $lastNotification->created_at->diffInSeconds(now()) > $delay ? 0 : $delay;
+        }
+
+        return $delay;
     }
 
     /**
@@ -318,7 +324,9 @@ class Watchdog
      */
     public function notifications()
     {
-        return LdapNotification::where('watchdog', '=', $this->getKey())->latest();
+        $model = ModelRepository::get(LdapNotification::class);
+
+        return $model::where('watchdog', '=', $this->getKey())->latest();
     }
 
     /**
