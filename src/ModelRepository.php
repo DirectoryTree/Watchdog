@@ -2,6 +2,8 @@
 
 namespace DirectoryTree\Watchdog;
 
+use Exception;
+
 class ModelRepository
 {
     /**
@@ -18,6 +20,16 @@ class ModelRepository
         LdapScanProgress::class => LdapScanProgress::class,
         LdapNotification::class => LdapNotification::class,
     ];
+
+    /**
+     * Get all of the Watchdog Eloquent models.
+     *
+     * @return array
+     */
+    public static function all()
+    {
+        return static::$models;
+    }
 
     /**
      * Get the model to use for the given model.
@@ -37,10 +49,16 @@ class ModelRepository
      * @param string $model
      * @param string $for
      *
+     * @throws Exception
+     *
      * @return void
      */
     public static function swap($model, $for)
     {
+        if (is_null(static::$models[$model] ?? null)) {
+            throw new Exception("Model [$model] does not exist.");
+        }
+
         static::$models[$model] = $for;
     }
 }
