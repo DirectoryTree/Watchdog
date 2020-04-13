@@ -22,7 +22,7 @@ class LdapScanProgress extends Model
     {
         parent::boot();
 
-        static::creating(function (LdapScanProgress $progress) {
+        static::creating(function (self $progress) {
             $step = (int) $progress->newQuery()
                 ->where('scan_id', '=', $progress->scan_id)
                 ->max('step');
