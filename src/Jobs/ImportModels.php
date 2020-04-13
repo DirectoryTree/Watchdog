@@ -40,7 +40,15 @@ class ImportModels extends ScanJob
         // each update or insert would be done separately,
         // becoming very resource intensive.
         DB::transaction(function () {
-            $this->import($this->createModel());
+            // Here we will attempt to retrieve the Root DSE record of the
+            // domain to be able to properly assign the parent for each
+            // child object that is imported, as well as retrieving
+            // domain information such as password expiry time.
+            if ($rootDse = $this->createModel()->read()->first()) {
+                $parent = $this->import($rootDse);
+            }
+
+            $this->run($this->createModel(), $parent ?? null);
         });
 
         $imported = count($this->guids);
@@ -55,64 +63,57 @@ class ImportModels extends ScanJob
     }
 
     /**
-     * Create the LDAP model.
-     *
-     * @return \LdapRecord\Models\Model
-     */
-    protected function createModel()
-    {
-        $model = $this->scan->watcher->model;
-
-        if (!class_exists($model)) {
-            throw new Exception("No model is defined for domain [$model].");
-        }
-
-        $class = '\\'.ltrim($model, '\\');
-
-        return new $class();
-    }
-
-    /**
-     * Import the LDAP objects on the given connection.
+     * Run the import.
      *
      * @param Model              $model
      * @param LdapScanEntry|null $parent
      *
      * @return void
      */
-    protected function import(Model $model, LdapScanEntry $parent = null)
+    protected function run(Model $model, LdapScanEntry $parent = null)
     {
-        $this->query($model)
-            ->reject(function (Model $object) {
-                return empty($object->getConvertedGuid());
-            })->each(function (Model $object) use ($model, $parent) {
-                $values = $object->jsonSerialize();
-                ksort($values);
+        $this->query($model)->reject(function (Model $object) {
+            return empty($object->getConvertedGuid());
+        })->each(function (Model $object) use ($parent) {
+            $this->import($object, $parent);
+        });
+    }
 
-                $type = $this->getObjectType($object);
-                $updated = $this->getObjectUpdatedAt($object);
+    /**
+     * Import the LDAP objects on the given connection.
+     *
+     * @param Model              $object
+     * @param LdapScanEntry|null $parent
+     *
+     * @return LdapScanEntry
+     */
+    protected function import(Model $object, LdapScanEntry $parent = null)
+    {
+        /** @var LdapScanEntry $entry */
+        $entry = $this->scan->entries()->make();
 
-                /** @var LdapScanEntry $entry */
-                $entry = $this->scan->entries()->make();
+        $type = $this->getObjectType($object);
 
-                $entry->parent()->associate(optional($parent)->id);
-                $entry->dn = $object->getDn();
-                $entry->name = $object->getName();
-                $entry->guid = $object->getConvertedGuid();
-                $entry->type = $type;
-                $entry->values = $values;
-                $entry->ldap_updated_at = $updated;
+        $entry->parent()->associate(optional($parent)->id);
 
-                $entry->save();
+        $entry->type = $type;
+        $entry->dn = $object->getDn();
+        $entry->name = $object->getName();
+        $entry->guid = $object->getConvertedGuid();
+        $entry->values = $this->getObjectValues($object);
+        $entry->ldap_updated_at = $this->getObjectUpdatedAt($object);
 
-                $this->guids[] = $object->getConvertedGuid();
+        $entry->save();
 
-                // If the object is a container, we will
-                // recursively import its descendants.
-                if ($type == TypeResolver::TYPE_CONTAINER) {
-                    $this->import($object, $entry);
-                }
-            });
+        $this->guids[] = $object->getConvertedGuid();
+
+        // If the object is a container, we will
+        // recursively import its descendants.
+        if ($type == TypeResolver::TYPE_CONTAINER) {
+            $this->run($object, $entry);
+        }
+
+        return $entry;
     }
 
     /**
@@ -124,13 +125,25 @@ class ImportModels extends ScanJob
      */
     protected function query(Model $model)
     {
-        $query = $model->newQuery();
+        $query = $model->exists ? $model->descendants() : $model->newQuery()->listing();
 
-        if ($model->exists) {
-            $query->in($model->getDn());
-        }
+        return $query->select('*')->paginate();
+    }
 
-        return $query->select('*')->listing()->paginate();
+    /**
+     * Get all of the objects values
+     *
+     * @param Model $object
+     *
+     * @return array
+     */
+    protected function getObjectValues(Model $object)
+    {
+        $values = $object->jsonSerialize();
+
+        ksort($values);
+
+        return $values;
     }
 
     /**
@@ -166,5 +179,23 @@ class ImportModels extends ScanJob
         return $timestamp instanceof Carbon ?
             $timestamp->setTimezone(config('app.timezone')) :
             now();
+    }
+
+    /**
+     * Create the LDAP model.
+     *
+     * @return \LdapRecord\Models\Model
+     */
+    protected function createModel()
+    {
+        $model = $this->scan->watcher->model;
+
+        if (!class_exists($model)) {
+            throw new Exception("No model is defined for domain [$model].");
+        }
+
+        $class = '\\'.ltrim($model, '\\');
+
+        return new $class();
     }
 }
