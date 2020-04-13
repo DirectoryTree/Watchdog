@@ -19,7 +19,7 @@ class CreateLdapScanEntriesTable extends Migration
             $table->unsignedBigInteger('parent_id')->nullable();
             $table->timestamps();
             $table->timestamp('ldap_updated_at')->nullable();
-            $table->string('guid');
+            $table->string('guid')->unique()->index();
             $table->string('name');
             $table->string('dn');
             $table->string('type')->nullable();
