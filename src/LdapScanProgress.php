@@ -14,6 +14,24 @@ class LdapScanProgress extends Model
     protected $guarded = [];
 
     /**
+     * Set the scan progress step on creation.
+     *
+     * @return void
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function (LdapScanProgress $progress) {
+            $step = (int) $progress->newQuery()
+                ->where('scan_id', '=', $progress->scan_id)
+                ->max('step');
+
+            $progress->step = ++$step;
+        });
+    }
+
+    /**
      * The belongsTo scan relationship.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
