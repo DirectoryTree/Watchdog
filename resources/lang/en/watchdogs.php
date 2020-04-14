@@ -41,4 +41,8 @@ return [
         'name'    => 'Passwords Changed',
         'subject' => 'Account [:object] has had their password changed',
     ],
+    \DirectoryTree\Watchdog\Dogs\WatchPasswordExpiry::class => [
+        'name'    => 'Password Expired',
+        'subject' => 'Account [:object] password has expired',
+    ],
 ];
