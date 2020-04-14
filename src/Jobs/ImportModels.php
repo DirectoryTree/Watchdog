@@ -133,7 +133,7 @@ class ImportModels extends ScanJob
     }
 
     /**
-     * Get all of the objects values
+     * Get all of the objects values.
      *
      * @param Model $object
      *
