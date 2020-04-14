@@ -63,7 +63,7 @@ class ImportModels extends ScanJob
     }
 
     /**
-     * Run the import.
+     * Query the given LDAP model and import each entry.
      *
      * @param Model              $model
      * @param LdapScanEntry|null $parent
@@ -80,7 +80,7 @@ class ImportModels extends ScanJob
     }
 
     /**
-     * Import the LDAP objects on the given connection.
+     * Import the LDAP object.
      *
      * @param Model              $object
      * @param LdapScanEntry|null $parent
@@ -92,9 +92,11 @@ class ImportModels extends ScanJob
         /** @var LdapScanEntry $entry */
         $entry = $this->scan->entries()->make();
 
-        $type = $this->getObjectType($object);
+        optional($parent, function (LdapScanEntry $parent) use ($entry) {
+            $entry->parent()->associate($parent->id);
+        });
 
-        $entry->parent()->associate(optional($parent)->id);
+        $type = $this->getObjectType($object);
 
         $entry->type = $type;
         $entry->dn = $object->getDn();
