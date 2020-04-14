@@ -24,7 +24,7 @@ class WatchPasswordExpiry extends Watchdog
     ];
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function bark()
     {
