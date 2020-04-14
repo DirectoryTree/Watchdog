@@ -10,7 +10,7 @@ class AccountHasExpiringPassword extends Condition
     use CreatesAccountControl;
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function passes()
     {

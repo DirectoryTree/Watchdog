@@ -7,7 +7,7 @@ use DirectoryTree\Watchdog\Conditions\Condition;
 class HasPassword extends Condition
 {
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function passes()
     {
