@@ -2,10 +2,10 @@
 
 namespace DirectoryTree\Watchdog\Tests\Dogs;
 
-use Illuminate\Support\Facades\Notification;
 use LdapRecord\Models\Attributes\Timestamp;
-use LdapRecord\Models\ActiveDirectory\Entry;
 use DirectoryTree\Watchdog\LdapNotification;
+use Illuminate\Support\Facades\Notification;
+use LdapRecord\Models\ActiveDirectory\Entry;
 use DirectoryTree\Watchdog\Dogs\WatchPasswordExpiry;
 use DirectoryTree\Watchdog\Notifications\PasswordHasExpired;
 
@@ -23,7 +23,7 @@ class PasswordExpiredTest extends DogTestCase
         $entry = new Entry([
             'objectclass' => ['foo'],
             'objectguid'  => $this->faker->uuid,
-            'maxpwdage'   => [-51840000000000]
+            'maxpwdage'   => [-51840000000000],
         ]);
 
         $entry->setDn('dc=local,dc=com')->save();
