@@ -34,8 +34,8 @@ class Monitor extends Command
         $this->info('Starting to queue watchers...');
 
         $watchers = $this->hasOption('force')
-            ? WatcherRepository::toMonitor()
-            : WatcherRepository::all();
+            ? WatcherRepository::all()
+            : WatcherRepository::toMonitor();
 
         if ($watchers->isEmpty()) {
             return $this->info('There are no scheduled watchers to be monitored.');
