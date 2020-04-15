@@ -14,7 +14,7 @@ class Monitor extends Command
      *
      * @var string
      */
-    protected $signature = 'watchdog:monitor';
+    protected $signature = 'watchdog:monitor {--force}';
 
     /**
      * The console command description.
@@ -33,7 +33,9 @@ class Monitor extends Command
         $this->info('---- Watchdog ----');
         $this->info('Starting to queue watchers...');
 
-        $watchers = WatcherRepository::toMonitor();
+        $watchers = $this->hasOption('force')
+            ? WatcherRepository::toMonitor()
+            : WatcherRepository::all();
 
         if ($watchers->isEmpty()) {
             return $this->info('There are no scheduled watchers to be monitored.');
