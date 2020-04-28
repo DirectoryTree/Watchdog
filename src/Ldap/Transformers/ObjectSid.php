@@ -2,7 +2,8 @@
 
 namespace DirectoryTree\Watchdog\Ldap\Transformers;
 
-use LdapRecord\Utilities;
+use InvalidArgumentException;
+use LdapRecord\Models\Attributes\Sid;
 
 class ObjectSid extends Transformer
 {
@@ -13,10 +14,10 @@ class ObjectSid extends Transformer
      */
     public function transform()
     {
-        if ($value = $this->getFirstValue()) {
-            $value = Utilities::isValidSid($value) ? $value : Utilities::binarySidToString($value);
+        try {
+            return [(new Sid($this->getFirstValue()))->getValue()];
+        } catch (InvalidArgumentException $e) {
+            return $this->value;
         }
-
-        return $value ? [$value] : $this->value;
     }
 }
