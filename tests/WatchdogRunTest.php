@@ -8,8 +8,8 @@ use DirectoryTree\Watchdog\LdapChange;
 use DirectoryTree\Watchdog\LdapObject;
 use DirectoryTree\Watchdog\LdapWatcher;
 use Illuminate\Foundation\Testing\WithFaker;
-use DirectoryTree\Watchdog\Ldap\TypeResolver;
 use LdapRecord\Models\ActiveDirectory\Entry;
+use DirectoryTree\Watchdog\Ldap\TypeResolver;
 use LdapRecord\Laravel\Testing\DirectoryEmulator;
 
 class WatchdogRunTest extends TestCase
