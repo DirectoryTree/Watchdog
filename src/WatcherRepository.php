@@ -22,14 +22,20 @@ class WatcherRepository
     public static function toMonitor()
     {
         return static::query()->get()->filter(function (LdapWatcher $watcher) {
-            $frequencyInMinutes = config('watchdog.frequency', 5);
-
-            $lastScan = $watcher->scans()->latest()->first();
-
             // If no scan exists, we'll initiate one now.
-            if (!$lastScan) {
+            if (!$lastScan = $watcher->scans()->latest()->first()) {
                 return true;
             }
+
+            $progress = $lastScan->progress()->latest()->first();
+
+            // If the last scan has just been created, we
+            // will prevent stacking on another scan.
+            if ($progress && $progress->state == LdapScan::STATE_CREATED) {
+                return false;
+            }
+
+            $frequencyInMinutes = config('watchdog.frequency', 5);
 
             // If the last scan has not yet been started, we
             // will avoid stacking scans until it has begun.
