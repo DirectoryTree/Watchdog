@@ -20,7 +20,7 @@ class CreateLdapNotificationsTable extends Migration
             $table->string('watchdog');
             $table->string('notification');
             $table->string('channels');
-            $table->boolean('sent');
+            $table->boolean('sent')->default(false);
             $table->longText('data')->nullable();
         });
     }
