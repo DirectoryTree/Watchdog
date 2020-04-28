@@ -93,7 +93,7 @@ class ProcessImported extends ScanJob
     protected function firstOrNewObject(LdapScanEntry $entry)
     {
         return $this->scan->watcher->objects()->withTrashed()->firstOrNew([
-            'guid' => $entry->guid
+            'guid' => $entry->guid,
         ]);
     }
 }
