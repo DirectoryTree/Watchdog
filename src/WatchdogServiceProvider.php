@@ -3,8 +3,8 @@
 namespace DirectoryTree\Watchdog;
 
 use Illuminate\Support\ServiceProvider;
-use DirectoryTree\Watchdog\Commands\Setup;
 use DirectoryTree\Watchdog\Commands\Run;
+use DirectoryTree\Watchdog\Commands\Setup;
 use DirectoryTree\Watchdog\Commands\MakeWatchdog;
 use DirectoryTree\Watchdog\Commands\MakeWatchdogNotification;
 
