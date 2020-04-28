@@ -35,7 +35,7 @@ class ScanJob implements ShouldQueue
     }
 
     /**
-     * The job failed to process.
+     * Handle the failing scan job.
      *
      * @param Exception $ex
      *
@@ -47,5 +47,12 @@ class ScanJob implements ShouldQueue
             'failed'  => true,
             'message' => $ex->getMessage(),
         ])->save();
+
+        // If the scan has failed, we will be sure to clear out
+        // any entries that were imported to prevent the table
+        // from filling up inadvertently and delete the job.
+        $this->scan->entries()->delete();
+
+        $this->delete();
     }
 }
