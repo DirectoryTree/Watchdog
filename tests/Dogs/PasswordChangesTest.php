@@ -26,13 +26,13 @@ class PasswordChangesTest extends DogTestCase
             'pwdlastset'  => [0],
         ]);
 
-        $this->artisan('watchdog:monitor');
+        $this->artisan('watchdog:run');
 
         $timestamp = new Timestamp('windows-int');
 
         $object->update(['pwdlastset' => [$timestamp->fromDateTime(now())]]);
 
-        $this->artisan('watchdog:monitor');
+        $this->artisan('watchdog:run');
 
         Notification::assertSentTo(app(WatchPasswordChanges::class), PasswordHasChanged::class);
 

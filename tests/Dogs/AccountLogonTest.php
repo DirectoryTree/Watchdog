@@ -28,11 +28,11 @@ class AccountLogonTest extends DogTestCase
             'lastlogon'   => [$timestamp->fromDateTime(now()->subMinute())],
         ]);
 
-        $this->artisan('watchdog:monitor');
+        $this->artisan('watchdog:run');
 
         $object->update(['lastlogon' => [$timestamp->fromDateTime(now())]]);
 
-        $this->artisan('watchdog:monitor');
+        $this->artisan('watchdog:run');
 
         Notification::assertSentTo(app(WatchAccountLogons::class), AccountLogonHasOccurred::class);
 

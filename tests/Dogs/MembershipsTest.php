@@ -26,11 +26,11 @@ class MembershipsTest extends DogTestCase
             'memberof'    => ['foo', 'bar'],
         ]);
 
-        $this->artisan('watchdog:monitor');
+        $this->artisan('watchdog:run');
 
         $object->update(['memberof' => ['foo', 'bar', 'baz']]);
 
-        $this->artisan('watchdog:monitor');
+        $this->artisan('watchdog:run');
 
         Notification::assertSentTo(app(WatchAccountGroups::class), AccountGroupsHaveChanged::class);
 
@@ -56,11 +56,11 @@ class MembershipsTest extends DogTestCase
             'memberof'    => ['foo', 'bar'],
         ]);
 
-        $this->artisan('watchdog:monitor');
+        $this->artisan('watchdog:run');
 
         $object->update(['memberof' => ['bar', 'foo']]);
 
-        $this->artisan('watchdog:monitor');
+        $this->artisan('watchdog:run');
 
         Notification::assertNotSentTo(app(WatchAccountGroups::class), MembersHaveChanged::class);
     }

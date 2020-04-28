@@ -7,14 +7,14 @@ use DirectoryTree\Watchdog\LdapWatcher;
 use DirectoryTree\Watchdog\Jobs\ExecuteScan;
 use DirectoryTree\Watchdog\WatcherRepository;
 
-class Monitor extends Command
+class Run extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'watchdog:monitor {--force}';
+    protected $signature = 'watchdog:run {--force}';
 
     /**
      * The console command description.

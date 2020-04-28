@@ -32,13 +32,13 @@ class AccountLockoutTest extends DogTestCase
             'objectguid'    => $this->faker->uuid,
         ]);
 
-        $this->artisan('watchdog:monitor');
+        $this->artisan('watchdog:run');
 
         $timestamp = new Timestamp('windows-int');
 
         $object->update(['lockouttime' => [$timestamp->fromDateTime(now())]]);
 
-        $this->artisan('watchdog:monitor');
+        $this->artisan('watchdog:run');
 
         Notification::assertSentTo(app(WatchAccountLockout::class), AccountHasBeenLocked::class);
 
@@ -66,7 +66,7 @@ class AccountLockoutTest extends DogTestCase
             'accountexpires'    => [$timestamp->fromDateTime(now())],
         ]);
 
-        $this->artisan('watchdog:monitor');
+        $this->artisan('watchdog:run');
 
         Notification::assertNotSentTo(app(WatchAccountLockout::class), AccountHasBeenLocked::class);
     }

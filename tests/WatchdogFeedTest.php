@@ -47,7 +47,7 @@ class WatchdogFeedTest extends TestCase
             'objectguid'  => $this->faker->uuid,
         ]);
 
-        $this->artisan('watchdog:monitor');
+        $this->artisan('watchdog:run');
 
         $scan = LdapScan::first();
         $this->assertEquals(1, $scan->processed);
@@ -69,12 +69,12 @@ class WatchdogFeedTest extends TestCase
             'objectguid'  => $this->faker->uuid,
         ]);
 
-        $this->artisan('watchdog:monitor');
+        $this->artisan('watchdog:run');
 
         $this->assertEquals(0, LdapChange::count());
 
         $object->cn = 'Jane Doe';
 
-        $this->artisan('watchdog:monitor');
+        $this->artisan('watchdog:run');
     }
 }

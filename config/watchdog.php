@@ -32,7 +32,7 @@ return [
     |--------------------------------------------------------------------------
     |
     | This option controls how frequently each model can be scanned using
-    | the watchdog:monitor command in minutes. Set this to zero to allow
+    | the watchdog:run command in minutes. Set this to zero to allow
     | scans to be run every time on demand without any limitation.
     |
     */

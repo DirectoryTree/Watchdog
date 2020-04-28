@@ -3,7 +3,7 @@
 namespace DirectoryTree\Watchdog\Tests;
 
 use DirectoryTree\Watchdog\Commands\Setup;
-use DirectoryTree\Watchdog\Commands\Monitor;
+use DirectoryTree\Watchdog\Commands\Run;
 use DirectoryTree\Watchdog\Commands\MakeWatchdog;
 use DirectoryTree\Watchdog\WatchdogServiceProvider;
 
@@ -33,7 +33,7 @@ class WatchdogServiceProviderTest extends TestCase
 
     public function test_commands_are_resolved()
     {
-        $this->assertTrue($this->app->resolved(Monitor::class));
+        $this->assertTrue($this->app->resolved(Run::class));
         $this->assertTrue($this->app->resolved(Setup::class));
         $this->assertTrue($this->app->resolved(MakeWatchdog::class));
     }

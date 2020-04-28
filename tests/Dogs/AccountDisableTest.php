@@ -26,11 +26,11 @@ class AccountDisableTest extends DogTestCase
             'userAccountControl' => [512],
         ]);
 
-        $this->artisan('watchdog:monitor');
+        $this->artisan('watchdog:run');
 
         $object->update(['userAccountControl' => [514]]);
 
-        $this->artisan('watchdog:monitor');
+        $this->artisan('watchdog:run');
 
         Notification::assertSentTo(app(WatchAccountDisable::class), AccountHasBeenDisabled::class);
 
@@ -59,11 +59,11 @@ class AccountDisableTest extends DogTestCase
             'userAccountControl' => [$uac],
         ]);
 
-        $this->artisan('watchdog:monitor');
+        $this->artisan('watchdog:run');
 
         $object->update(['userAccountControl' => [$uac->accountIsNormal()]]);
 
-        $this->artisan('watchdog:monitor');
+        $this->artisan('watchdog:run');
 
         Notification::assertNotSentTo(app(WatchAccountDisable::class), AccountHasBeenDisabled::class);
     }

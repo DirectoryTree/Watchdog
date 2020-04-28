@@ -26,11 +26,11 @@ class AccountEnableTest extends DogTestCase
             'userAccountControl' => [514],
         ]);
 
-        $this->artisan('watchdog:monitor');
+        $this->artisan('watchdog:run');
 
         $object->update(['userAccountControl' => [512]]);
 
-        $this->artisan('watchdog:monitor');
+        $this->artisan('watchdog:run');
 
         Notification::assertSentTo(app(WatchAccountEnable::class), AccountHasBeenEnabled::class);
 
@@ -59,11 +59,11 @@ class AccountEnableTest extends DogTestCase
             'userAccountControl' => [$uac],
         ]);
 
-        $this->artisan('watchdog:monitor');
+        $this->artisan('watchdog:run');
 
         $object->update(['userAccountControl' => [$uac->accountIsForWorkstation()]]);
 
-        $this->artisan('watchdog:monitor');
+        $this->artisan('watchdog:run');
 
         Notification::assertNotSentTo(app(WatchAccountEnable::class), AccountHasBeenEnabled::class);
     }

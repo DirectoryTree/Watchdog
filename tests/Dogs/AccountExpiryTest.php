@@ -32,13 +32,13 @@ class AccountExpiryTest extends DogTestCase
             'objectguid'    => $this->faker->uuid,
         ]);
 
-        $this->artisan('watchdog:monitor');
+        $this->artisan('watchdog:run');
 
         $timestamp = new Timestamp('windows-int');
 
         $object->update(['accountexpires' => [$timestamp->fromDateTime(now())]]);
 
-        $this->artisan('watchdog:monitor');
+        $this->artisan('watchdog:run');
 
         Notification::assertSentTo(app(WatchAccountExpiry::class), AccountHasExpired::class);
 
@@ -63,13 +63,13 @@ class AccountExpiryTest extends DogTestCase
             'objectguid'    => $this->faker->uuid,
         ]);
 
-        $this->artisan('watchdog:monitor');
+        $this->artisan('watchdog:run');
 
         $timestamp = new Timestamp('windows-int');
 
         $object->update(['accountexpires' => [$timestamp->fromDateTime(now()->addHour())]]);
 
-        $this->artisan('watchdog:monitor');
+        $this->artisan('watchdog:run');
 
         Notification::assertNotSentTo(app(WatchAccountExpiry::class), AccountHasExpired::class);
     }
@@ -87,7 +87,7 @@ class AccountExpiryTest extends DogTestCase
             'accountexpires'    => [$timestamp->fromDateTime(now())],
         ]);
 
-        $this->artisan('watchdog:monitor');
+        $this->artisan('watchdog:run');
 
         Notification::assertNotSentTo(app(WatchAccountExpiry::class), AccountHasExpired::class);
     }
