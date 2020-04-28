@@ -45,10 +45,10 @@ class ImportModels extends ScanJob
             // child object that is imported, as well as retrieving
             // domain information such as password expiry time.
             if ($rootDse = $this->createModel()->read()->first()) {
-                $parent = $this->import($rootDse);
+                $this->import($rootDse);
+            } else {
+                $this->run($this->createModel());
             }
-
-            $this->run($this->createModel(), $parent ?? null);
         });
 
         $imported = count($this->guids);
