@@ -20,13 +20,11 @@ class PasswordExpiredTest extends DogTestCase
         parent::setUp();
 
         // Create the Root DSE record with a two month password expiry time.
-        $entry = new Entry([
+        (new Entry([
             'objectclass' => ['foo'],
             'objectguid'  => $this->faker->uuid,
             'maxpwdage'   => [-51840000000000],
-        ]);
-
-        $entry->setDn('dc=local,dc=com')->save();
+        ]))->inside('dc=local,dc=com')->save();
     }
 
     public function test_notification_is_sent_when_password_is_expired()
@@ -42,11 +40,13 @@ class PasswordExpiredTest extends DogTestCase
             'pwdlastset'  => [$timestamp->fromDateTime(now())],
         ]);
 
-        $this->artisan('watchdog:monitor');
+        $this->artisan('watchdog:run');
 
-        $object->update(['pwdlastset' => [$timestamp->fromDateTime(now()->subMonths(2))]]);
+        $object->update([
+            'pwdlastset' => [$timestamp->fromDateTime(now()->subMonths(2))
+        ]]);
 
-        $this->artisan('watchdog:monitor');
+        $this->artisan('watchdog:run');
 
         Notification::assertSentTo(app(WatchPasswordExpiry::class), PasswordHasExpired::class);
 
@@ -74,11 +74,11 @@ class PasswordExpiredTest extends DogTestCase
             'pwdlastset'  => [$timestamp->fromDateTime(now())],
         ]);
 
-        $this->artisan('watchdog:monitor');
+        $this->artisan('watchdog:run');
 
         $object->update(['pwdlastset' => [$timestamp->fromDateTime(now())]]);
 
-        $this->artisan('watchdog:monitor');
+        $this->artisan('watchdog:run');
 
         Notification::assertNotSentTo(app(WatchPasswordExpiry::class), PasswordHasExpired::class);
     }
