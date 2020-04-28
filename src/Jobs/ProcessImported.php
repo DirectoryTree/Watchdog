@@ -46,15 +46,14 @@ class ProcessImported extends ScanJob
     }
 
     /**
-     * Synchronize the entries.
+     * Synchronize the scanned entries.
      *
      * @param \Illuminate\Database\Eloquent\Builder $query
      */
     protected function process($query)
     {
         $query->cursor()->each(function (LdapScanEntry $entry) {
-            /** @var LdapObject $object */
-            $object = $this->scan->watcher->objects()->withTrashed()->firstOrNew(['guid' => $entry->guid]);
+            $object = $this->firstOrNewObject($entry);
 
             // We will go through our process pipes an construct a
             // new instance so they can be used in the pipeline.
@@ -82,5 +81,19 @@ class ProcessImported extends ScanJob
 
             $this->process($entry->children());
         });
+    }
+
+    /**
+     * Get the first matching object or create a new instance.
+     *
+     * @param LdapScanEntry $entry
+     *
+     * @return LdapObject
+     */
+    protected function firstOrNewObject(LdapScanEntry $entry)
+    {
+        return $this->scan->watcher->objects()->withTrashed()->firstOrNew([
+            'guid' => $entry->guid
+        ]);
     }
 }

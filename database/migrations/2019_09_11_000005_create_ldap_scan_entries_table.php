@@ -14,6 +14,7 @@ class CreateLdapScanEntriesTable extends Migration
     public function up()
     {
         Schema::create('ldap_scan_entries', function (Blueprint $table) {
+            $table->bigIncrements('id');
             $table->unsignedBigInteger('scan_id');
             $table->unsignedBigInteger('parent_id')->nullable();
             $table->timestamps();
