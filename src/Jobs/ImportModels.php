@@ -109,9 +109,9 @@ class ImportModels extends ScanJob
 
         $this->guids[] = $object->getConvertedGuid();
 
-        // If the object is a container, we will
-        // recursively import its descendants.
-        if ($type == TypeResolver::TYPE_CONTAINER) {
+        // If the object is a domain or container, we will
+        // attempt to import any descendants it may have.
+        if (in_array($type, [TypeResolver::TYPE_DOMAIN, TypeResolver::TYPE_CONTAINER])) {
             $this->run($object, $entry);
         }
 
@@ -141,7 +141,7 @@ class ImportModels extends ScanJob
      */
     protected function getObjectValues(Model $object)
     {
-        $values = $object->jsonSerialize();
+        $values = $object->getAttributes();
 
         ksort($values);
 
