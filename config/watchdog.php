@@ -93,6 +93,7 @@ return [
 
         'transform' => [
             'objectsid'             => 'objectsid',
+            'objectguid'            => 'objectguid',
             'whenchanged'           => 'windows',
             'whencreated'           => 'windows',
             'dscorepropagationdata' => 'windows',
@@ -106,6 +107,7 @@ return [
 
         'transformers' => [
             'objectsid'   => \DirectoryTree\Watchdog\Ldap\Transformers\ObjectSid::class,
+            'objectguid'  => \DirectoryTree\Watchdog\Ldap\Transformers\ObjectGuid::class,
             'windows'     => \DirectoryTree\Watchdog\Ldap\Transformers\WindowsTimestamp::class,
             'windows-int' => \DirectoryTree\Watchdog\Ldap\Transformers\WindowsIntTimestamp::class,
         ],
