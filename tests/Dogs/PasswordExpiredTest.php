@@ -43,8 +43,8 @@ class PasswordExpiredTest extends DogTestCase
         $this->artisan('watchdog:run');
 
         $object->update([
-            'pwdlastset' => [$timestamp->fromDateTime(now()->subMonths(2))
-        ]]);
+            'pwdlastset' => [$timestamp->fromDateTime(now()->subMonths(2)),
+            ], ]);
 
         $this->artisan('watchdog:run');
 
