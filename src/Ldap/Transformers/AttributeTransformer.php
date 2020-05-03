@@ -14,6 +14,7 @@ class AttributeTransformer extends Transformer
      */
     protected $default = [
         'objectsid'     => ObjectSid::class,
+        'objectguid'    => ObjectGuid::class,
         'windows'       => WindowsTimestamp::class,
         'windows-int'   => WindowsIntTimestamp::class,
     ];
