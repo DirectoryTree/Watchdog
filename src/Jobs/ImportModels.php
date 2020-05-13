@@ -10,6 +10,7 @@ use DirectoryTree\Watchdog\LdapScanEntry;
 use LdapRecord\Models\Types\ActiveDirectory;
 use LdapRecord\Models\ActiveDirectory\Entry;
 use DirectoryTree\Watchdog\Ldap\TypeResolver;
+use LdapRecord\Models\Attributes\MbString;
 
 class ImportModels extends ScanJob
 {
@@ -91,7 +92,7 @@ class ImportModels extends ScanJob
         });
 
         $type = $this->getObjectType($object);
-
+        
         $entry->type = $type;
         $entry->dn = $object->getDn();
         $entry->name = $object->getName();
@@ -102,9 +103,10 @@ class ImportModels extends ScanJob
         $entry->save();
 
         $this->guids[] = $object->getConvertedGuid();
-
-        // If the object is a domain or container, we will
-        // attempt to import any descendants it may have.
+        
+        // Here we will detect whether the object is traversable
+        // and can contain descedants in our LDAP tree. If so,
+        // we'll attempt to import descendants it may have.
         if ($this->objectTypeIsTraversable($type)) {
             $this->run($object, $entry);
         }
@@ -155,7 +157,38 @@ class ImportModels extends ScanJob
             $replace[] = [$object->getObjectSidKey() => [$object->getConvertedSid()]];
         }
 
-        return array_replace($values, $replace);
+        return $this->encodeAttributes(
+            array_replace($values, $replace)
+        );
+    }
+
+    /**
+     * Recursively UTF-8 encode the given attributes.
+     *
+     * @return array
+     */
+    public function encodeAttributes($attributes)
+    {
+        array_walk_recursive($attributes, function (&$value) {
+            $value = $this->encodeValue($value);
+        });
+
+        return $attributes;
+    }
+
+    /**
+     * Encode the given value for proper serialization.
+     *
+     * @param string $value
+     *
+     * @return string
+     */
+    protected function encodeValue($value)
+    {
+        // If we are able to detect the encoding, we will
+        // encode only the attributes that need to be,
+        // so that we do not double encode values.
+        return MbString::isLoaded() && MbString::isUtf8($value) ? $value : utf8_encode($value);
     }
 
     /**
