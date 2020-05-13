@@ -7,8 +7,8 @@ use Carbon\Carbon;
 use LdapRecord\Models\Model;
 use DirectoryTree\Watchdog\LdapScan;
 use DirectoryTree\Watchdog\LdapScanEntry;
-use LdapRecord\Models\Types\ActiveDirectory;
 use LdapRecord\Models\ActiveDirectory\Entry;
+use LdapRecord\Models\Types\ActiveDirectory;
 use DirectoryTree\Watchdog\Ldap\TypeResolver;
 
 class ImportModels extends ScanJob
