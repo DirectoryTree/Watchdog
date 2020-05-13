@@ -45,10 +45,10 @@ class LdapScan extends Model
 
     /**
      * The scans completed state.
-     * 
+     *
      * @return string
      */
-    protected $completedState = LdapScan::STATE_PURGED;
+    protected $completedState = self::STATE_PURGED;
 
     /**
      * The "booting" method of the model.
@@ -106,7 +106,7 @@ class LdapScan extends Model
 
     /**
      * Determine if the scan has completed.
-     * 
+     *
      * @return bool
      */
     public function getCompletedAttribute()

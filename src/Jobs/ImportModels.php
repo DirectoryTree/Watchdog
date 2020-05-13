@@ -113,7 +113,7 @@ class ImportModels extends ScanJob
 
     /**
      * Determine if the given object type is traversable.
-     * 
+     *
      * @return bool
      */
     protected function objectTypeIsTraversable($type)
