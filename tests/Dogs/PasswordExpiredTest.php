@@ -21,10 +21,10 @@ class PasswordExpiredTest extends DogTestCase
 
         // Create the Root DSE record with a two month password expiry time.
         (new Entry([
-            'objectclass' => ['foo'],
+            'objectclass' => ['domain'],
             'objectguid'  => $this->faker->uuid,
             'maxpwdage'   => [-51840000000000],
-        ]))->inside('dc=local,dc=com')->save();
+        ]))->setDn('dc=local,dc=com')->save();
     }
 
     public function test_notification_is_sent_when_password_is_expired()
@@ -42,9 +42,7 @@ class PasswordExpiredTest extends DogTestCase
 
         $this->artisan('watchdog:run');
 
-        $object->update([
-            'pwdlastset' => [$timestamp->fromDateTime(now()->subMonths(2)),
-            ], ]);
+        $object->update(['pwdlastset' => [$timestamp->fromDateTime(now()->subMonths(2))]]);
 
         $this->artisan('watchdog:run');
 
