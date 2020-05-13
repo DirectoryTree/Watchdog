@@ -8,6 +8,7 @@ use LdapRecord\Models\Model;
 use DirectoryTree\Watchdog\LdapScan;
 use DirectoryTree\Watchdog\LdapScanEntry;
 use LdapRecord\Models\Types\ActiveDirectory;
+use LdapRecord\Models\ActiveDirectory\Entry;
 use DirectoryTree\Watchdog\Ldap\TypeResolver;
 
 class ImportModels extends ScanJob
@@ -148,7 +149,13 @@ class ImportModels extends ScanJob
 
         ksort($values);
 
-        return $values;
+        $replace = [$object->getGuidKey() => [$object->getConvertedGuid()]];
+
+        if ($object instanceof Entry) {
+            $replace[] = [$object->getObjectSidKey() => [$object->getConvertedSid()]];
+        }
+
+        return array_replace($values, $replace);
     }
 
     /**
