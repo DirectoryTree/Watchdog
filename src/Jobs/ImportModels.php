@@ -7,10 +7,10 @@ use Carbon\Carbon;
 use LdapRecord\Models\Model;
 use DirectoryTree\Watchdog\LdapScan;
 use DirectoryTree\Watchdog\LdapScanEntry;
+use LdapRecord\Models\Attributes\MbString;
 use LdapRecord\Models\ActiveDirectory\Entry;
 use LdapRecord\Models\Types\ActiveDirectory;
 use DirectoryTree\Watchdog\Ldap\TypeResolver;
-use LdapRecord\Models\Attributes\MbString;
 
 class ImportModels extends ScanJob
 {
@@ -92,7 +92,7 @@ class ImportModels extends ScanJob
         });
 
         $type = $this->getObjectType($object);
-        
+
         $entry->type = $type;
         $entry->dn = $object->getDn();
         $entry->name = $object->getName();
@@ -103,7 +103,7 @@ class ImportModels extends ScanJob
         $entry->save();
 
         $this->guids[] = $object->getConvertedGuid();
-        
+
         // Here we will detect whether the object is traversable
         // and can contain descedants in our LDAP tree. If so,
         // we'll attempt to import descendants it may have.
