@@ -71,7 +71,7 @@ class WatcherRepositoryTest extends TestCase
         $this->assertCount(0, WatcherRepository::toMonitor());
 
         $scan->progress()->create(['state' => LdapScan::STATE_PURGED]);
-        
+
         $this->assertCount(1, WatcherRepository::toMonitor());
     }
 

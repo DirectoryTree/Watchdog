@@ -14,14 +14,14 @@ class LdapScanTest extends TestCase
         $this->assertFalse($scan->completed);
 
         $scan = factory(LdapScan::class)->create([
-            'watcher_id' => $watcher->id,
+            'watcher_id'   => $watcher->id,
             'completed_at' => now(),
         ]);
         $this->assertTrue($scan->completed);
 
         $scan = factory(LdapScan::class)->create([
             'watcher_id' => $watcher->id,
-            'failed' => true,
+            'failed'     => true,
         ]);
         $this->assertTrue($scan->failed);
 
