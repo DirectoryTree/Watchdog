@@ -5,7 +5,6 @@ namespace DirectoryTree\Watchdog\Jobs;
 use Exception;
 use Carbon\Carbon;
 use LdapRecord\Models\Model;
-use Illuminate\Support\Facades\DB;
 use DirectoryTree\Watchdog\LdapScan;
 use DirectoryTree\Watchdog\LdapScanEntry;
 use LdapRecord\Models\Types\ActiveDirectory;
@@ -35,21 +34,15 @@ class ImportModels extends ScanJob
 
         info("Starting to scan domain [{$this->scan->watcher->name}]");
 
-        // We'll initialize a database transaction so all of our
-        // inserts and updates are pushed at once. Otherwise
-        // each update or insert would be done separately,
-        // becoming very resource intensive.
-        DB::transaction(function () {
-            // Here we will attempt to retrieve the Root DSE record of the
-            // domain to be able to properly assign the parent for each
-            // child object that is imported, as well as retrieving
-            // domain information such as password expiry time.
-            if ($rootDse = $this->createModel()->read()->first()) {
-                $this->import($rootDse);
-            } else {
-                $this->run($this->createModel());
-            }
-        });
+        // Here we will attempt to retrieve the Root DSE record of the
+        // domain to be able to properly assign the parent for each
+        // child object that is imported, as well as retrieving
+        // domain information such as password expiry time.
+        if ($rootDse = $this->createModel()->read()->first()) {
+            $this->import($rootDse);
+        } else {
+            $this->run($this->createModel());
+        }
 
         $imported = count($this->guids);
 
@@ -111,11 +104,21 @@ class ImportModels extends ScanJob
 
         // If the object is a domain or container, we will
         // attempt to import any descendants it may have.
-        if (in_array($type, [TypeResolver::TYPE_DOMAIN, TypeResolver::TYPE_CONTAINER])) {
+        if ($this->objectTypeIsTraversable($type)) {
             $this->run($object, $entry);
         }
 
         return $entry;
+    }
+
+    /**
+     * Determine if the given object type is traversable.
+     * 
+     * @return bool
+     */
+    protected function objectTypeIsTraversable($type)
+    {
+        return in_array($type, [TypeResolver::TYPE_DOMAIN, TypeResolver::TYPE_CONTAINER]);
     }
 
     /**

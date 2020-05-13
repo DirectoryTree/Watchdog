@@ -44,6 +44,13 @@ class LdapScan extends Model
     protected $casts = ['failed' => 'bool'];
 
     /**
+     * The scans completed state.
+     * 
+     * @return string
+     */
+    protected $completedState = LdapScan::STATE_PURGED;
+
+    /**
      * The "booting" method of the model.
      *
      * @return void
@@ -95,6 +102,22 @@ class LdapScan extends Model
     public function rootEntries()
     {
         return $this->entries()->roots();
+    }
+
+    /**
+     * Determine if the scan has completed.
+     * 
+     * @return bool
+     */
+    public function getCompletedAttribute()
+    {
+        if ($this->completed_at || $this->failed) {
+            return true;
+        }
+
+        return $this->progress()
+                    ->where('state', '=', $this->completedState)
+                    ->first() !== null;
     }
 
     /**

@@ -22,16 +22,11 @@ class WatcherRepository
     public static function toMonitor()
     {
         return static::query()->get()->filter(function (LdapWatcher $watcher) {
-            // If no scan exists, we'll initiate one now.
             if (!$lastScan = $watcher->scans()->latest()->first()) {
                 return true;
             }
 
-            $progress = $lastScan->progress()->latest()->first();
-
-            // If the last scan has just been created, we
-            // will prevent stacking on another scan.
-            if ($progress && $progress->state == LdapScan::STATE_CREATED) {
+            if (!$lastScan->completed) {
                 return false;
             }
 
@@ -39,9 +34,7 @@ class WatcherRepository
 
             // If the last scan has not yet been started, we
             // will avoid stacking scans until it has begun.
-            return is_null($lastScan->started_at)
-                ? false
-                : now()->diffInMinutes($lastScan->started_at) >= $frequencyInMinutes;
+            return now()->diffInMinutes($lastScan->started_at) >= $frequencyInMinutes;
         });
     }
 
