@@ -33,7 +33,7 @@ class Run extends Command
         $this->info('---- Watchdog ----');
         $this->info('Starting to queue watchers...');
 
-        $watchers = $this->hasOption('force')
+        $watchers = $this->option('force')
             ? WatcherRepository::all()
             : WatcherRepository::toMonitor();
 

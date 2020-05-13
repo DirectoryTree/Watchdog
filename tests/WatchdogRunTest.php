@@ -28,6 +28,7 @@ class WatchdogRunTest extends TestCase
 
         $model = Entry::class;
 
+        $app['config']->set("watchdog.frequency", 0);
         $app['config']->set("watchdog.watch.{$model}", []);
     }
 
