@@ -13,7 +13,7 @@ class CreateLdapScanProgressTable extends Migration
      */
     public function up()
     {
-        Schema::create('ldap_scan_progresses', function (Blueprint $table) {
+        Schema::create('ldap_scan_progress', function (Blueprint $table) {
             $table->unsignedBigInteger('scan_id');
             $table->timestamps();
             $table->string('state');
@@ -28,6 +28,6 @@ class CreateLdapScanProgressTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ldap_scan_progresses');
+        Schema::dropIfExists('ldap_scan_progress');
     }
 }

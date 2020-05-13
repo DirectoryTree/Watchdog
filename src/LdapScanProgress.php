@@ -5,7 +5,14 @@ namespace DirectoryTree\Watchdog;
 use Illuminate\Database\Eloquent\Model;
 
 class LdapScanProgress extends Model
-{
+{   
+    /**
+     * The table associated with the model.
+     * 
+     * @var string
+     */
+    protected $table = 'ldap_scan_progress';
+
     /**
      * The attributes that aren't mass assignable.
      *
