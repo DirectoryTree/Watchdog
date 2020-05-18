@@ -100,12 +100,14 @@ class LdapObject extends Model
      */
     public function getOriginalValues()
     {
-        $values = $this->getOriginal('values');
+        $values = $this->getOriginal('values') ?? [];
 
         // Laravel 7 will cast original values to their native
         // types, but Laravel 6 does not. Here we will cast
         // the original value manually to an array.
-        return is_string($values) ? $this->castAttribute('values', $values) : $values;
+        return is_string($values)
+            ? $this->castAttribute('values', $values)
+            : $values;
     }
 
     /**
