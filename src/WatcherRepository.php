@@ -5,7 +5,7 @@ namespace DirectoryTree\Watchdog;
 class WatcherRepository
 {
     /**
-     * Get all the LDAP connections being monitored.
+     * Get all the LDAP watchers being monitored.
      *
      * @return \Illuminate\Database\Eloquent\Collection
      */
@@ -15,31 +15,21 @@ class WatcherRepository
     }
 
     /**
-     * Get the LDAP connections that are ready to be monitored.
+     * Get the LDAP watchers that are ready to be monitored.
      *
      * @return \Illuminate\Database\Eloquent\Collection
      */
     public static function toMonitor()
     {
-        return static::query()->get()->filter(function (LdapWatcher $watcher) {
-            if (!$lastScan = $watcher->scans()->latest()->first()) {
-                return true;
-            }
-
-            if (!$lastScan->completed) {
-                return false;
-            }
-
-            $frequencyInMinutes = config('watchdog.frequency', 5);
-
-            // If the last scan has not yet been started, we
-            // will avoid stacking scans until it has begun.
-            return now()->diffInMinutes($lastScan->started_at) >= $frequencyInMinutes;
+        return static::query()->with(['scans' => function ($query) {
+            $query->latest()->limit(1);
+        }])->get()->filter(function (LdapWatcher $watcher) {
+            return $watcher->shouldBeScanned();
         });
     }
 
     /**
-     * Create a new LDAP connection query.
+     * Create a new LDAP watcher query.
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */

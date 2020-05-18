@@ -105,6 +105,16 @@ class LdapScan extends Model
     }
 
     /**
+     * Determine if the scan is past the configured frequency period.
+     *
+     * @return bool
+     */
+    public function isPastFrequencyPeriod()
+    {
+        return now()->diffInMinutes($this->started_at) >= config('watchdog.frequency', 5);
+    }
+
+    /**
      * Determine if the scan has completed.
      *
      * @return bool

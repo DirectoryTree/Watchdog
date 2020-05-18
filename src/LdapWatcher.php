@@ -76,4 +76,22 @@ class LdapWatcher extends Model
             'object_id'
         );
     }
+
+    /**
+     * Determine if the watcher should be scanned.
+     *
+     * @return bool
+     */
+    public function shouldBeScanned()
+    {
+        if (is_null($lastScan = $this->scans->first())) {
+            return true;
+        }
+
+        if (!$lastScan->completed) {
+            return false;
+        }
+
+        return $lastScan->isPastFrequencyPeriod();
+    }
 }
