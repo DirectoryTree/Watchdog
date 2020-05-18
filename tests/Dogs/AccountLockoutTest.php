@@ -46,7 +46,7 @@ class AccountLockoutTest extends DogTestCase
             'notification' => AccountHasBeenLocked::class,
             'channels'     => json_encode(['mail']),
         ])->first();
-        
+
         $this->assertTrue($notification->sent);
         $this->assertEquals(1, $notification->object_id);
         $this->assertEquals(['mail'], $notification->channels);
