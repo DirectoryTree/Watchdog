@@ -38,9 +38,9 @@ class GroupMembersTest extends DogTestCase
             'channels'     => json_encode(['mail']),
         ])->first();
 
+        $this->assertTrue($notification->sent);
         $this->assertEquals(1, $notification->object_id);
         $this->assertEquals(['mail'], $notification->channels);
-        $this->assertTrue($notification->sent);
         $this->assertEquals(MembersHaveChanged::class, $notification->notification);
     }
 

@@ -39,9 +39,9 @@ class AccountDisableTest extends DogTestCase
             'channels'     => json_encode(['mail']),
         ])->first();
 
-        $this->assertEquals(1, $notification->object_id);
-        $this->assertEquals(['mail'], $notification->channels);
         $this->assertTrue($notification->sent);
+        $this->assertEquals(['mail'], $notification->channels);
+        $this->assertEquals(1, $notification->object_id);
         $this->assertEquals(AccountHasBeenDisabled::class, $notification->notification);
     }
 

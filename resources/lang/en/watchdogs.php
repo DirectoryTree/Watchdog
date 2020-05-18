@@ -5,6 +5,10 @@ return [
         'name'    => 'Object Changed',
         'subject' => 'Object [:object] has been changed',
     ],
+    \DirectoryTree\Watchdog\Dogs\WatchNewObjects::class => [
+        'name'    => 'Object Created',
+        'subject' => 'Object [:object] has been created',
+    ],
     \DirectoryTree\Watchdog\Dogs\WatchComputerLogons::class => [
         'name'    => 'Computer Logons',
         'subject' => 'Computer [:object] has a new login',

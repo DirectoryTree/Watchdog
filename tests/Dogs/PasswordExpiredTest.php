@@ -53,9 +53,9 @@ class PasswordExpiredTest extends DogTestCase
             'channels'     => json_encode(['mail']),
         ])->first();
 
+        $this->assertTrue($notification->sent);
         $this->assertEquals(2, $notification->object_id);
         $this->assertEquals(['mail'], $notification->channels);
-        $this->assertTrue($notification->sent);
         $this->assertEquals(PasswordHasExpired::class, $notification->notification);
     }
 

@@ -80,6 +80,31 @@ class AccountExpiryTest extends DogTestCase
 
         $timestamp = new Timestamp('windows-int');
 
+        $object = Entry::create([
+            'cn'                => 'John Doe',
+            'objectclass'       => ['foo'],
+            'objectguid'        => $this->faker->uuid,
+            'accountexpires'    => [$timestamp->fromDateTime(now())],
+        ]);
+
+        $this->artisan('watchdog:run');
+
+        // Trigger an object update.
+        $object->update(['foo' => 'bar']);
+
+        $this->artisan('watchdog:run');
+
+        Notification::assertNotSentTo(app(WatchAccountExpiry::class), AccountHasExpired::class);
+    }
+
+    public function test_notification_is_sent_when_a_user_is_already_expired_when_scanning_new_objects_is_enabled()
+    {
+        config(['watchdog.inspect_new_objects' => true]);
+
+        Notification::fake();
+
+        $timestamp = new Timestamp('windows-int');
+
         Entry::create([
             'cn'                => 'John Doe',
             'objectclass'       => ['foo'],
@@ -89,6 +114,6 @@ class AccountExpiryTest extends DogTestCase
 
         $this->artisan('watchdog:run');
 
-        Notification::assertNotSentTo(app(WatchAccountExpiry::class), AccountHasExpired::class);
+        Notification::assertSentTo(app(WatchAccountExpiry::class), AccountHasExpired::class);
     }
 }
