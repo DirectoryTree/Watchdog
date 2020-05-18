@@ -90,7 +90,7 @@ class LdapObject extends Model
      */
     public function getWatchdogs()
     {
-        return config("watchdog.watch.".optional($this->watcher)->model, []);
+        return config('watchdog.watch.'.optional($this->watcher)->model, []);
     }
 
     /**
