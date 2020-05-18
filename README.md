@@ -31,11 +31,15 @@ Watchdog records every change made to every attribute inside of your Active Dire
 
 Watchdog notifies you of changes that affect security, such as:
 
-- Password changes
-- Account lockouts
 - Account expiry
-- Account enablement & disablement
-- Group and membership changes
+- Account logon
+- Account lockouts
+- Password expiry
+- Password changes
+- Account enablement
+- Account disablement
+- Group membership changes
+- Object creation & modification
 - And more.
 
 ---
