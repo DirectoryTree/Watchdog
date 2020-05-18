@@ -33,12 +33,14 @@ class LdapObject extends Model
     {
         parent::boot();
 
-        static::updated(function (self $object) {
-            $watchdogs = config("watchdog.watch.{$object->watcher->model}", []);
+        if (config('watchdog.inspect_new_objects', false)) {
+            static::created(function (self $object) {
+                (new Kennel($object->getWatchdogs()))->inspect($object);
+            });
+        }
 
-            app(Kennel::class)
-                ->setWatchdogs($watchdogs)
-                ->inspect($object);
+        static::updated(function (self $object) {
+            (new Kennel($object->getWatchdogs()))->inspect($object);
         });
 
         // We don't need to worry about eloquent events firing
@@ -82,6 +84,16 @@ class LdapObject extends Model
     }
 
     /**
+     * Get the configured watchdogs for the object.
+     *
+     * @return array
+     */
+    public function getWatchdogs()
+    {
+        return config("watchdog.watch.".optional($this->watcher)->model, []);
+    }
+
+    /**
      * Get the LDAP objects original values.
      *
      * @return array
@@ -93,11 +105,7 @@ class LdapObject extends Model
         // Laravel 7 will cast original values to their native
         // types, but Laravel 6 does not. Here we will cast
         // the original value manually to an array.
-        if (is_string($values)) {
-            return $this->castAttribute('values', $this->getOriginal('values')) ?? [];
-        }
-
-        return is_array($values) ? $values : [];
+        return is_string($values) ? $this->castAttribute('values', $values) : $values;
     }
 
     /**

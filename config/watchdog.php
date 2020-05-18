@@ -28,6 +28,19 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Inspect new objects
+    |--------------------------------------------------------------------------
+    |
+    | Enabling this allows newly imported objects to be inspected by watchdogs.
+    |
+    | By default, only updated objects are inspected to prevent false positives.
+    |
+    */
+
+    'inspect_new_objects' => false,
+
+    /*
+    |--------------------------------------------------------------------------
     | Frequency (minutes)
     |--------------------------------------------------------------------------
     |
@@ -83,7 +96,7 @@ return [
 
         /*
         |--------------------------------------------------------------------------
-        | Attribute Transformers
+        | Attribute transformers
         |--------------------------------------------------------------------------
         |
         | The LDAP attributes that should be transformed into their given types.
@@ -114,7 +127,7 @@ return [
 
         /*
         |--------------------------------------------------------------------------
-        | Attributes to Ignore
+        | Attributes to ignore
         |--------------------------------------------------------------------------
         |
         | The LDAP attributes that should be ignored when detecting object changes.
