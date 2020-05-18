@@ -16,7 +16,10 @@ class AccountEnabled extends Condition
      */
     public function passes()
     {
-        return $this->accountWasPreviouslyDisabled() && $this->accountIsNowEnabled();
+        return
+            $this->before->attributes()->isNotEmpty() &&
+            $this->accountWasPreviouslyDisabled() &&
+            $this->accountIsNowEnabled();
     }
 
     /**

@@ -9,18 +9,18 @@ class Kennel
     /**
      * The watchdogs to execute.
      *
-     * @var string[]
+     * @var \Illuminate\Support\Collection
      */
     protected $watchdogs = [];
 
     /**
      * Constructor.
      *
-     * @param string|array $watchdogs
+     * @param mixed $watchdogs
      */
     public function __construct($watchdogs = [])
     {
-        $this->watchdogs = (array) $watchdogs;
+        $this->watchdogs = collect($watchdogs);
     }
 
     /**
@@ -32,7 +32,7 @@ class Kennel
      */
     public function setWatchdogs($watchdogs = [])
     {
-        $this->watchdogs = (array) $watchdogs;
+        $this->watchdogs = collect($watchdogs);
 
         return $this;
     }
@@ -47,7 +47,7 @@ class Kennel
         $before = $this->transform($object->getOriginalValues());
         $after = $this->transform($object->getUpdatedValues());
 
-        collect($this->watchdogs)->transform(function ($channels, $watchdog) use ($object, $before, $after) {
+        $this->watchdogs->transform(function ($channels, $watchdog) use ($object, $before, $after) {
             return app($watchdog)
                 ->object($object)
                 ->before(new State($before))

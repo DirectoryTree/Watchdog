@@ -16,11 +16,10 @@ class AccountDisabled extends Condition
      */
     public function passes()
     {
-        if ($this->accountIsCurrentlyDisabled() && $this->accountDidNotHaveAccountControl()) {
-            return true;
-        }
-
-        return $this->accountIsCurrentlyDisabled() && $this->accountWasNotPreviouslyDisabled();
+        return
+            $this->before->attributes()->isNotEmpty() &&
+            $this->accountWasNotPreviouslyDisabled() &&
+            $this->accountIsCurrentlyDisabled();
     }
 
     /**

@@ -18,6 +18,13 @@ class Changed extends Condition
      */
     public function passes()
     {
+        // We cannot determine if the attributes have changed
+        // if the objects before state is completely empty.
+        // This prevents false positives being generated.
+        if ($this->before->attributes()->isEmpty()) {
+            return false;
+        }
+
         foreach ($this->attributes as $attribute) {
             if ($this->attributeHasChanged($attribute)) {
                 return true;
@@ -28,7 +35,7 @@ class Changed extends Condition
     }
 
     /**
-     * Detect if the attribute has changed.
+     * Detect if the attribute has changed by comparing their serialized values.
      *
      * @param string $attribute
      *
@@ -36,10 +43,6 @@ class Changed extends Condition
      */
     protected function attributeHasChanged($attribute)
     {
-        // We'll compare attribute values by converting them to a serialized
-        // array, so objects are converted to their serialized value and a
-        // proper comparison can be performed. Otherwise, exceptions
-        // can be thrown and inconsistencies may occur.
         return $this->before->attribute($attribute)->jsonSerialize() != $this->after->attribute($attribute)->jsonSerialize();
     }
 }
