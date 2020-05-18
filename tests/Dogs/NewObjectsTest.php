@@ -2,9 +2,9 @@
 
 namespace DirectoryTree\Watchdog\Tests\Dogs;
 
+use DirectoryTree\Watchdog\LdapNotification;
 use Illuminate\Support\Facades\Notification;
 use LdapRecord\Models\ActiveDirectory\Entry;
-use DirectoryTree\Watchdog\LdapNotification;
 use DirectoryTree\Watchdog\Dogs\WatchNewObjects;
 use DirectoryTree\Watchdog\Notifications\ObjectCreated;
 
