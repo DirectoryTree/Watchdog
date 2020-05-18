@@ -25,7 +25,7 @@ Monitor & Audit your Active Directory / LDAP server.
 
 💼 **Track every single change made to objects**
 
-Watchdog records every change made to every attribute inside of your Active Directory server.
+Watchdog records every change made to every attribute inside of your Active Directory / LDAP server.
 
 🚨 **Get alerted when important things happen**
 
